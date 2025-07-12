@@ -4,260 +4,923 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shamim Al Razi | BUET MME Student</title>
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
+    :root {
+      --primary: #2c3e50;
+      --secondary: #e74c3c;
+      --accent: #3498db;
+      --light: #ecf0f1;
+      --dark: #34495e;
+      --success: #2ecc71;
+      --warning: #f39c12;
     }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ec 100%);
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
     header {
-      background-color: #2c3e50;
-      padding: 30px 20px;
+      background: var(--primary);
+      padding: 25px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
     }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
     .logo {
       height: 80px;
-    }
-    .profile {
-      height: 80px;
       width: 80px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: var(--primary);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    
+    .profile {
+      height: 100px;
+      width: 100px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #fff;
-      box-shadow: 0 0 5px rgba(0,0,0,0.4);
+      border: 3px solid #fff;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      z-index: 1;
     }
+    
     .header-text {
       flex: 1;
       text-align: center;
       color: white;
+      z-index: 1;
+      padding: 0 20px;
     }
+    
     .header-text h1 {
-      margin: 10px 0 5px;
-      font-size: 24px;
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: 1px;
     }
+    
     .header-text p {
       margin: 0;
-      font-size: 16px;
+      font-size: 18px;
+      opacity: 0.9;
     }
+    
+    .tagline {
+      font-style: italic;
+      margin-top: 8px;
+      font-size: 16px;
+      opacity: 0.85;
+    }
+    
     nav {
-      background-color: #34495e;
+      background: var(--dark);
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 25px;
-      padding: 12px 0;
+      padding: 15px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
+    
     nav a {
       color: white;
       text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
+      font-weight: 600;
+      font-size: 18px;
+      padding: 8px 16px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      position: relative;
     }
+    
     nav a:hover {
       color: #ffd700;
+      background: rgba(255,255,255,0.1);
     }
+    
+    nav a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 3px;
+      background: #ffd700;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    
+    nav a:hover::after {
+      width: 70%;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    
     section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
       background: #fff;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 35px;
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    
+    section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
     h2 {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-      color: #2c3e50;
-    }
-    input, button {
-      font-size: 16px;
-      padding: 8px;
-      margin: 5px 0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #c0392b;
-    }
-    .upload-author-only {
-      display: none;
-      margin-bottom: 20px;
-    }
-    #youtube-videos iframe {
-      margin: 10px;
-    }
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      font-size: 15px;
-    }
-    #change-pass-section {
-      max-width: 400px;
-      margin: 30px auto 50px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: none;
-    }
-    .file-item {
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 12px;
+      margin-bottom: 25px;
+      color: var(--primary);
+      font-size: 28px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
+      gap: 12px;
     }
-    .file-item a {
-      word-break: break-all;
+    
+    h2 i {
+      color: var(--accent);
+      font-size: 24px;
     }
-    .file-item button {
-      width: auto;
-      padding: 5px 10px;
+    
+    .section-intro {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #444;
+      line-height: 1.7;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+    
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--secondary);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+    }
+    
+    .button:hover {
+      background: #c0392b;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+    }
+    
+    .button.secondary {
+      background: var(--accent);
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
+    
+    .button.secondary:hover {
+      background: #2980b9;
+      box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+    }
+    
+    input, button {
+      font-size: 16px;
+      padding: 14px;
+      margin: 10px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      outline: none;
+    }
+    
+    button {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+    }
+    
+    button:hover {
+      background: #c0392b;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+    }
+    
+    .upload-author-only {
+      display: none;
+      margin: 30px 0;
+      padding: 25px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+    }
+    
+    .upload-box {
+      background: white;
+      border: 2px dashed #ddd;
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      margin: 15px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .upload-box:hover {
+      border-color: var(--accent);
+      background: #f8fdff;
+    }
+    
+    .upload-box i {
+      font-size: 48px;
+      color: var(--accent);
+      margin-bottom: 15px;
+      display: block;
+    }
+    
+    .download-list {
+      margin: 25px 0;
+    }
+    
+    .file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .file-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+    
+    .file-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    
+    .file-icon {
+      height: 120px;
+      background: linear-gradient(135deg, var(--accent) 0%, #2c3e50 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: white;
+    }
+    
+    .file-content {
+      padding: 20px;
+    }
+    
+    .file-name {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .file-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .file-actions button {
+      flex: 1;
+      padding: 10px;
       font-size: 14px;
-      margin-left: 10px;
+      background: var(--light);
+      color: var(--dark);
+      box-shadow: none;
+    }
+    
+    .file-actions button:hover {
+      background: var(--accent);
+      color: white;
+      transform: none;
+    }
+    
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+    
+    .video-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .video-thumb {
+      height: 180px;
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 48px;
+    }
+    
+    .video-info {
+      padding: 20px;
+    }
+    
+    .video-title {
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 25px;
+    }
+    
+    .contact-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      border-color: var(--accent);
+    }
+    
+    .contact-icon {
+      font-size: 40px;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    
+    .contact-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 20px;
+    }
+    
+    .contact-link {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-link:hover {
+      color: #c0392b;
+      text-decoration: underline;
+    }
+    
+    #change-pass-section {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      display: none;
+    }
+    
+    .form-title {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--primary);
+      font-size: 24px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 50px;
+    }
+    
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .footer-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .copyright {
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 16px;
+      opacity: 0.8;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background: var(--accent);
+      transform: translateY(-5px);
+    }
+    
+    .status-message {
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: center;
+      font-weight: 500;
+    }
+    
+    .success {
+      background: rgba(46, 204, 113, 0.15);
+      color: #27ae60;
+      border: 1px solid #2ecc71;
+    }
+    
+    .error {
+      background: rgba(231, 76, 60, 0.15);
+      color: #c0392b;
+      border: 1px solid #e74c3c;
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(52, 152, 219, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--accent);
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .login-container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+      }
+      
+      nav {
+        gap: 10px;
+        padding: 10px 0;
+      }
+      
+      nav a {
+        font-size: 16px;
+        padding: 6px 12px;
+      }
+      
+      .file-grid, .video-grid, .contact-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="buet-logo.png" alt="BUET Logo" class="logo" />
-    <div class="header-text">
-      <h1>Md. Shamim Al Razi</h1>
-      <p>Materials & Metallurgical Engineering Student | BUET</p>
+    <div class="logo-container">
+      <div class="logo">BUET</div>
+      <div class="header-text">
+        <h1>Md. Shamim Al Razi</h1>
+        <p>Materials & Metallurgical Engineering Student</p>
+        <p class="tagline">Bangladesh University of Engineering and Technology</p>
+      </div>
     </div>
-    <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
+    <div class="profile" style="background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%); color: white; display: flex; align-items: center; justify-content: center; font-size: 40px;">
+      SA
+    </div>
   </header>
 
   <nav>
-    <a href="#fusion">Fusion Shilpigosti</a>
-    <a href="#publications">Publications</a>
-    <a href="#writings">Writings</a>
-    <a href="#contact">Contact</a>
+    <a href="#fusion"><i class="fas fa-music"></i> Fusion Shilpigosti</a>
+    <a href="#publications"><i class="fas fa-book"></i> Publications</a>
+    <a href="#writings"><i class="fas fa-pen"></i> Writings</a>
+    <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
   </nav>
 
-  <!-- Author Login -->
-  <div id="author-login" style="text-align:center; margin: 20px;">
-    <h3>Author Login</h3>
-    <input type="text" id="author-id" placeholder="Author ID" autocomplete="username" /><br/>
-    <input type="password" id="author-password" placeholder="Password" autocomplete="current-password" /><br/>
-    <button onclick="checkAuthorLogin()">Login</button>
-  </div>
-
-  <!-- Logout -->
-  <div id="author-logout" style="display:none; text-align:center; margin: 20px;">
-    <h3>Welcome, Author!</h3>
-    <button onclick="signOutAuthor()">Sign Out</button>
-  </div>
-
-  <section id="fusion">
-    <h2>Fusion Shilpigosti</h2>
-    <p>Explore music and videos under Fusion Shilpigosti.</p>
-    <a class="button" href="https://youtube.com/@fusion_393" target="_blank" rel="noopener">Watch on YouTube</a>
-    <a class="button" href="https://www.facebook.com/fusion393" target="_blank" rel="noopener">Visit Facebook Page</a>
-
-    <div class="upload-author-only">
-      <h3>Upload Your Music or Video</h3>
-      <input type="file" id="fusionUpload" accept="video/*,audio/*" />
-      <button onclick="uploadFile('fusionUpload', 'fusion')">Upload</button>
+  <main>
+    <div class="login-container">
+      <h3 style="text-align: center; margin-bottom: 20px; color: var(--primary);">Author Login</h3>
+      <div class="form-group">
+        <label class="form-label">Author ID</label>
+        <input type="text" id="author-id" placeholder="Enter your author ID" autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="author-password" placeholder="Enter your password" autocomplete="current-password" />
+      </div>
+      <button onclick="checkAuthorLogin()">Login</button>
+      <div id="login-status" class="status-message" style="display: none;"></div>
     </div>
 
-    <h3>Public Downloads</h3>
-    <div class="download-list" id="fusion-files">Loading files...</div>
-
-    <h3>Latest YouTube Videos</h3>
-    <div id="youtube-videos">Loading videos...</div>
-  </section>
-
-  <section id="publications">
-    <h2>Publications</h2>
-    <div class="upload-author-only">
-      <input type="file" id="pubUpload" accept="application/pdf" />
-      <button onclick="uploadFile('pubUpload', 'publications')">Upload</button>
+    <div id="author-logout" style="display:none; text-align:center; margin: 30px 0;">
+      <div class="status-message success" style="max-width: 500px; margin: 0 auto;">
+        <h3>Welcome, Author!</h3>
+        <p>You have full access to manage content</p>
+      </div>
+      <button onclick="signOutAuthor()" style="margin-top: 20px; max-width: 200px;">Sign Out</button>
     </div>
-    <div class="download-list" id="publication-files">Loading files...</div>
-  </section>
 
-  <section id="writings">
-    <h2>Writings</h2>
-    <div class="upload-author-only">
-      <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
-      <button onclick="uploadFile('writeUpload', 'writings')">Upload</button>
-    </div>
-    <div class="download-list" id="writing-files">Loading files...</div>
-  </section>
+    <section id="fusion">
+      <h2><i class="fas fa-music"></i> Fusion Shilpigosti</h2>
+      <p class="section-intro">Explore music and videos under Fusion Shilpigosti. A platform for artistic expression and musical innovation.</p>
+      
+      <div class="button-group">
+        <a class="button" href="https://youtube.com/@fusion_393" target="_blank" rel="noopener">
+          <i class="fab fa-youtube"></i> YouTube Channel
+        </a>
+        <a class="button secondary" href="https://www.facebook.com/fusion393" target="_blank" rel="noopener">
+          <i class="fab fa-facebook"></i> Facebook Page
+        </a>
+      </div>
 
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <p>Email: <a href="mailto:shamim393393@gmail.com">shamim393393@gmail.com</a></p>
-    <p>Phone: <a href="tel:+8801628912047">01628912047</a></p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/shamim393/" target="_blank" rel="noopener">linkedin.com/in/shamim393</a></p>
-    <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank" rel="noopener">md.shamimalrazi.393</a></p>
-    <p>Twitter: <a href="https://x.com/Shamim393" target="_blank" rel="noopener">@Shamim393</a></p>
-  </section>
+      <div class="upload-author-only">
+        <h3><i class="fas fa-upload"></i> Upload Music or Video</h3>
+        <div class="upload-box">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Drag and drop your files here or click to browse</p>
+          <input type="file" id="fusionUpload" accept="video/*,audio/*" style="display: none;" />
+          <button onclick="document.getElementById('fusionUpload').click()">Select File</button>
+          <p id="fusionFileName" style="margin-top: 15px; font-style: italic;"></p>
+        </div>
+        <button onclick="uploadFile('fusionUpload', 'fusion')">Upload to Fusion</button>
+      </div>
 
-  <!-- Password Change Section -->
-  <section id="change-pass-section">
-    <h2>Change Author ID & Password</h2>
-    <input type="text" id="new-author-id" placeholder="New Author ID" autocomplete="username" />
-    <input type="password" id="new-author-pass" placeholder="New Password" autocomplete="new-password" />
-    <button onclick="changeAuthorCredentials()">Save Changes</button>
-  </section>
+      <h3><i class="fas fa-download"></i> Public Downloads</h3>
+      <div class="download-list">
+        <div class="file-grid" id="fusion-files">
+          <div class="file-card">
+            <div class="file-icon">
+              <i class="fas fa-music"></i>
+            </div>
+            <div class="file-content">
+              <div class="file-name">Loading files...</div>
+              <div class="file-actions">
+                <button>Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3><i class="fab fa-youtube"></i> Latest YouTube Videos</h3>
+      <div class="video-grid" id="youtube-videos">
+        <div class="video-card">
+          <div class="video-thumb">
+            <i class="fab fa-youtube"></i>
+          </div>
+          <div class="video-info">
+            <div class="video-title">Loading videos...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+      <h2><i class="fas fa-book"></i> Publications</h2>
+      <p class="section-intro">Browse through my academic publications and research papers in the field of Materials Engineering.</p>
+      
+      <div class="upload-author-only">
+        <h3><i class="fas fa-upload"></i> Upload Publication</h3>
+        <div class="upload-box">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Upload PDF documents of your publications</p>
+          <input type="file" id="pubUpload" accept="application/pdf" style="display: none;" />
+          <button onclick="document.getElementById('pubUpload').click()">Select PDF</button>
+          <p id="pubFileName" style="margin-top: 15px; font-style: italic;"></p>
+        </div>
+        <button onclick="uploadFile('pubUpload', 'publications')">Upload Publication</button>
+      </div>
+      
+      <div class="download-list">
+        <div class="file-grid" id="publication-files">
+          <div class="file-card">
+            <div class="file-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="file-content">
+              <div class="file-name">Loading publications...</div>
+              <div class="file-actions">
+                <button>Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="writings">
+      <h2><i class="fas fa-pen"></i> Writings</h2>
+      <p class="section-intro">Explore my writings on various topics including engineering, technology, and personal reflections.</p>
+      
+      <div class="upload-author-only">
+        <h3><i class="fas fa-upload"></i> Upload Writing</h3>
+        <div class="upload-box">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Upload text documents, PDFs, or Word files</p>
+          <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" style="display: none;" />
+          <button onclick="document.getElementById('writeUpload').click()">Select File</button>
+          <p id="writeFileName" style="margin-top: 15px; font-style: italic;"></p>
+        </div>
+        <button onclick="uploadFile('writeUpload', 'writings')">Upload Writing</button>
+      </div>
+      
+      <div class="download-list">
+        <div class="file-grid" id="writing-files">
+          <div class="file-card">
+            <div class="file-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="file-content">
+              <div class="file-name">Loading writings...</div>
+              <div class="file-actions">
+                <button>Download</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2><i class="fas fa-envelope"></i> Contact Me</h2>
+      <p class="section-intro">Feel free to reach out for collaborations, questions, or just to say hello!</p>
+      
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-title">Email</div>
+          <a href="mailto:shamim393393@gmail.com" class="contact-link">shamim393393@gmail.com</a>
+        </div>
+        
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="contact-title">Phone</div>
+          <a href="tel:+8801628912047" class="contact-link">+880 1628-912047</a>
+        </div>
+        
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fab fa-linkedin"></i>
+          </div>
+          <div class="contact-title">LinkedIn</div>
+          <a href="https://www.linkedin.com/in/shamim393/" target="_blank" class="contact-link">linkedin.com/in/shamim393</a>
+        </div>
+        
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fab fa-facebook"></i>
+          </div>
+          <div class="contact-title">Facebook</div>
+          <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank" class="contact-link">md.shamimalrazi.393</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="change-pass-section">
+      <h2><i class="fas fa-key"></i> Change Author Credentials</h2>
+      <p class="section-intro">Update your author ID and password for content management.</p>
+      
+      <div class="form-group">
+        <label class="form-label">New Author ID</label>
+        <input type="text" id="new-author-id" placeholder="Enter new author ID" autocomplete="username" />
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">New Password</label>
+        <input type="password" id="new-author-pass" placeholder="Enter new password" autocomplete="new-password" />
+      </div>
+      
+      <button onclick="changeAuthorCredentials()">Save Changes</button>
+      <div id="change-pass-status" class="status-message" style="display: none; margin-top: 20px;"></div>
+    </section>
+  </main>
 
   <footer>
-    <p>&copy; 2025 Md. Shamim Al Razi. All rights reserved.</p>
+    <div class="footer-content">
+      <div class="footer-title">Connect with me</div>
+      <div class="social-links">
+        <a href="https://facebook.com/md.shamimalrazi.393" class="social-link" target="_blank">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://twitter.com/Shamim393" class="social-link" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://linkedin.com/in/shamim393" class="social-link" target="_blank">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://youtube.com/@fusion_393" class="social-link" target="_blank">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+      <div class="copyright">
+        &copy; 2025 Md. Shamim Al Razi. All rights reserved.<br>
+        Department of Materials & Metallurgical Engineering, BUET
+      </div>
+    </div>
   </footer>
 
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <script>
     // Server URL - Replace with your deployed web app URL
     const SERVER_URL = "https://script.google.com/macros/s/AKfycbzFPc-oOl6sBB0khxc_2rd2MxDEB8nujcxxd4-xB65amh3qFhJGzK8RmF4wLaj9Rpch/exec";
     
-    // Initialize author credentials
-    let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
-    let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
-    let isAuthorLoggedIn = false;
+    // Initialize author state
+    let isAuthorLoggedIn = sessionStorage.getItem("isAuthorLoggedIn") === "true";
+    let authorId = sessionStorage.getItem("author_id") || "";
+
+    // DOM Elements
+    const loginStatus = document.getElementById('login-status');
+    const changePassStatus = document.getElementById('change-pass-status');
+    
+    // File input handlers
+    document.getElementById('fusionUpload').addEventListener('change', function(e) {
+      document.getElementById('fusionFileName').textContent = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+    });
+    
+    document.getElementById('pubUpload').addEventListener('change', function(e) {
+      document.getElementById('pubFileName').textContent = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+    });
+    
+    document.getElementById('writeUpload').addEventListener('change', function(e) {
+      document.getElementById('writeFileName').textContent = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+    });
 
     // Check login credentials
-    function checkAuthorLogin() {
+    async function checkAuthorLogin() {
       const id = document.getElementById("author-id").value.trim();
       const pass = document.getElementById("author-password").value.trim();
       
-      fetch(`${SERVER_URL}?action=getCredentials`)
-        .then(res => res.json())
-        .then(credentials => {
-          if (id === credentials.author_id && pass === credentials.author_pass) {
-            isAuthorLoggedIn = true;
-            AUTHOR_ID = id;
-            AUTHOR_PASSWORD = pass;
-            localStorage.setItem("author_id", id);
-            localStorage.setItem("author_pass", pass);
-            alert("Login successful!");
+      if (!id || !pass) {
+        showMessage(loginStatus, "Please enter both ID and password", "error");
+        return;
+      }
+      
+      showMessage(loginStatus, "Verifying credentials...", "loading");
+      
+      try {
+        const response = await fetch(`${SERVER_URL}?action=getCredentials`);
+        const credentials = await response.json();
+        
+        if (id === credentials.author_id && pass === credentials.author_pass) {
+          isAuthorLoggedIn = true;
+          authorId = id;
+          sessionStorage.setItem("isAuthorLoggedIn", "true");
+          sessionStorage.setItem("author_id", id);
+          showMessage(loginStatus, "Login successful! Redirecting...", "success");
+          setTimeout(() => {
+            loginStatus.style.display = "none";
             toggleLoginUI();
             loadFilesFromServer();
-          } else {
-            alert("Invalid credentials.");
-          }
-        })
-        .catch(() => alert("Error verifying credentials"));
+          }, 1500);
+        } else {
+          showMessage(loginStatus, "Invalid credentials. Please try again.", "error");
+        }
+      } catch (error) {
+        showMessage(loginStatus, "Error connecting to server. Please try again later.", "error");
+        console.error("Login error:", error);
+      }
     }
 
     // Sign out author
     function signOutAuthor() {
       isAuthorLoggedIn = false;
+      authorId = "";
+      sessionStorage.removeItem("isAuthorLoggedIn");
+      sessionStorage.removeItem("author_id");
       toggleLoginUI();
     }
 
@@ -270,103 +933,109 @@
       document.querySelectorAll('.upload-author-only').forEach(el => {
         el.style.display = isAuthorLoggedIn ? "block" : "none";
       });
-
-      if (!isAuthorLoggedIn) {
-        document.getElementById("author-id").value = "";
-        document.getElementById("author-password").value = "";
-      }
     }
 
     // Upload file to server
-    function uploadFile(inputId, section) {
+    async function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
-        alert("Please login as author to upload.");
+        showMessage(loginStatus, "Please login as author to upload", "error");
         return;
       }
       
       const input = document.getElementById(inputId);
       const file = input.files[0];
-      if (!file) return alert("Please select a file first.");
+      
+      if (!file) {
+        showMessage(loginStatus, "Please select a file first", "error");
+        return;
+      }
+      
+      showMessage(loginStatus, `Uploading ${file.name}...`, "loading");
+      
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("action", "upload");
+        formData.append("section", section);
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("action", "upload");
-      formData.append("section", section);
-
-      fetch(SERVER_URL, {
-        method: "POST",
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      .then(data => {
+        const response = await fetch(SERVER_URL, {
+          method: "POST",
+          body: formData
+        });
+        
+        const data = await response.json();
+        
         if (data.success) {
-          alert("Upload successful!");
+          showMessage(loginStatus, `"${file.name}" uploaded successfully!`, "success");
           input.value = "";
+          document.getElementById(`${inputId.replace('Upload', '')}FileName`).textContent = "";
           loadFilesFromServer();
         } else {
           throw new Error(data.error || "Upload failed");
         }
-      })
-      .catch(error => {
+      } catch (error) {
+        showMessage(loginStatus, `Upload failed: ${error.message}`, "error");
         console.error("Upload error:", error);
-        alert("Upload failed: " + error.message);
-      });
+      }
     }
 
     // Delete file from server
-    function deleteFile(section, fileName) {
+    async function deleteFile(section, fileName) {
       if (!isAuthorLoggedIn) {
-        alert("Please login as author to delete files.");
+        showMessage(loginStatus, "Please login as author to delete files", "error");
         return;
       }
-      if (!confirm("Are you sure you want to delete this file?")) return;
-
-      fetch(SERVER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          action: "delete",
-          section: section,
-          name: fileName
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
+      
+      if (!confirm(`Are you sure you want to delete "${fileName}"?`)) return;
+      
+      showMessage(loginStatus, `Deleting "${fileName}"...`, "loading");
+      
+      try {
+        const response = await fetch(SERVER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            action: "delete",
+            section: section,
+            name: fileName
+          })
+        });
+        
+        const data = await response.json();
+        
         if (data.success) {
-          alert("Deleted successfully.");
+          showMessage(loginStatus, `"${fileName}" deleted successfully!`, "success");
           loadFilesFromServer();
         } else {
           throw new Error(data.error || "Failed to delete");
         }
-      })
-      .catch(error => {
+      } catch (error) {
+        showMessage(loginStatus, `Delete failed: ${error.message}`, "error");
         console.error("Delete error:", error);
-        alert("Delete failed: " + error.message);
-      });
+      }
     }
 
     // Load files from server
-    function loadFilesFromServer() {
-      fetch(`${SERVER_URL}?action=list`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.files) {
-            renderFiles(data.files);
-          } else {
-            throw new Error("Invalid response format");
-          }
-        })
-        .catch(error => {
-          console.error("Error loading files:", error);
-          document.querySelectorAll('.download-list').forEach(el => {
-            el.textContent = "Failed to load files. Please try again later.";
-          });
+    async function loadFilesFromServer() {
+      showLoadingState();
+      
+      try {
+        const response = await fetch(`${SERVER_URL}?action=list`);
+        const data = await response.json();
+        
+        if (data.files) {
+          renderFiles(data.files);
+        } else {
+          throw new Error("Invalid response format");
+        }
+      } catch (error) {
+        console.error("Error loading files:", error);
+        document.querySelectorAll('.download-list').forEach(el => {
+          el.innerHTML = `<div class="status-message error">Failed to load files. Please try again later.</div>`;
         });
+      }
     }
 
     // Render files in the UI
@@ -374,73 +1043,118 @@
       // Fusion files
       const fusionDiv = document.getElementById("fusion-files");
       fusionDiv.innerHTML = files.fusion.length === 0 ? 
-        "No files available." : 
+        '<div class="status-message">No files available in Fusion section</div>' : 
         files.fusion.map(file => `
-          <div class="file-item">
-            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
-            ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', '${file.name}')">Delete</button>` : ''}
+          <div class="file-card">
+            <div class="file-icon">
+              <i class="${getFileIcon(file.name)}"></i>
+            </div>
+            <div class="file-content">
+              <div class="file-name" title="${file.name}">${file.name}</div>
+              <div class="file-actions">
+                <a href="${file.url}" target="_blank" class="button" style="text-decoration: none; display: block; text-align: center;">
+                  <i class="fas fa-download"></i> Download
+                </a>
+                ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', '${escapeString(file.name)}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>` : ''}
+              </div>
+            </div>
           </div>
         `).join('');
 
       // Publication files
       const pubDiv = document.getElementById("publication-files");
       pubDiv.innerHTML = files.publications.length === 0 ? 
-        "No files available." : 
+        '<div class="status-message">No publications available</div>' : 
         files.publications.map(file => `
-          <div class="file-item">
-            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
-            ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', '${file.name}')">Delete</button>` : ''}
+          <div class="file-card">
+            <div class="file-icon">
+              <i class="${getFileIcon(file.name)}"></i>
+            </div>
+            <div class="file-content">
+              <div class="file-name" title="${file.name}">${file.name}</div>
+              <div class="file-actions">
+                <a href="${file.url}" target="_blank" class="button" style="text-decoration: none; display: block; text-align: center;">
+                  <i class="fas fa-download"></i> Download
+                </a>
+                ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', '${escapeString(file.name)}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>` : ''}
+              </div>
+            </div>
           </div>
         `).join('');
 
       // Writing files
       const writeDiv = document.getElementById("writing-files");
       writeDiv.innerHTML = files.writings.length === 0 ? 
-        "No files available." : 
+        '<div class="status-message">No writings available</div>' : 
         files.writings.map(file => `
-          <div class="file-item">
-            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
-            ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', '${file.name}')">Delete</button>` : ''}
+          <div class="file-card">
+            <div class="file-icon">
+              <i class="${getFileIcon(file.name)}"></i>
+            </div>
+            <div class="file-content">
+              <div class="file-name" title="${file.name}">${file.name}</div>
+              <div class="file-actions">
+                <a href="${file.url}" target="_blank" class="button" style="text-decoration: none; display: block; text-align: center;">
+                  <i class="fas fa-download"></i> Download
+                </a>
+                ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', '${escapeString(file.name)}')">
+                  <i class="fas fa-trash"></i> Delete
+                </button>` : ''}
+              </div>
+            </div>
           </div>
         `).join('');
     }
 
     // Fetch YouTube videos
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+    async function fetchVideos() {
+      const videosDiv = document.getElementById('youtube-videos');
+      videosDiv.innerHTML = '<div class="video-card"><div class="video-thumb"><i class="fab fa-youtube"></i></div><div class="video-info"><div class="video-title">Loading videos...</div></div></div>';
       
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
-        .then(res => res.json())
-        .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          
-          if (!data.items || data.items.length === 0) {
-            videosDiv.textContent = 'No videos found.';
-            return;
+      try {
+        const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+        const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+        const response = await fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`);
+        const data = await response.json();
+        
+        videosDiv.innerHTML = '';
+        
+        if (!data.items || data.items.length === 0) {
+          videosDiv.innerHTML = '<div class="status-message">No videos found.</div>';
+          return;
+        }
+        
+        data.items.forEach(item => {
+          if (item.id.kind === "youtube#video") {
+            videosDiv.innerHTML += `
+              <div class="video-card">
+                <div class="video-thumb" style="background: url('${item.snippet.thumbnails.medium.url}') center/cover;">
+                  <i class="fab fa-youtube"></i>
+                </div>
+                <div class="video-info">
+                  <div class="video-title">${item.snippet.title}</div>
+                  <a href="https://www.youtube.com/watch?v=${item.id.videoId}" target="_blank" class="button" style="margin-top: 15px; text-decoration: none; display: inline-block;">
+                    <i class="fas fa-play"></i> Watch Video
+                  </a>
+                </div>
+              </div>
+            `;
           }
-          
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
-            }
-          });
-        })
-        .catch(() => {
-          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
         });
+      } catch (error) {
+        console.error("YouTube API error:", error);
+        videosDiv.innerHTML = '<div class="status-message error">Failed to load videos. Please try again later.</div>';
+      }
     }
 
     // Change author credentials
-    function changeAuthorCredentials() {
+    async function changeAuthorCredentials() {
       if (!isAuthorLoggedIn) {
-        alert("Please login first.");
+        showMessage(changePassStatus, "Please login first", "error");
         return;
       }
       
@@ -448,45 +1162,92 @@
       const newPass = document.getElementById("new-author-pass").value.trim();
       
       if (newId.length < 3 || newPass.length < 3) {
-        alert("Author ID and Password must be at least 3 characters.");
+        showMessage(changePassStatus, "Author ID and Password must be at least 3 characters", "error");
         return;
       }
       
       if (!confirm("Change Author ID and Password? You will be logged out after this.")) return;
-
-      fetch(SERVER_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          action: "changeCredentials",
-          newId: newId,
-          newPass: newPass
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
+      
+      showMessage(changePassStatus, "Updating credentials...", "loading");
+      
+      try {
+        const response = await fetch(SERVER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            action: "changeCredentials",
+            newId: newId,
+            newPass: newPass
+          })
+        });
+        
+        const data = await response.json();
+        
         if (data.success) {
-          alert("Author credentials changed. Please log in again.");
-          document.getElementById("new-author-id").value = "";
-          document.getElementById("new-author-pass").value = "";
-          signOutAuthor();
+          showMessage(changePassStatus, "Credentials updated successfully! Logging out...", "success");
+          setTimeout(() => {
+            document.getElementById("new-author-id").value = "";
+            document.getElementById("new-author-pass").value = "";
+            signOutAuthor();
+          }, 2000);
         } else {
           throw new Error(data.error || "Failed to change credentials");
         }
-      })
-      .catch(error => {
+      } catch (error) {
+        showMessage(changePassStatus, `Failed to update: ${error.message}`, "error");
         console.error("Error changing credentials:", error);
-        alert("Failed to change credentials: " + error.message);
+      }
+    }
+
+    // Helper functions
+    function showMessage(element, message, type) {
+      element.innerHTML = type === "loading" ? 
+        `<div class="loading"></div> ${message}` : 
+        message;
+      
+      element.className = "status-message";
+      if (type !== "loading") element.classList.add(type);
+      element.style.display = "block";
+    }
+    
+    function escapeString(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
+    
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      if (['mp3', 'wav', 'ogg'].includes(ext)) return 'fas fa-music';
+      if (['mp4', 'mov', 'avi', 'mkv'].includes(ext)) return 'fas fa-film';
+      if (['pdf'].includes(ext)) return 'fas fa-file-pdf';
+      if (['doc', 'docx'].includes(ext)) return 'fas fa-file-word';
+      if (['txt'].includes(ext)) return 'fas fa-file-alt';
+      return 'fas fa-file';
+    }
+    
+    function showLoadingState() {
+      document.querySelectorAll('.download-list').forEach(el => {
+        el.innerHTML = `<div class="file-card"><div class="file-icon"><i class="fas fa-spinner fa-spin"></i></div><div class="file-content"><div class="file-name">Loading files...</div></div></div>`;
       });
     }
 
     // Initialize on page load
     window.onload = () => {
-      fetchVideos();
       toggleLoginUI();
+      fetchVideos();
       loadFilesFromServer();
+      
+      // Setup file input display
+      document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function() {
+          const displayId = this.id.replace('Upload', '') + 'FileName';
+          const displayEl = document.getElementById(displayId);
+          if (displayEl) {
+            displayEl.textContent = this.files[0] ? this.files[0].name : 'No file selected';
+          }
+        });
+      });
     };
   </script>
 </body>
