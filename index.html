@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shamim Al Razi | Personal Website</title>
+  <title>Shamim Al Razi | BUET MME Student</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-color: #f4f6f8;
       color: #333;
+      line-height: 1.6;
     }
 
     header {
@@ -20,23 +21,44 @@
       text-align: center;
     }
 
+    header img.logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    header img.profile {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+    }
+
     nav {
       background-color: #34495e;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 30px;
-      padding: 10px 0;
+      gap: 25px;
+      padding: 12px 0;
     }
 
     nav a {
       color: white;
       text-decoration: none;
       font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffd700;
     }
 
     section {
-      padding: 40px 20px;
-      max-width: 800px;
+      padding: 50px 20px;
+      max-width: 900px;
       margin: auto;
     }
 
@@ -47,34 +69,56 @@
       color: #2c3e50;
     }
 
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
+    p, li {
+      font-size: 17px;
+    }
+
+    ul {
+      padding-left: 20px;
     }
 
     a.button {
       display: inline-block;
-      background-color: #2980b9;
+      background-color: #e74c3c;
       color: white;
       padding: 10px 20px;
       margin-top: 10px;
       border-radius: 5px;
       text-decoration: none;
+      font-weight: bold;
     }
 
     a.button:hover {
-      background-color: #1f618d;
+      background-color: #c0392b;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 15px;
+      margin-top: 40px;
+    }
+
+    .social-links a {
+      margin: 0 10px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
 <header>
+  <img src="buet-logo.png" alt="BUET Logo" class="logo" />
+  <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
   <h1>Shamim Al Razi</h1>
-  <p>Materials & Metallurgical Engineering Student | BUET</p>
+  <p>Materials & Metallurgical Engineering Student, BUET</p>
 </header>
 
 <nav>
@@ -86,33 +130,40 @@
 
 <section id="fusion">
   <h2>Fusion Shilpigosti</h2>
-  <p>Explore my music, compositions, and performances under the name Fusion Shilpigosti.</p>
-  <a class="button" href="https://www.youtube.com/@yourchannel" target="_blank">Watch on YouTube</a>
+  <p>Explore my creative identity through music, video content, and emotional expression under the banner of Fusion Shilpigosti.</p>
+  <a class="button" href="https://youtube.com/@fusion_393?si=M0dZgtncti7y34bU" target="_blank">Watch on YouTube</a><br><br>
+  <a class="button" href="https://www.facebook.com/IslamInMyHeart11/" target="_blank">Follow on Facebook Page</a>
 </section>
 
 <section id="publications">
   <h2>Publications</h2>
   <ul>
-    <li>Coming soon: My research work and projects will be published here.</li>
+    <li>Coming soon: My academic research and creative publications will be listed here.</li>
+    <li>Steelmaking, Failure Analysis, and Metallurgical Insights.</li>
   </ul>
 </section>
 
 <section id="writings">
   <h2>Writings</h2>
-  <p>I write articles, reflections, and creative pieces. Stay tuned for blog posts and stories.</p>
+  <p>I write about engineering, life reflections, and creative ideas. Blog content and original thoughts will be published here soon.</p>
 </section>
 
 <section id="contact">
   <h2>Contact Me</h2>
   <p>Email: <a href="mailto:shamimalrazi@gmail.com">shamimalrazi@gmail.com</a></p>
   <p>LinkedIn: <a href="https://linkedin.com/in/shamimalrazi" target="_blank">linkedin.com/in/shamimalrazi</a></p>
+  <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank">md.shamimalrazi.393</a></p>
 </section>
 
 <footer>
-  <p>&copy; 2025 Shamim Al Razi. All rights reserved.</p>
+  <p>Thanks for visiting my official site. I'm constantly exploring, learning, and building across music and metallurgy.</p>
+  <div class="social-links">
+    <a href="https://youtube.com/@fusion_393" target="_blank">YouTube</a> |
+    <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank">Facebook</a> |
+    <a href="https://linkedin.com/in/shamimalrazi" target="_blank">LinkedIn</a>
+  </div>
+  <p style="margin-top: 10px;">&copy; 2025 Shamim Al Razi. All rights reserved.</p>
 </footer>
 
 </body>
 </html>
-
-
