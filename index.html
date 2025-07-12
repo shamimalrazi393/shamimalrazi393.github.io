@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shamim Al Razi | BUET MME Student</title>
   <link rel="icon" href="favicon.ico" />
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id" content="249387199462-efrmkgl7dm4fco1p68laun8es96l0glm.apps.googleusercontent.com">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body {
       margin: 0;
@@ -108,22 +107,44 @@
       font-size: 15px;
     }
   </style>
+
   <script>
+    const CLIENT_ID = "249387199462-efrmkgl7dm4fco1p68laun8es96l0glm.apps.googleusercontent.com";
     const AUTHOR_EMAIL = "mahbubajannat420@gmail.com";
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx97xuAGkZO1HsP4RuTBm9_PCd-7xAzlLqKPbdiE4NMj_jEKFfDvXGUpxQXjuZgcsZMsw/exec";
-    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
 
-    function onSignIn(googleUser) {
-      const profile = googleUser.getBasicProfile();
-      const email = profile.getEmail();
-      if (email === AUTHOR_EMAIL) {
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }
+      );
+      loadFiles();
+      fetchVideos();
+    };
+
+    function handleCredentialResponse(response) {
+      const data = parseJwt(response.credential);
+      if (data.email === AUTHOR_EMAIL) {
         document.querySelectorAll('.upload-author-only').forEach(el => {
           el.style.display = 'block';
         });
+        alert("Welcome, authorized uploader!");
       } else {
-        alert("You are not authorized to upload files.");
+        alert("Unauthorized user.");
       }
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
     }
 
     function uploadFile(inputId) {
@@ -167,6 +188,9 @@
     }
 
     function fetchVideos() {
+      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+
       fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
         .then(res => res.json())
         .then(data => {
@@ -186,11 +210,6 @@
           });
         });
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      loadFiles();
-      fetchVideos();
-    });
   </script>
 </head>
 <body>
@@ -210,7 +229,7 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  <div id="g_id_signin" style="text-align:center; margin: 20px;"></div>
 
   <section id="fusion">
     <h2>Fusion Shilpigosti</h2>
