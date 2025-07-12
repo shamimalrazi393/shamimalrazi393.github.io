@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shamim Al Razi | BUET MME Student</title>
   <link rel="icon" href="favicon.ico" />
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
   <style>
     body {
       margin: 0;
@@ -65,10 +67,10 @@
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
-      background: #ffffff;
-      margin-top: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background: #fff;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     h2 {
       border-bottom: 2px solid #ccc;
@@ -80,6 +82,7 @@
       font-size: 16px;
       padding: 8px;
       margin: 5px 0;
+      width: 100%;
     }
     button {
       background: #e74c3c;
@@ -90,6 +93,9 @@
     }
     button:hover {
       background: #c0392b;
+    }
+    .upload-author-only {
+      display: none;
     }
     #youtube-videos iframe {
       margin: 10px;
@@ -103,9 +109,24 @@
     }
   </style>
   <script>
+    const AUTHOR_EMAIL = "shamim393393@gmail.com";
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx97xuAGkZO1HsP4RuTBm9_PCd-7xAzlLqKPbdiE4NMj_jEKFfDvXGUpxQXjuZgcsZMsw/exec";
+    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
 
-    function uploadFile(inputId, outputId) {
+    function onSignIn(googleUser) {
+      const profile = googleUser.getBasicProfile();
+      const email = profile.getEmail();
+      if (email === AUTHOR_EMAIL) {
+        document.querySelectorAll('.upload-author-only').forEach(el => {
+          el.style.display = 'block';
+        });
+      } else {
+        alert("You are not authorized to upload files.");
+      }
+    }
+
+    function uploadFile(inputId) {
       const fileInput = document.getElementById(inputId);
       const file = fileInput.files[0];
       if (!file) return alert("Select a file first.");
@@ -113,7 +134,6 @@
       const reader = new FileReader();
       reader.onload = function (e) {
         const base64Data = e.target.result.split(",")[1];
-
         const formData = new FormData();
         formData.append("file", base64Data);
         formData.append("fileName", file.name);
@@ -124,29 +144,27 @@
           body: formData
         })
         .then((res) => res.json())
-        .then((res) => {
+        .then(() => {
           alert("Upload successful!");
-          loadFiles(outputId);
+          loadFiles();
         })
         .catch((err) => alert("Upload failed: " + err.message));
       };
       reader.readAsDataURL(file);
     }
 
-    function loadFiles(outputId) {
+    function loadFiles() {
       fetch(SCRIPT_URL)
         .then((res) => res.json())
         .then((files) => {
-          const container = document.getElementById(outputId);
-          container.innerHTML = "";
-          files.forEach((f) => {
-            container.innerHTML += `<p><a href="${f.downloadUrl}" target="_blank">${f.name}</a></p>`;
+          document.querySelectorAll('.download-list').forEach(container => {
+            container.innerHTML = "";
+            files.forEach((f) => {
+              container.innerHTML += `<p><a href="${f.downloadUrl}" target="_blank">${f.name}</a></p>`;
+            });
           });
         });
     }
-
-    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
 
     function fetchVideos() {
       fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
@@ -170,9 +188,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      loadFiles("fusion-downloads");
-      loadFiles("publications-downloads");
-      loadFiles("writings-downloads");
+      loadFiles();
       fetchVideos();
     });
   </script>
@@ -194,18 +210,22 @@
     <a href="#contact">Contact</a>
   </nav>
 
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
   <section id="fusion">
     <h2>Fusion Shilpigosti</h2>
     <p>Explore music and videos under Fusion Shilpigosti.</p>
-    <a class="button" href="https://youtube.com/@fusion_393" target="_blank">Watch on YouTube</a> |
-    <a class="button" href="https://facebook.com/fusionshilpigosti" target="_blank">Facebook Page</a>
+    <a class="button" href="https://youtube.com/@fusion_393" target="_blank">Watch on YouTube</a>
+    <a class="button" href="https://www.facebook.com/fusion393" target="_blank">Visit Facebook Page</a>
 
-    <h3>Upload Your Music or Video</h3>
-    <input type="file" id="fusionUpload" accept="video/*,audio/*" />
-    <button onclick="uploadFile('fusionUpload', 'fusion-downloads')">Upload</button>
+    <div class="upload-author-only">
+      <h3>Upload Your Music or Video</h3>
+      <input type="file" id="fusionUpload" accept="video/*,audio/*" />
+      <button onclick="uploadFile('fusionUpload')">Upload</button>
+    </div>
 
     <h3>Public Downloads</h3>
-    <div id="fusion-downloads">Loading files...</div>
+    <div class="download-list">Loading files...</div>
 
     <h3>Latest YouTube Videos</h3>
     <div id="youtube-videos">Loading videos...</div>
@@ -213,18 +233,22 @@
 
   <section id="publications">
     <h2>Publications</h2>
-    <p>Upload academic or research publications.</p>
-    <input type="file" id="pubUpload" accept="application/pdf" />
-    <button onclick="uploadFile('pubUpload', 'publications-downloads')">Upload</button>
-    <div id="publications-downloads">Loading files...</div>
+    <p>Academic or research publications.</p>
+    <div class="upload-author-only">
+      <input type="file" id="pubUpload" accept="application/pdf" />
+      <button onclick="uploadFile('pubUpload')">Upload</button>
+    </div>
+    <div class="download-list">Loading files...</div>
   </section>
 
   <section id="writings">
     <h2>Writings</h2>
-    <p>Upload creative writings, poems, or reflections.</p>
-    <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
-    <button onclick="uploadFile('writeUpload', 'writings-downloads')">Upload</button>
-    <div id="writings-downloads">Loading files...</div>
+    <p>Creative writings, poems, or reflections.</p>
+    <div class="upload-author-only">
+      <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
+      <button onclick="uploadFile('writeUpload')">Upload</button>
+    </div>
+    <div class="download-list">Loading files...</div>
   </section>
 
   <section id="contact">
