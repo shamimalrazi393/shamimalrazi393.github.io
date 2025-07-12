@@ -1,425 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shamim Al Razi | BUET MME Student</title>
-  <link rel="icon" href="favicon.ico" />
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
-    }
-    header {
-      background-color: #2c3e50;
-      padding: 30px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    .logo {
-      height: 80px;
-    }
-    .profile {
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #fff;
-      box-shadow: 0 0 5px rgba(0,0,0,0.4);
-    }
-    .header-text {
-      flex: 1;
-      text-align: center;
-      color: white;
-    }
-    .header-text h1 {
-      margin: 10px 0 5px;
-      font-size: 24px;
-    }
-    .header-text p {
-      margin: 0;
-      font-size: 16px;
-    }
-    nav {
-      background-color: #34495e;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 25px;
-      padding: 12px 0;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    nav a:hover {
-      color: #ffd700;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-      background: #fff;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-      color: #2c3e50;
-    }
-    input, button {
-      font-size: 16px;
-      padding: 8px;
-      margin: 5px 0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #c0392b;
-    }
-    .upload-author-only {
-      display: none;
-      margin-bottom: 20px;
-    }
-    #youtube-videos iframe {
-      margin: 10px;
-    }
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      font-size: 15px;
-    }
-    /* Password change section */
-    #change-pass-section {
-      max-width: 400px;
-      margin: 30px auto 50px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: none;
-    }
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    .file-item a {
-      word-break: break-all;
-    }
-    .file-item button {
-      width: auto;
-      padding: 5px 10px;
-      font-size: 14px;
-      margin-left: 10px;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="buet-logo.png" alt="BUET Logo" class="logo" />
-    <div class="header-text">
-      <h1>Md. Shamim Al Razi</h1>
-      <p>Materials & Metallurgical Engineering Student | BUET</p>
-    </div>
-    <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
-  </header>
+<!-- BEGINNING OF YOUR FILE — HEAD AND BODY UNCHANGED — SCROLL TO SCRIPT BELOW -->
 
-  <nav>
-    <a href="#fusion">Fusion Shilpigosti</a>
-    <a href="#publications">Publications</a>
-    <a href="#writings">Writings</a>
-    <a href="#contact">Contact</a>
-  </nav>
+<!-- YOUR EXISTING PAGE CONTENT REMAINS UNCHANGED -->
 
-  <!-- Author Login -->
-  <div id="author-login" style="text-align:center; margin: 20px;">
-    <h3>Author Login</h3>
-    <input type="text" id="author-id" placeholder="Author ID" autocomplete="username" /><br/>
-    <input type="password" id="author-password" placeholder="Password" autocomplete="current-password" /><br/>
-    <button onclick="checkAuthorLogin()">Login</button>
-  </div>
+<script>
+  const DRIVE_UPLOAD_URL = "https://script.google.com/macros/s/AKfycbzFPc-oOl6sBB0khxc_2rd2MxDEB8nujcxxd4-xB65amh3qFhJGzK8RmF4wLaj9Rpch/exec";
+  let isAuthorLoggedIn = false;
 
-  <!-- Logout -->
-  <div id="author-logout" style="display:none; text-align:center; margin: 20px;">
-    <h3>Welcome, Author!</h3>
-    <button onclick="signOutAuthor()">Sign Out</button>
-  </div>
+  // Author credentials
+  let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
+  let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
 
-  <section id="fusion">
-    <h2>Fusion Shilpigosti</h2>
-    <p>Explore music and videos under Fusion Shilpigosti.</p>
-    <a class="button" href="https://youtube.com/@fusion_393" target="_blank" rel="noopener">Watch on YouTube</a>
-    <a class="button" href="https://www.facebook.com/fusion393" target="_blank" rel="noopener">Visit Facebook Page</a>
-
-    <div class="upload-author-only">
-      <h3>Upload Your Music or Video</h3>
-      <input type="file" id="fusionUpload" accept="video/*,audio/*" />
-      <button onclick="uploadFile('fusionUpload', 'fusion')">Upload</button>
-    </div>
-
-    <h3>Public Downloads</h3>
-    <div class="download-list" id="fusion-files">Loading files...</div>
-
-    <h3>Latest YouTube Videos</h3>
-    <div id="youtube-videos">Loading videos...</div>
-  </section>
-
-  <section id="publications">
-    <h2>Publications</h2>
-    <div class="upload-author-only">
-      <input type="file" id="pubUpload" accept="application/pdf" />
-      <button onclick="uploadFile('pubUpload', 'publications')">Upload</button>
-    </div>
-    <div class="download-list" id="publication-files">Loading files...</div>
-  </section>
-
-  <section id="writings">
-    <h2>Writings</h2>
-    <div class="upload-author-only">
-      <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
-      <button onclick="uploadFile('writeUpload', 'writings')">Upload</button>
-    </div>
-    <div class="download-list" id="writing-files">Loading files...</div>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Me</h2>
-    <p>Email: <a href="mailto:shamim393393@gmail.com">shamim393393@gmail.com</a></p>
-    <p>Phone: <a href="tel:+8801628912047">01628912047</a></p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/shamim393/" target="_blank" rel="noopener">linkedin.com/in/shamim393</a></p>
-    <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank" rel="noopener">md.shamimalrazi.393</a></p>
-    <p>Twitter: <a href="https://x.com/Shamim393" target="_blank" rel="noopener">@Shamim393</a></p>
-  </section>
-
-  <!-- Password Change Section -->
-  <section id="change-pass-section">
-    <h2>Change Author ID & Password</h2>
-    <input type="text" id="new-author-id" placeholder="New Author ID" autocomplete="username" />
-    <input type="password" id="new-author-pass" placeholder="New Password" autocomplete="new-password" />
-    <button onclick="changeAuthorCredentials()">Save Changes</button>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Md. Shamim Al Razi. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // Initialize author credentials from localStorage or defaults
-    let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
-    let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
-    let isAuthorLoggedIn = false;
-
-    // Load uploaded files from localStorage or empty arrays per section
-    let uploadedFiles = JSON.parse(localStorage.getItem("uploaded_files") || 
-      '{"fusion":[],"publications":[],"writings":[]}');
-
-    // Check login credentials and toggle UI accordingly
-    function checkAuthorLogin() {
-      const id = document.getElementById("author-id").value.trim();
-      const pass = document.getElementById("author-password").value.trim();
-      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
-        isAuthorLoggedIn = true;
-        alert("Login successful!");
-        toggleLoginUI();
-        renderFiles();
-      } else {
-        alert("Invalid credentials.");
-      }
+  // Replace upload function to use Drive
+  async function uploadFile(inputId, section) {
+    if (!isAuthorLoggedIn) {
+      alert("Please login as author to upload.");
+      return;
     }
 
-    // Sign out author and reset UI
-    function signOutAuthor() {
-      isAuthorLoggedIn = false;
-      toggleLoginUI();
-      renderFiles();
-    }
+    const input = document.getElementById(inputId);
+    const file = input.files[0];
+    if (!file) return alert("Please select a file first.");
 
-    // Show/hide upload controls, login/logout UI and password change form
-    function toggleLoginUI() {
-      document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
-      document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
-      document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("section", section);
 
-      document.querySelectorAll('.upload-author-only').forEach(el => {
-        el.style.display = isAuthorLoggedIn ? "block" : "none";
+    try {
+      const res = await fetch(DRIVE_UPLOAD_URL, {
+        method: "POST",
+        body: formData,
       });
-
-      // Clear login inputs on sign out
-      if (!isAuthorLoggedIn) {
-        document.getElementById("author-id").value = "";
-        document.getElementById("author-password").value = "";
-      }
-    }
-
-    // Upload a file to specific section
-    function uploadFile(inputId, section) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to upload.");
-        return;
-      }
-      const input = document.getElementById(inputId);
-      const file = input.files[0];
-      if (!file) return alert("Please select a file first.");
-
-      // Read file as Data URL for persistence
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-
-        // Save file info: name + dataUrl
-        uploadedFiles[section].push({ name: file.name, dataUrl });
-        saveFiles();
-        alert(`Uploaded '${file.name}' to ${section}.`);
+      const result = await res.json();
+      if (result.success) {
+        alert(`Uploaded '${file.name}' successfully.`);
         input.value = "";
-        renderFiles();
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // Delete file from section at index
-    function deleteFile(section, index) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to delete files.");
-        return;
-      }
-      if (!confirm("Are you sure you want to delete this file?")) return;
-      uploadedFiles[section].splice(index, 1);
-      saveFiles();
-      renderFiles();
-    }
-
-    // Save uploadedFiles to localStorage for persistence
-    function saveFiles() {
-      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
-    }
-
-    // Render files in their respective sections with delete buttons for author
-    function renderFiles() {
-      // Fusion
-      const fusionDiv = document.getElementById("fusion-files");
-      fusionDiv.innerHTML = "";
-      if(uploadedFiles.fusion.length === 0) {
-        fusionDiv.textContent = "No files uploaded.";
+        loadDriveFiles();
       } else {
-        uploadedFiles.fusion.forEach((file, i) => {
-          fusionDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
+        alert("Upload failed.");
       }
+    } catch (err) {
+      alert("Upload error.");
+      console.error(err);
+    }
+  }
 
-      // Publications
-      const pubDiv = document.getElementById("publication-files");
-      pubDiv.innerHTML = "";
-      if(uploadedFiles.publications.length === 0) {
-        pubDiv.textContent = "No files uploaded.";
+  // Fetch files from Drive by section
+  async function loadDriveFiles() {
+    const sections = ["fusion", "publications", "writings"];
+    for (const section of sections) {
+      const container = document.getElementById(
+        section === "publications"
+          ? "publication-files"
+          : section === "writings"
+          ? "writing-files"
+          : "fusion-files"
+      );
+      container.textContent = "Loading...";
+
+      try {
+        const res = await fetch(`${DRIVE_UPLOAD_URL}?section=${section}`);
+        const files = await res.json();
+        if (!Array.isArray(files) || files.length === 0) {
+          container.textContent = "No files uploaded.";
+          continue;
+        }
+
+        container.innerHTML = "";
+        files.forEach((file) => {
+          const div = document.createElement("div");
+          div.className = "file-item";
+
+          const a = document.createElement("a");
+          a.href = file.url;
+          a.target = "_blank";
+          a.rel = "noopener";
+          a.textContent = file.name;
+
+          div.appendChild(a);
+
+          if (isAuthorLoggedIn) {
+            const btn = document.createElement("button");
+            btn.textContent = "Delete";
+            btn.onclick = () => deleteDriveFile(file.id, section);
+            div.appendChild(btn);
+          }
+
+          container.appendChild(div);
+        });
+      } catch (err) {
+        container.textContent = "Failed to load files.";
+        console.error(err);
+      }
+    }
+  }
+
+  // Delete file from Drive
+  async function deleteDriveFile(fileId, section) {
+    if (!isAuthorLoggedIn) {
+      alert("Please login as author to delete files.");
+      return;
+    }
+    if (!confirm("Are you sure you want to delete this file?")) return;
+
+    try {
+      const res = await fetch(DRIVE_UPLOAD_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mode: "delete", fileId }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert("File deleted.");
+        loadDriveFiles();
       } else {
-        uploadedFiles.publications.forEach((file, i) => {
-          pubDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
+        alert("Delete failed.");
       }
-
-      // Writings
-      const writeDiv = document.getElementById("writing-files");
-      writeDiv.innerHTML = "";
-      if(uploadedFiles.writings.length === 0) {
-        writeDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.writings.forEach((file, i) => {
-          writeDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
+    } catch (err) {
+      alert("Delete error.");
+      console.error(err);
     }
+  }
 
-    // Fetch YouTube videos and show
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
-        .then(res => res.json())
-        .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
-            }
-          });
-        })
-        .catch(() => {
-          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
-        });
-    }
-
-    // Change author credentials and log out immediately
-    function changeAuthorCredentials() {
-      if (!isAuthorLoggedIn) {
-        alert("Please login first.");
-        return;
-      }
-      const newId = document.getElementById("new-author-id").value.trim();
-      const newPass = document.getElementById("new-author-pass").value.trim();
-      if(newId.length < 3 || newPass.length < 3) {
-        alert("Author ID and Password must be at least 3 characters.");
-        return;
-      }
-      if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
-
-      AUTHOR_ID = newId;
-      AUTHOR_PASSWORD = newPass;
-      localStorage.setItem("author_id", AUTHOR_ID);
-      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-
-      alert("Author credentials changed. Please log in again.");
-      signOutAuthor();
-
-      // Clear inputs
-      document.getElementById("new-author-id").value = "";
-      document.getElementById("new-author-pass").value = "";
-    }
-
-    // On page load
-    window.onload = () => {
-      fetchVideos();
+  // Author login check
+  function checkAuthorLogin() {
+    const id = document.getElementById("author-id").value.trim();
+    const pass = document.getElementById("author-password").value.trim();
+    if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
+      isAuthorLoggedIn = true;
+      alert("Login successful!");
       toggleLoginUI();
-      renderFiles();
-    };
-  </script>
-</body>
-</html>
+      loadDriveFiles();
+    } else {
+      alert("Invalid credentials.");
+    }
+  }
+
+  // Sign out author
+  function signOutAuthor() {
+    isAuthorLoggedIn = false;
+    toggleLoginUI();
+    loadDriveFiles();
+  }
+
+  // UI toggling
+  function toggleLoginUI() {
+    document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
+    document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
+    document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
+
+    document.querySelectorAll(".upload-author-only").forEach((el) => {
+      el.style.display = isAuthorLoggedIn ? "block" : "none";
+    });
+
+    if (!isAuthorLoggedIn) {
+      document.getElementById("author-id").value = "";
+      document.getElementById("author-password").value = "";
+    }
+  }
+
+  // Change credentials
+  function changeAuthorCredentials() {
+    if (!isAuthorLoggedIn) {
+      alert("Please login first.");
+      return;
+    }
+    const newId = document.getElementById("new-author-id").value.trim();
+    const newPass = document.getElementById("new-author-pass").value.trim();
+    if (newId.length < 3 || newPass.length < 3) {
+      alert("Author ID and Password must be at least 3 characters.");
+      return;
+    }
+    if (!confirm("Change Author ID and Password? You will be logged out after this.")) return;
+
+    AUTHOR_ID = newId;
+    AUTHOR_PASSWORD = newPass;
+    localStorage.setItem("author_id", AUTHOR_ID);
+    localStorage.setItem("author_pass", AUTHOR_PASSWORD);
+
+    alert("Author credentials changed. Please log in again.");
+    signOutAuthor();
+    document.getElementById("new-author-id").value = "";
+    document.getElementById("new-author-pass").value = "";
+  }
+
+  // YouTube Loader (unchanged)
+  function fetchVideos() {
+    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+    fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
+      .then(res => res.json())
+      .then(data => {
+        const videosDiv = document.getElementById('youtube-videos');
+        videosDiv.innerHTML = '';
+        if (!data.items) return videosDiv.textContent = 'No videos found.';
+        data.items.forEach(item => {
+          if (item.id.kind === "youtube#video") {
+            const iframe = document.createElement('iframe');
+            iframe.width = "320";
+            iframe.height = "180";
+            iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
+            iframe.allowFullscreen = true;
+            videosDiv.appendChild(iframe);
+          }
+        });
+      })
+      .catch(() => {
+        document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
+      });
+  }
+
+  // Load page
+  window.onload = () => {
+    fetchVideos();
+    toggleLoginUI();
+    loadDriveFiles();
+  };
+</script>
