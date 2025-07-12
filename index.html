@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shamim Al Razi | BUET MME Student</title>
   <link rel="icon" href="favicon.ico" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body {
       margin: 0;
@@ -96,9 +95,6 @@
     .upload-author-only {
       display: none;
     }
-    #youtube-videos iframe {
-      margin: 10px;
-    }
     footer {
       background-color: #2c3e50;
       color: white;
@@ -107,112 +103,9 @@
       font-size: 15px;
     }
   </style>
-
-  <script>
-    const CLIENT_ID = "249387199462-efrmkgl7dm4fco1p68laun8es96l0glm.apps.googleusercontent.com";
-    const AUTHOR_EMAIL = "mahbubajannat420@gmail.com";
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx97xuAGkZO1HsP4RuTBm9_PCd-7xAzlLqKPbdiE4NMj_jEKFfDvXGUpxQXjuZgcsZMsw/exec";
-
-    window.onload = function () {
-      google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("g_id_signin"),
-        { theme: "outline", size: "large" }
-      );
-      loadFiles();
-      fetchVideos();
-    };
-
-    function handleCredentialResponse(response) {
-      const data = parseJwt(response.credential);
-      if (data.email === AUTHOR_EMAIL) {
-        document.querySelectorAll('.upload-author-only').forEach(el => {
-          el.style.display = 'block';
-        });
-        alert("Welcome, authorized uploader!");
-      } else {
-        alert("Unauthorized user.");
-      }
-    }
-
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    }
-
-    function uploadFile(inputId) {
-      const fileInput = document.getElementById(inputId);
-      const file = fileInput.files[0];
-      if (!file) return alert("Select a file first.");
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const base64Data = e.target.result.split(",")[1];
-        const formData = new FormData();
-        formData.append("file", base64Data);
-        formData.append("fileName", file.name);
-        formData.append("contentType", file.type);
-
-        fetch(SCRIPT_URL, {
-          method: "POST",
-          body: formData
-        })
-        .then((res) => res.json())
-        .then(() => {
-          alert("Upload successful!");
-          loadFiles();
-        })
-        .catch((err) => alert("Upload failed: " + err.message));
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function loadFiles() {
-      fetch(SCRIPT_URL)
-        .then((res) => res.json())
-        .then((files) => {
-          document.querySelectorAll('.download-list').forEach(container => {
-            container.innerHTML = "";
-            files.forEach((f) => {
-              container.innerHTML += `<p><a href="${f.downloadUrl}" target="_blank">${f.name}</a></p>`;
-            });
-          });
-        });
-    }
-
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
-        .then(res => res.json())
-        .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const videoId = item.id.videoId;
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
-            }
-          });
-        });
-    }
-  </script>
 </head>
 <body>
+
   <header>
     <img src="buet-logo.png" alt="BUET Logo" class="logo" />
     <div class="header-text">
@@ -229,7 +122,22 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <div id="g_id_signin" style="text-align:center; margin: 20px;"></div>
+  <!-- Author login -->
+  <div id="author-login" style="text-align:center; margin: 20px;">
+    <h3>Author Login</h3>
+    <input type="text" id="author-id" placeholder="Author ID" /><br/>
+    <input type="password" id="author-password" placeholder="Password" /><br/>
+    <button onclick="checkAuthorLogin()">Login</button>
+  </div>
+
+  <!-- Change Password -->
+  <div id="change-password" style="display:none; text-align:center; margin: 20px;">
+    <h3>Change Password</h3>
+    <input type="password" id="old-pass" placeholder="Old Password" /><br/>
+    <input type="password" id="new-pass" placeholder="New Password" /><br/>
+    <input type="password" id="confirm-pass" placeholder="Confirm New Password" /><br/>
+    <button onclick="changePassword()">Change Password</button>
+  </div>
 
   <section id="fusion">
     <h2>Fusion Shilpigosti</h2>
@@ -239,35 +147,27 @@
 
     <div class="upload-author-only">
       <h3>Upload Your Music or Video</h3>
-      <input type="file" id="fusionUpload" accept="video/*,audio/*" />
+      <input type="file" id="fusionUpload" />
       <button onclick="uploadFile('fusionUpload')">Upload</button>
     </div>
-
-    <h3>Public Downloads</h3>
-    <div class="download-list">Loading files...</div>
-
-    <h3>Latest YouTube Videos</h3>
-    <div id="youtube-videos">Loading videos...</div>
   </section>
 
   <section id="publications">
     <h2>Publications</h2>
     <p>Academic or research publications.</p>
     <div class="upload-author-only">
-      <input type="file" id="pubUpload" accept="application/pdf" />
+      <input type="file" id="pubUpload" />
       <button onclick="uploadFile('pubUpload')">Upload</button>
     </div>
-    <div class="download-list">Loading files...</div>
   </section>
 
   <section id="writings">
     <h2>Writings</h2>
     <p>Creative writings, poems, or reflections.</p>
     <div class="upload-author-only">
-      <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
+      <input type="file" id="writeUpload" />
       <button onclick="uploadFile('writeUpload')">Upload</button>
     </div>
-    <div class="download-list">Loading files...</div>
   </section>
 
   <section id="contact">
@@ -282,5 +182,61 @@
   <footer>
     <p>&copy; 2025 Md. Shamim Al Razi. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Default credentials
+    let AUTHOR_ID = "admin";
+    let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
+
+    function checkAuthorLogin() {
+      const id = document.getElementById("author-id").value.trim();
+      const pass = document.getElementById("author-password").value.trim();
+
+      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
+        alert("Login successful!");
+        document.getElementById("author-login").style.display = "none";
+        document.getElementById("change-password").style.display = "block";
+        document.querySelectorAll('.upload-author-only').forEach(el => {
+          el.style.display = 'block';
+        });
+      } else {
+        alert("Invalid credentials.");
+      }
+    }
+
+    function changePassword() {
+      const oldPass = document.getElementById("old-pass").value.trim();
+      const newPass = document.getElementById("new-pass").value.trim();
+      const confirmPass = document.getElementById("confirm-pass").value.trim();
+
+      if (oldPass !== AUTHOR_PASSWORD) {
+        alert("Old password is incorrect.");
+        return;
+      }
+      if (newPass.length < 4) {
+        alert("New password must be at least 4 characters.");
+        return;
+      }
+      if (newPass !== confirmPass) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      AUTHOR_PASSWORD = newPass;
+      localStorage.setItem("author_pass", newPass);
+      alert("Password changed successfully.");
+      document.getElementById("old-pass").value = "";
+      document.getElementById("new-pass").value = "";
+      document.getElementById("confirm-pass").value = "";
+    }
+
+    function uploadFile(inputId) {
+      const fileInput = document.getElementById(inputId);
+      const file = fileInput.files[0];
+      if (!file) return alert("Please select a file first.");
+      alert(`Uploading ${file.name} (this is just a mock upload).`);
+      // Real upload logic goes here
+    }
+  </script>
 </body>
 </html>
