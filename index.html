@@ -107,7 +107,6 @@
       padding: 30px 20px;
       font-size: 15px;
     }
-    /* Password change section */
     #change-pass-section {
       max-width: 400px;
       margin: 30px auto 50px auto;
@@ -224,37 +223,45 @@
   </footer>
 
   <script>
-    // Initialize author credentials from localStorage or defaults
+    // Server URL - Replace with your deployed web app URL
+    const SERVER_URL = "https://script.google.com/macros/s/AKfycbzFPc-oOl6sBB0khxc_2rd2MxDEB8nujcxxd4-xB65amh3qFhJGzK8RmF4wLaj9Rpch/exec";
+    
+    // Initialize author credentials
     let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
     let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
     let isAuthorLoggedIn = false;
 
-    // Load uploaded files from localStorage or empty arrays per section
-    let uploadedFiles = { fusion: [], publications: [], writings: [] };
-
-
-    // Check login credentials and toggle UI accordingly
+    // Check login credentials
     function checkAuthorLogin() {
       const id = document.getElementById("author-id").value.trim();
       const pass = document.getElementById("author-password").value.trim();
-      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
-        isAuthorLoggedIn = true;
-        alert("Login successful!");
-        toggleLoginUI();
-        renderFiles();
-      } else {
-        alert("Invalid credentials.");
-      }
+      
+      fetch(`${SERVER_URL}?action=getCredentials`)
+        .then(res => res.json())
+        .then(credentials => {
+          if (id === credentials.author_id && pass === credentials.author_pass) {
+            isAuthorLoggedIn = true;
+            AUTHOR_ID = id;
+            AUTHOR_PASSWORD = pass;
+            localStorage.setItem("author_id", id);
+            localStorage.setItem("author_pass", pass);
+            alert("Login successful!");
+            toggleLoginUI();
+            loadFilesFromServer();
+          } else {
+            alert("Invalid credentials.");
+          }
+        })
+        .catch(() => alert("Error verifying credentials"));
     }
 
-    // Sign out author and reset UI
+    // Sign out author
     function signOutAuthor() {
       isAuthorLoggedIn = false;
       toggleLoginUI();
-      renderFiles();
     }
 
-    // Show/hide upload controls, login/logout UI and password change form
+    // Toggle UI elements based on login state
     function toggleLoginUI() {
       document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
       document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
@@ -264,148 +271,156 @@
         el.style.display = isAuthorLoggedIn ? "block" : "none";
       });
 
-      // Clear login inputs on sign out
       if (!isAuthorLoggedIn) {
         document.getElementById("author-id").value = "";
         document.getElementById("author-password").value = "";
       }
     }
 
-    // Upload a file to specific section
+    // Upload file to server
     function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to upload.");
         return;
       }
+      
       const input = document.getElementById(inputId);
       const file = input.files[0];
       if (!file) return alert("Please select a file first.");
 
-      // Read file as Data URL for persistence
-      const reader = new FileReader();
-     reader.onload = function(e) {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("section", section);
-  formData.append("action", "upload");
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("action", "upload");
+      formData.append("section", section);
 
-  fetch(SERVER_URL, {
-    method: "POST",
-    body: formData,
-  })
-  .then(res => res.json())
-  .then(res => {
-    if (res.success) {
-      alert("Upload successful.");
-      input.value = "";
-      loadFilesFromServer();
-    } else {
-      alert("Upload failed.");
+      fetch(SERVER_URL, {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .then(data => {
+        if (data.success) {
+          alert("Upload successful!");
+          input.value = "";
+          loadFilesFromServer();
+        } else {
+          throw new Error(data.error || "Upload failed");
+        }
+      })
+      .catch(error => {
+        console.error("Upload error:", error);
+        alert("Upload failed: " + error.message);
+      });
     }
-  })
-  .catch(() => alert("Error uploading file."));
-  };
 
-      reader.readAsDataURL(file);
-    }
-
-    // Delete file from section at index
-    function deleteFile(section, index) {
+    // Delete file from server
+    function deleteFile(section, fileName) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to delete files.");
         return;
       }
       if (!confirm("Are you sure you want to delete this file?")) return;
-      const fileToDelete = uploadedFiles[section][index];
-fetch(SERVER_URL, {
-  method: "POST",
-  body: JSON.stringify({
-    action: "delete",
-    section,
-    name: fileToDelete.name
-  }),
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
-.then(res => res.json())
-.then(res => {
-  if (res.success) {
-    alert("Deleted successfully.");
-    loadFilesFromServer();
-  } else {
-    alert("Failed to delete.");
-  }
-});
 
+      fetch(SERVER_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          action: "delete",
+          section: section,
+          name: fileName
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Deleted successfully.");
+          loadFilesFromServer();
+        } else {
+          throw new Error(data.error || "Failed to delete");
+        }
+      })
+      .catch(error => {
+        console.error("Delete error:", error);
+        alert("Delete failed: " + error.message);
+      });
     }
 
-    // Render files in their respective sections with delete buttons for author
-    function renderFiles() {
-      // Fusion
+    // Load files from server
+    function loadFilesFromServer() {
+      fetch(`${SERVER_URL}?action=list`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.files) {
+            renderFiles(data.files);
+          } else {
+            throw new Error("Invalid response format");
+          }
+        })
+        .catch(error => {
+          console.error("Error loading files:", error);
+          document.querySelectorAll('.download-list').forEach(el => {
+            el.textContent = "Failed to load files. Please try again later.";
+          });
+        });
+    }
+
+    // Render files in the UI
+    function renderFiles(files) {
+      // Fusion files
       const fusionDiv = document.getElementById("fusion-files");
-      fusionDiv.innerHTML = "";
-      if(uploadedFiles.fusion.length === 0) {
-        fusionDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.fusion.forEach((file, i) => {
-          fusionDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
+      fusionDiv.innerHTML = files.fusion.length === 0 ? 
+        "No files available." : 
+        files.fusion.map(file => `
+          <div class="file-item">
+            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
+            ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', '${file.name}')">Delete</button>` : ''}
+          </div>
+        `).join('');
 
-      // Publications
+      // Publication files
       const pubDiv = document.getElementById("publication-files");
-      pubDiv.innerHTML = "";
-      if(uploadedFiles.publications.length === 0) {
-        pubDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.publications.forEach((file, i) => {
-          pubDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
+      pubDiv.innerHTML = files.publications.length === 0 ? 
+        "No files available." : 
+        files.publications.map(file => `
+          <div class="file-item">
+            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
+            ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', '${file.name}')">Delete</button>` : ''}
+          </div>
+        `).join('');
 
-      // Writings
+      // Writing files
       const writeDiv = document.getElementById("writing-files");
-      writeDiv.innerHTML = "";
-      if(uploadedFiles.writings.length === 0) {
-        writeDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.writings.forEach((file, i) => {
-          writeDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
-    }
-    const SERVER_URL = "https://script.google.com/macros/s/AKfycbzFPc-oOl6sBB0khxc_2rd2MxDEB8nujcxxd4-xB65amh3qFhJGzK8RmF4wLaj9Rpch/exec";
-
-    async function loadFilesFromServer() {
-      const res = await fetch(`${SERVER_URL}?action=list`);
-      const data = await res.json();
-      uploadedFiles = data.files || { fusion: [], publications: [], writings: [] };
-      renderFiles();
+      writeDiv.innerHTML = files.writings.length === 0 ? 
+        "No files available." : 
+        files.writings.map(file => `
+          <div class="file-item">
+            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
+            ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', '${file.name}')">Delete</button>` : ''}
+          </div>
+        `).join('');
     }
 
-    // Fetch YouTube videos and show
+    // Fetch YouTube videos
     function fetchVideos() {
       const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
       const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+      
       fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
         .then(res => res.json())
         .then(data => {
           const videosDiv = document.getElementById('youtube-videos');
           videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
+          
+          if (!data.items || data.items.length === 0) {
+            videosDiv.textContent = 'No videos found.';
+            return;
+          }
+          
           data.items.forEach(item => {
             if (item.id.kind === "youtube#video") {
               const iframe = document.createElement('iframe');
@@ -422,34 +437,52 @@ fetch(SERVER_URL, {
         });
     }
 
-    // Change author credentials and log out immediately
+    // Change author credentials
     function changeAuthorCredentials() {
       if (!isAuthorLoggedIn) {
         alert("Please login first.");
         return;
       }
+      
       const newId = document.getElementById("new-author-id").value.trim();
       const newPass = document.getElementById("new-author-pass").value.trim();
-      if(newId.length < 3 || newPass.length < 3) {
+      
+      if (newId.length < 3 || newPass.length < 3) {
         alert("Author ID and Password must be at least 3 characters.");
         return;
       }
-      if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
+      
+      if (!confirm("Change Author ID and Password? You will be logged out after this.")) return;
 
-      AUTHOR_ID = newId;
-      AUTHOR_PASSWORD = newPass;
-      localStorage.setItem("author_id", AUTHOR_ID);
-      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-
-      alert("Author credentials changed. Please log in again.");
-      signOutAuthor();
-
-      // Clear inputs
-      document.getElementById("new-author-id").value = "";
-      document.getElementById("new-author-pass").value = "";
+      fetch(SERVER_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          action: "changeCredentials",
+          newId: newId,
+          newPass: newPass
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Author credentials changed. Please log in again.");
+          document.getElementById("new-author-id").value = "";
+          document.getElementById("new-author-pass").value = "";
+          signOutAuthor();
+        } else {
+          throw new Error(data.error || "Failed to change credentials");
+        }
+      })
+      .catch(error => {
+        console.error("Error changing credentials:", error);
+        alert("Failed to change credentials: " + error.message);
+      });
     }
 
-    // On page load
+    // Initialize on page load
     window.onload = () => {
       fetchVideos();
       toggleLoginUI();
