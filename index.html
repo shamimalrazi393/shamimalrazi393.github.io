@@ -65,6 +65,10 @@
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
+      background: #ffffff;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     h2 {
       border-bottom: 2px solid #ccc;
@@ -101,7 +105,7 @@
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx97xuAGkZO1HsP4RuTBm9_PCd-7xAzlLqKPbdiE4NMj_jEKFfDvXGUpxQXjuZgcsZMsw/exec";
 
-    function uploadFile(inputId) {
+    function uploadFile(inputId, outputId) {
       const fileInput = document.getElementById(inputId);
       const file = fileInput.files[0];
       if (!file) return alert("Select a file first.");
@@ -122,18 +126,18 @@
         .then((res) => res.json())
         .then((res) => {
           alert("Upload successful!");
-          loadFiles();
+          loadFiles(outputId);
         })
         .catch((err) => alert("Upload failed: " + err.message));
       };
       reader.readAsDataURL(file);
     }
 
-    function loadFiles() {
+    function loadFiles(outputId) {
       fetch(SCRIPT_URL)
         .then((res) => res.json())
         .then((files) => {
-          const container = document.getElementById("download-list");
+          const container = document.getElementById(outputId);
           container.innerHTML = "";
           files.forEach((f) => {
             container.innerHTML += `<p><a href="${f.downloadUrl}" target="_blank">${f.name}</a></p>`;
@@ -141,8 +145,8 @@
         });
     }
 
-    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ"; // Replace
-    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU"; // Replace
+    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
 
     function fetchVideos() {
       fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
@@ -166,7 +170,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      loadFiles();
+      loadFiles("fusion-downloads");
+      loadFiles("publications-downloads");
+      loadFiles("writings-downloads");
       fetchVideos();
     });
   </script>
@@ -191,14 +197,15 @@
   <section id="fusion">
     <h2>Fusion Shilpigosti</h2>
     <p>Explore music and videos under Fusion Shilpigosti.</p>
-    <a class="button" href="https://youtube.com/@fusion_393" target="_blank">Watch on YouTube</a>
+    <a class="button" href="https://youtube.com/@fusion_393" target="_blank">Watch on YouTube</a> |
+    <a class="button" href="https://facebook.com/fusionshilpigosti" target="_blank">Facebook Page</a>
 
     <h3>Upload Your Music or Video</h3>
     <input type="file" id="fusionUpload" accept="video/*,audio/*" />
-    <button onclick="uploadFile('fusionUpload')">Upload</button>
+    <button onclick="uploadFile('fusionUpload', 'fusion-downloads')">Upload</button>
 
     <h3>Public Downloads</h3>
-    <div id="download-list">Loading files...</div>
+    <div id="fusion-downloads">Loading files...</div>
 
     <h3>Latest YouTube Videos</h3>
     <div id="youtube-videos">Loading videos...</div>
@@ -208,16 +215,16 @@
     <h2>Publications</h2>
     <p>Upload academic or research publications.</p>
     <input type="file" id="pubUpload" accept="application/pdf" />
-    <button onclick="uploadFile('pubUpload')">Upload</button>
-    <div id="download-list">Loading files...</div>
+    <button onclick="uploadFile('pubUpload', 'publications-downloads')">Upload</button>
+    <div id="publications-downloads">Loading files...</div>
   </section>
 
   <section id="writings">
     <h2>Writings</h2>
     <p>Upload creative writings, poems, or reflections.</p>
     <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
-    <button onclick="uploadFile('writeUpload')">Upload</button>
-    <div id="download-list">Loading files...</div>
+    <button onclick="uploadFile('writeUpload', 'writings-downloads')">Upload</button>
+    <div id="writings-downloads">Loading files...</div>
   </section>
 
   <section id="contact">
