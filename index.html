@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shamim Al Razi | BUET MME Student</title>
   <link rel="icon" href="favicon.ico" />
   <style>
@@ -81,6 +81,7 @@
       padding: 8px;
       margin: 5px 0;
       width: 100%;
+      box-sizing: border-box;
     }
     button {
       background: #e74c3c;
@@ -94,6 +95,7 @@
     }
     .upload-author-only {
       display: none;
+      margin-bottom: 20px;
     }
     #youtube-videos iframe {
       margin: 10px;
@@ -114,6 +116,21 @@
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       display: none;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .file-item a {
+      word-break: break-all;
+    }
+    .file-item button {
+      width: auto;
+      padding: 5px 10px;
+      font-size: 14px;
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -137,8 +154,8 @@
   <!-- Author Login -->
   <div id="author-login" style="text-align:center; margin: 20px;">
     <h3>Author Login</h3>
-    <input type="text" id="author-id" placeholder="Author ID" /><br/>
-    <input type="password" id="author-password" placeholder="Password" /><br/>
+    <input type="text" id="author-id" placeholder="Author ID" autocomplete="username" /><br/>
+    <input type="password" id="author-password" placeholder="Password" autocomplete="current-password" /><br/>
     <button onclick="checkAuthorLogin()">Login</button>
   </div>
 
@@ -151,8 +168,8 @@
   <section id="fusion">
     <h2>Fusion Shilpigosti</h2>
     <p>Explore music and videos under Fusion Shilpigosti.</p>
-    <a class="button" href="https://youtube.com/@fusion_393" target="_blank">Watch on YouTube</a>
-    <a class="button" href="https://www.facebook.com/fusion393" target="_blank">Visit Facebook Page</a>
+    <a class="button" href="https://youtube.com/@fusion_393" target="_blank" rel="noopener">Watch on YouTube</a>
+    <a class="button" href="https://www.facebook.com/fusion393" target="_blank" rel="noopener">Visit Facebook Page</a>
 
     <div class="upload-author-only">
       <h3>Upload Your Music or Video</h3>
@@ -189,16 +206,16 @@
     <h2>Contact Me</h2>
     <p>Email: <a href="mailto:shamim393393@gmail.com">shamim393393@gmail.com</a></p>
     <p>Phone: <a href="tel:+8801628912047">01628912047</a></p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/shamim393/" target="_blank">linkedin.com/in/shamim393</a></p>
-    <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank">md.shamimalrazi.393</a></p>
-    <p>Twitter: <a href="https://x.com/Shamim393" target="_blank">@Shamim393</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/shamim393/" target="_blank" rel="noopener">linkedin.com/in/shamim393</a></p>
+    <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank" rel="noopener">md.shamimalrazi.393</a></p>
+    <p>Twitter: <a href="https://x.com/Shamim393" target="_blank" rel="noopener">@Shamim393</a></p>
   </section>
 
   <!-- Password Change Section -->
   <section id="change-pass-section">
     <h2>Change Author ID & Password</h2>
-    <input type="text" id="new-author-id" placeholder="New Author ID" />
-    <input type="password" id="new-author-pass" placeholder="New Password" />
+    <input type="text" id="new-author-id" placeholder="New Author ID" autocomplete="username" />
+    <input type="password" id="new-author-pass" placeholder="New Password" autocomplete="new-password" />
     <button onclick="changeAuthorCredentials()">Save Changes</button>
   </section>
 
@@ -207,44 +224,54 @@
   </footer>
 
   <script>
-    // Initial author credentials
+    // Initialize author credentials from localStorage or defaults
     let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
     let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
     let isAuthorLoggedIn = false;
 
-    // Object to hold uploaded files by section
-    // Each key holds an array of {name, url}
-    let uploadedFiles = {
-      fusion: [],
-      publications: [],
-      writings: []
-    };
+    // Load uploaded files from localStorage or empty arrays per section
+    let uploadedFiles = JSON.parse(localStorage.getItem("uploaded_files") || 
+      '{"fusion":[],"publications":[],"writings":[]}');
 
+    // Check login credentials and toggle UI accordingly
     function checkAuthorLogin() {
       const id = document.getElementById("author-id").value.trim();
       const pass = document.getElementById("author-password").value.trim();
       if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
         isAuthorLoggedIn = true;
         alert("Login successful!");
-        document.getElementById("author-login").style.display = "none";
-        document.getElementById("author-logout").style.display = "block";
-        document.querySelectorAll('.upload-author-only').forEach(el => el.style.display = 'block');
-        document.getElementById("change-pass-section").style.display = "block";
+        toggleLoginUI();
         renderFiles();
       } else {
         alert("Invalid credentials.");
       }
     }
 
+    // Sign out author and reset UI
     function signOutAuthor() {
       isAuthorLoggedIn = false;
-      document.getElementById("author-login").style.display = "block";
-      document.getElementById("author-logout").style.display = "none";
-      document.querySelectorAll('.upload-author-only').forEach(el => el.style.display = 'none');
-      document.getElementById("change-pass-section").style.display = "none";
+      toggleLoginUI();
       renderFiles();
     }
 
+    // Show/hide upload controls, login/logout UI and password change form
+    function toggleLoginUI() {
+      document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
+      document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
+      document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
+
+      document.querySelectorAll('.upload-author-only').forEach(el => {
+        el.style.display = isAuthorLoggedIn ? "block" : "none";
+      });
+
+      // Clear login inputs on sign out
+      if (!isAuthorLoggedIn) {
+        document.getElementById("author-id").value = "";
+        document.getElementById("author-password").value = "";
+      }
+    }
+
+    // Upload a file to specific section
     function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to upload.");
@@ -253,61 +280,88 @@
       const input = document.getElementById(inputId);
       const file = input.files[0];
       if (!file) return alert("Please select a file first.");
-      const fakeUrl = URL.createObjectURL(file);
-      uploadedFiles[section].push({ name: file.name, url: fakeUrl });
-      alert(`Simulated upload to ${section}: ${file.name}`);
-      input.value = ""; // Clear input
-      renderFiles();
+
+      // Read file as Data URL for persistence
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+
+        // Save file info: name + dataUrl
+        uploadedFiles[section].push({ name: file.name, dataUrl });
+        saveFiles();
+        alert(`Uploaded '${file.name}' to ${section}.`);
+        input.value = "";
+        renderFiles();
+      };
+      reader.readAsDataURL(file);
     }
 
+    // Delete file from section at index
     function deleteFile(section, index) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to delete files.");
         return;
       }
-      if (!confirm("Delete this file?")) return;
+      if (!confirm("Are you sure you want to delete this file?")) return;
       uploadedFiles[section].splice(index, 1);
+      saveFiles();
       renderFiles();
     }
 
-    function renderFiles() {
-      // Fusion files
-      const fusionDiv = document.getElementById("fusion-files");
-      fusionDiv.innerHTML = "";
-      uploadedFiles.fusion.forEach((file, i) => {
-        fusionDiv.innerHTML += `
-          <p>
-            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
-            ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', ${i})" style="margin-left:10px;">Delete</button>` : ''}
-          </p>`;
-      });
-      if(uploadedFiles.fusion.length === 0) fusionDiv.textContent = "No files uploaded.";
-
-      // Publications files
-      const pubDiv = document.getElementById("publication-files");
-      pubDiv.innerHTML = "";
-      uploadedFiles.publications.forEach((file, i) => {
-        pubDiv.innerHTML += `
-          <p>
-            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
-            ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', ${i})" style="margin-left:10px;">Delete</button>` : ''}
-          </p>`;
-      });
-      if(uploadedFiles.publications.length === 0) pubDiv.textContent = "No files uploaded.";
-
-      // Writings files
-      const writeDiv = document.getElementById("writing-files");
-      writeDiv.innerHTML = "";
-      uploadedFiles.writings.forEach((file, i) => {
-        writeDiv.innerHTML += `
-          <p>
-            <a href="${file.url}" target="_blank" rel="noopener">${file.name}</a>
-            ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', ${i})" style="margin-left:10px;">Delete</button>` : ''}
-          </p>`;
-      });
-      if(uploadedFiles.writings.length === 0) writeDiv.textContent = "No files uploaded.";
+    // Save uploadedFiles to localStorage for persistence
+    function saveFiles() {
+      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
     }
 
+    // Render files in their respective sections with delete buttons for author
+    function renderFiles() {
+      // Fusion
+      const fusionDiv = document.getElementById("fusion-files");
+      fusionDiv.innerHTML = "";
+      if(uploadedFiles.fusion.length === 0) {
+        fusionDiv.textContent = "No files uploaded.";
+      } else {
+        uploadedFiles.fusion.forEach((file, i) => {
+          fusionDiv.innerHTML += `
+            <div class="file-item">
+              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
+              ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', ${i})">Delete</button>` : ''}
+            </div>`;
+        });
+      }
+
+      // Publications
+      const pubDiv = document.getElementById("publication-files");
+      pubDiv.innerHTML = "";
+      if(uploadedFiles.publications.length === 0) {
+        pubDiv.textContent = "No files uploaded.";
+      } else {
+        uploadedFiles.publications.forEach((file, i) => {
+          pubDiv.innerHTML += `
+            <div class="file-item">
+              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
+              ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', ${i})">Delete</button>` : ''}
+            </div>`;
+        });
+      }
+
+      // Writings
+      const writeDiv = document.getElementById("writing-files");
+      writeDiv.innerHTML = "";
+      if(uploadedFiles.writings.length === 0) {
+        writeDiv.textContent = "No files uploaded.";
+      } else {
+        uploadedFiles.writings.forEach((file, i) => {
+          writeDiv.innerHTML += `
+            <div class="file-item">
+              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
+              ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', ${i})">Delete</button>` : ''}
+            </div>`;
+        });
+      }
+    }
+
+    // Fetch YouTube videos and show
     function fetchVideos() {
       const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
       const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
@@ -327,9 +381,13 @@
               videosDiv.appendChild(iframe);
             }
           });
+        })
+        .catch(() => {
+          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
         });
     }
 
+    // Change author credentials and log out immediately
     function changeAuthorCredentials() {
       if (!isAuthorLoggedIn) {
         alert("Please login first.");
@@ -356,8 +414,10 @@
       document.getElementById("new-author-pass").value = "";
     }
 
+    // On page load
     window.onload = () => {
       fetchVideos();
+      toggleLoginUI();
       renderFiles();
     };
   </script>
