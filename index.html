@@ -99,7 +99,7 @@
     }
   </style>
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbx97xuAGkZO1HsP4RuTBm9_PCd-7xAzlLqKPbdiE4NMj_jEKFfDvXGUpxQXjuZgcsZMsw/exec"; // Replace this
+    const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_DEPLOYED_WEB_APP_URL/exec";
 
     function uploadFile(inputId) {
       const fileInput = document.getElementById(inputId);
@@ -142,7 +142,7 @@
     }
 
     const channelId = "UCZpabp4C9ttk68-G1_SOsJQ"; // Replace
-    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU"; // Replace
+    const apiKey = "YOUR_YOUTUBE_API_KEY"; // Replace
 
     function fetchVideos() {
       fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
@@ -202,6 +202,31 @@
 
     <h3>Latest YouTube Videos</h3>
     <div id="youtube-videos">Loading videos...</div>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+    <p>Upload academic or research publications.</p>
+    <input type="file" id="pubUpload" accept="application/pdf" />
+    <button onclick="uploadFile('pubUpload')">Upload</button>
+    <div id="download-list">Loading files...</div>
+  </section>
+
+  <section id="writings">
+    <h2>Writings</h2>
+    <p>Upload creative writings, poems, or reflections.</p>
+    <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
+    <button onclick="uploadFile('writeUpload')">Upload</button>
+    <div id="download-list">Loading files...</div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:shamim393393@gmail.com">shamim393393@gmail.com</a></p>
+    <p>Phone: <a href="tel:+8801628912047">01628912047</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/shamim393/" target="_blank">linkedin.com/in/shamim393</a></p>
+    <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank">md.shamimalrazi.393</a></p>
+    <p>Twitter: <a href="https://x.com/Shamim393" target="_blank">@Shamim393</a></p>
   </section>
 
   <footer>
