@@ -76,7 +76,7 @@
       margin-bottom: 20px;
       color: #2c3e50;
     }
-    input, textarea, button {
+    input, button {
       font-size: 16px;
       padding: 8px;
       margin: 5px 0;
@@ -94,6 +94,9 @@
     }
     .upload-author-only {
       display: none;
+    }
+    #youtube-videos iframe {
+      margin: 10px;
     }
     footer {
       background-color: #2c3e50;
@@ -122,7 +125,7 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <!-- Author login -->
+  <!-- Author Login -->
   <div id="author-login" style="text-align:center; margin: 20px;">
     <h3>Author Login</h3>
     <input type="text" id="author-id" placeholder="Author ID" /><br/>
@@ -130,7 +133,7 @@
     <button onclick="checkAuthorLogin()">Login</button>
   </div>
 
-  <!-- Change Password -->
+  <!-- Password Change -->
   <div id="change-password" style="display:none; text-align:center; margin: 20px;">
     <h3>Change Password</h3>
     <input type="password" id="old-pass" placeholder="Old Password" /><br/>
@@ -150,6 +153,9 @@
       <input type="file" id="fusionUpload" />
       <button onclick="uploadFile('fusionUpload')">Upload</button>
     </div>
+
+    <h3>Latest YouTube Videos</h3>
+    <div id="youtube-videos">Loading videos...</div>
   </section>
 
   <section id="publications">
@@ -159,6 +165,10 @@
       <input type="file" id="pubUpload" />
       <button onclick="uploadFile('pubUpload')">Upload</button>
     </div>
+    <div class="download-list" id="pubFiles">
+      <p><a href="#">Sample_Publication_1.pdf</a></p>
+      <p><a href="#">Research_Article_2.pdf</a></p>
+    </div>
   </section>
 
   <section id="writings">
@@ -167,6 +177,10 @@
     <div class="upload-author-only">
       <input type="file" id="writeUpload" />
       <button onclick="uploadFile('writeUpload')">Upload</button>
+    </div>
+    <div class="download-list" id="writeFiles">
+      <p><a href="#">My_Poem.pdf</a></p>
+      <p><a href="#">Reflection.txt</a></p>
     </div>
   </section>
 
@@ -225,18 +239,39 @@
       AUTHOR_PASSWORD = newPass;
       localStorage.setItem("author_pass", newPass);
       alert("Password changed successfully.");
-      document.getElementById("old-pass").value = "";
-      document.getElementById("new-pass").value = "";
-      document.getElementById("confirm-pass").value = "";
     }
 
     function uploadFile(inputId) {
       const fileInput = document.getElementById(inputId);
       const file = fileInput.files[0];
       if (!file) return alert("Please select a file first.");
-      alert(`Uploading ${file.name} (this is just a mock upload).`);
-      // Real upload logic goes here
+      alert("Simulated upload: " + file.name);
     }
+
+    function fetchVideos() {
+      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+
+      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
+        .then(res => res.json())
+        .then(data => {
+          const videosDiv = document.getElementById('youtube-videos');
+          videosDiv.innerHTML = '';
+          if (!data.items) return videosDiv.textContent = 'No videos found.';
+          data.items.forEach(item => {
+            if (item.id.kind === "youtube#video") {
+              const iframe = document.createElement('iframe');
+              iframe.width = "320";
+              iframe.height = "180";
+              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
+              iframe.allowFullscreen = true;
+              videosDiv.appendChild(iframe);
+            }
+          });
+        });
+    }
+
+    window.onload = fetchVideos;
   </script>
 </body>
 </html>
