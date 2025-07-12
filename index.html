@@ -8,12 +8,10 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Segoe UI', sans-serif;
       background-color: #f5f7fa;
       color: #333;
     }
-
     header {
       background-color: #2c3e50;
       padding: 30px 20px;
@@ -22,11 +20,9 @@
       justify-content: space-between;
       flex-wrap: wrap;
     }
-
     .logo {
       height: 80px;
     }
-
     .profile {
       height: 80px;
       width: 80px;
@@ -35,23 +31,19 @@
       border: 2px solid #fff;
       box-shadow: 0 0 5px rgba(0,0,0,0.4);
     }
-
     .header-text {
       flex: 1;
       text-align: center;
       color: white;
     }
-
     .header-text h1 {
       margin: 10px 0 5px;
       font-size: 24px;
     }
-
     .header-text p {
       margin: 0;
       font-size: 16px;
     }
-
     nav {
       background-color: #34495e;
       display: flex;
@@ -60,75 +52,44 @@
       gap: 25px;
       padding: 12px 0;
     }
-
     nav a {
       color: white;
       text-decoration: none;
       font-weight: bold;
       transition: color 0.3s;
     }
-
     nav a:hover {
       color: #ffd700;
     }
-
     section {
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
     }
-
     h2 {
       border-bottom: 2px solid #ccc;
       padding-bottom: 8px;
       margin-bottom: 20px;
       color: #2c3e50;
     }
-
-    p, li {
-      font-size: 17px;
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
-    a.button {
-      display: inline-block;
-      background-color: #e74c3c;
-      color: white;
-      padding: 10px 20px;
-      margin-top: 10px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    a.button:hover, button.button:hover {
-      background-color: #c0392b;
-      cursor: pointer;
-    }
-
-    button.button {
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-      background-color: #e74c3c;
+    input, textarea, button {
       font-size: 16px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
+      padding: 8px;
+      margin: 5px 0;
+    }
+    button {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
     }
-
-    button.button:disabled {
-      background-color: #999;
-      cursor: not-allowed;
+    button:hover {
+      background: #c0392b;
     }
-
+    #youtube-videos iframe {
+      margin: 10px;
+    }
     footer {
       background-color: #2c3e50;
       color: white;
@@ -136,150 +97,115 @@
       padding: 30px 20px;
       font-size: 15px;
     }
-
-    .social-links a {
-      margin: 0 10px;
-      color: #ffffff;
-      text-decoration: none;
-    }
-
-    .social-links a:hover {
-      text-decoration: underline;
-    }
-
-    /* Hamburger icon styling */
-    .hamburger-icon {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 20px;
-      height: 16px;
-    }
-
-    .hamburger-icon span {
-      display: block;
-      height: 3px;
-      background-color: white;
-      border-radius: 2px;
-    }
-
-    @media screen and (max-width: 600px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .logo, .profile {
-        margin: 10px 0;
-      }
-    }
   </style>
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbx97xuAGkZO1HsP4RuTBm9_PCd-7xAzlLqKPbdiE4NMj_jEKFfDvXGUpxQXjuZgcsZMsw/exec"; // Replace this
+
+    function uploadFile(inputId) {
+      const fileInput = document.getElementById(inputId);
+      const file = fileInput.files[0];
+      if (!file) return alert("Select a file first.");
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const base64Data = e.target.result.split(",")[1];
+
+        const formData = new FormData();
+        formData.append("file", base64Data);
+        formData.append("fileName", file.name);
+        formData.append("contentType", file.type);
+
+        fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData
+        })
+        .then((res) => res.json())
+        .then((res) => {
+          alert("Upload successful!");
+          loadFiles();
+        })
+        .catch((err) => alert("Upload failed: " + err.message));
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadFiles() {
+      fetch(SCRIPT_URL)
+        .then((res) => res.json())
+        .then((files) => {
+          const container = document.getElementById("download-list");
+          container.innerHTML = "";
+          files.forEach((f) => {
+            container.innerHTML += `<p><a href="${f.downloadUrl}" target="_blank">${f.name}</a></p>`;
+          });
+        });
+    }
+
+    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ"; // Replace
+    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU"; // Replace
+
+    function fetchVideos() {
+      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
+        .then(res => res.json())
+        .then(data => {
+          const videosDiv = document.getElementById('youtube-videos');
+          videosDiv.innerHTML = '';
+          if (!data.items) return videosDiv.textContent = 'No videos found.';
+          data.items.forEach(item => {
+            if (item.id.kind === "youtube#video") {
+              const videoId = item.id.videoId;
+              const iframe = document.createElement('iframe');
+              iframe.width = "320";
+              iframe.height = "180";
+              iframe.src = `https://www.youtube.com/embed/${videoId}`;
+              iframe.allowFullscreen = true;
+              videosDiv.appendChild(iframe);
+            }
+          });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadFiles();
+      fetchVideos();
+    });
+  </script>
 </head>
 <body>
+  <header>
+    <img src="buet-logo.png" alt="BUET Logo" class="logo" />
+    <div class="header-text">
+      <h1>Md. Shamim Al Razi</h1>
+      <p>Materials & Metallurgical Engineering Student | BUET</p>
+    </div>
+    <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
+  </header>
 
-<header>
-  <img src="buet-logo.png" alt="BUET Logo" class="logo" />
-  <div class="header-text">
-    <h1>Md. Shamim Al Razi</h1>
-    <p>Materials & Metallurgical Engineering Student | BUET</p>
-  </div>
-  <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
-</header>
+  <nav>
+    <a href="#fusion">Fusion Shilpigosti</a>
+    <a href="#publications">Publications</a>
+    <a href="#writings">Writings</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-<nav>
-  <a href="#fusion">Fusion Shilpigosti</a>
-  <a href="#publications">Publications</a>
-  <a href="#writings">Writings</a>
-  <a href="#contact">Contact</a>
-</nav>
+  <section id="fusion">
+    <h2>Fusion Shilpigosti</h2>
+    <p>Explore music and videos under Fusion Shilpigosti.</p>
+    <a class="button" href="https://youtube.com/@fusion_393" target="_blank">Watch on YouTube</a>
 
-<section id="fusion">
-  <h2>Fusion Shilpigosti</h2>
-  <p>Explore my creative identity through music, video content, and emotional expression under the banner of Fusion Shilpigosti.</p>
-  <a class="button" href="https://youtube.com/@fusion_393?si=M0dZgtncti7y34bU" target="_blank">Watch on YouTube</a><br><br>
-  <a class="button" href="https://www.facebook.com/IslamInMyHeart11/" target="_blank">Follow on Facebook Page</a>
+    <h3>Upload Your Music or Video</h3>
+    <input type="file" id="fusionUpload" accept="video/*,audio/*" />
+    <button onclick="uploadFile('fusionUpload')">Upload</button>
 
-  <h3 style="margin-top: 30px;">Upload Your Music or Performance</h3>
-  <input type="file" />
-  <button disabled title="Upload not available in GitHub Pages">Upload</button>
-  <p style="font-size: 13px; color: #888;">(Upload not functional without backend)</p>
+    <h3>Public Downloads</h3>
+    <div id="download-list">Loading files...</div>
 
-  <h3 style="margin-top: 40px;">Join with Fusion Shilpigosti</h3>
-  
-  <button onclick="document.getElementById('joinForm').style.display='block'" class="button">
-    <span class="hamburger-icon" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-    </span>
-    Join Fusion
-  </button>
-  <p style="font-size: 14px; color: #555; max-width: 400px; margin-top: 8px;">
-    Become part of the Fusion Shilpigosti community! Share your talent and creativity with us.
-  </p>
+    <h3>Latest YouTube Videos</h3>
+    <div id="youtube-videos">Loading videos...</div>
+  </section>
 
-  <div id="joinForm" style="display:none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; background: #f0f0f0; border-radius: 8px;">
-    <p><strong>Fill the form below to express interest:</strong></p>
-    <form action="https://formsubmit.co/shamim393393@gmail.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <label>Name:</label><br>
-      <input type="text" name="name" placeholder="Your name" required style="width:100%; margin-bottom:10px;"><br>
-      <label>Email:</label><br>
-      <input type="email" name="email" placeholder="Your email" required style="width:100%; margin-bottom:10px;"><br>
-      <label>Why do you want to join?</label><br>
-      <textarea name="message" placeholder="Tell us briefly" required style="width:100%; height:70px; margin-bottom:10px;"></textarea><br>
-      <button type="submit" class="button">Submit</button>
-    </form>
-  </div>
-</section>
-
-<section id="publications">
-  <h2>Publications</h2>
-  <ul>
-    <li>Coming soon: My academic research and creative publications will be listed here.</li>
-    <li>Steelmaking, Failure Analysis, and Metallurgical Insights.</li>
-  </ul>
-
-  <h3 style="margin-top: 30px;">Upload a New Publication (PDF)</h3>
-  <input type="file" accept=".pdf" />
-  <button disabled title="Upload not available in GitHub Pages">Upload</button>
-  <p style="font-size: 13px; color: #888;">(Upload not functional without backend)</p>
-</section>
-
-<section id="writings">
-  <h2>Writings</h2>
-  <p>I write about engineering, life reflections, and creative ideas. Blog content and original thoughts will be published here soon.</p>
-
-  <h3 style="margin-top: 30px;">Upload Your Writings (PDF/DOC)</h3>
-  <input type="file" accept=".pdf,.doc,.docx" />
-  <button disabled title="Upload not available in GitHub Pages">Upload</button>
-  <p style="font-size: 13px; color: #888;">(Upload not functional without backend)</p>
-</section>
-
-<section id="contact">
-  <h2>Contact Me</h2>
-  <p>Email: <a href="mailto:shamim393393@gmail.com">shamim393393@gmail.com</a></p>
-  <p>Phone: <a href="tel:+8801628912047">01628912047</a></p>
-  <p>LinkedIn: <a href="https://www.linkedin.com/in/shamim393/" target="_blank">linkedin.com/in/shamim393</a></p>
-  <p>Facebook: <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank">md.shamimalrazi.393</a></p>
-  <p>Twitter: <a href="https://x.com/Shamim393" target="_blank">@Shamim393</a></p>
-
-  <h3 style="margin-top: 30px;">Upload Your CV/Resume</h3>
-  <input type="file" accept=".pdf" />
-  <button disabled title="Upload not available in GitHub Pages">Upload</button>
-  <p style="font-size: 13px; color: #888;">(Upload not functional without backend)</p>
-</section>
-
-<footer>
-  <p>Thanks for visiting my official site. I'm constantly exploring, learning, and building across music and metallurgy.</p>
-  <div class="social-links">
-    <a href="https://youtube.com/@fusion_393" target="_blank">YouTube</a> |
-    <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank">Facebook</a> |
-    <a href="https://www.linkedin.com/in/shamim393/" target="_blank">LinkedIn</a> |
-    <a href="https://x.com/Shamim393" target="_blank">Twitter</a>
-  </div>
-  <p style="margin-top: 10px;">&copy; 2025 Md. Shamim Al Razi. All rights reserved.</p>
-</footer>
-
+  <footer>
+    <p>&copy; 2025 Md. Shamim Al Razi. All rights reserved.</p>
+  </footer>
 </body>
 </html>
