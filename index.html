@@ -547,30 +547,62 @@
     }
 
     // Fetch YouTube videos and show
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
-        .then(res => res.json())
-        .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
-            }
-          });
-        })
-        .catch(() => {
-          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
-        });
+    // Replace the existing fetchVideos() function with this:
+async function fetchVideos() {
+  const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+  const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+  const videosDiv = document.getElementById('youtube-videos');
+  
+  // Show loading state
+  videosDiv.innerHTML = '<div style="padding:20px;text-align:center">Loading videos...</div>';
+  
+  try {
+    // First get channel details to find uploads playlist
+    const channelResponse = await fetch(
+      `https://www.googleapis.com/youtube/v3/channels?key=${apiKey}&id=${channelId}&part=contentDetails`
+    );
+    const channelData = await channelResponse.json();
+    
+    if (!channelData.items?.length) {
+      throw new Error("Channel not found");
     }
+    
+    const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+    
+    // Then get videos from uploads playlist
+    const playlistResponse = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?key=${apiKey}&playlistId=${uploadsPlaylistId}&part=snippet&maxResults=4`
+    );
+    const playlistData = await playlistResponse.json();
+    
+    videosDiv.innerHTML = '';
+    
+    if (!playlistData.items?.length) {
+      videosDiv.innerHTML = '<div style="padding:20px;text-align:center">No videos found</div>';
+      return;
+    }
+    
+    playlistData.items.forEach(item => {
+      const videoId = item.snippet.resourceId.videoId;
+      const iframe = document.createElement('iframe');
+      iframe.width = "100%";
+      iframe.height = "315";
+      iframe.src = `https://www.youtube.com/embed/${videoId}`;
+      iframe.frameBorder = "0";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      videosDiv.appendChild(iframe);
+    });
+    
+  } catch (error) {
+    console.error("YouTube API error:", error);
+    videosDiv.innerHTML = `
+      <div style="padding:20px;text-align:center;color:#e74c3c">
+        Failed to load videos. 
+        <br>Visit my <a href="https://youtube.com/@fusion_393" target="_blank" style="color:#3498db">YouTube channel</a>
+      </div>`;
+  }
+}
 
     // Change author credentials and log out immediately
     function changeAuthorCredentials() {
