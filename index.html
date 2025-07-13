@@ -1870,20 +1870,22 @@
       document.getElementById("home-display").style.display = "none";
     });
     
+    // Save Home Information
     function saveHomeInfo() {
-      contentData.home.name = document.getElementById("edit-home-name").value;
-      contentData.home.school = document.getElementById("edit-home-school").value;
-      contentData.home.dept = document.getElementById("edit-home-dept").value;
-      contentData.home.id = document.getElementById("edit-home-id").value;
-      contentData.home.level = document.getElementById("edit-home-level").value;
-      contentData.home.term = document.getElementById("edit-home-term").value;
-      contentData.home.session = document.getElementById("edit-home-session").value;
-      contentData.home.hall = document.getElementById("edit-home-hall").value;
-      contentData.home.address = document.getElementById("edit-home-address").value;
-      
+      contentData.home.name = document.getElementById("edit-home-name").value.trim();
+      contentData.home.school = document.getElementById("edit-home-school").value.trim();
+      contentData.home.dept = document.getElementById("edit-home-dept").value.trim();
+      contentData.home.id = document.getElementById("edit-home-id").value.trim();
+      contentData.home.level = document.getElementById("edit-home-level").value.trim();
+      contentData.home.term = document.getElementById("edit-home-term").value.trim();
+      contentData.home.session = document.getElementById("edit-home-session").value.trim();
+      contentData.home.hall = document.getElementById("edit-home-hall").value.trim();
+      contentData.home.address = document.getElementById("edit-home-address").value.trim();
+    
       saveData();
       renderContent();
-      
+    
+      // Hide edit form, show display section
       document.getElementById("home-edit-form").style.display = "none";
       document.getElementById("home-display").style.display = "flex";
     }
@@ -1906,21 +1908,32 @@
       document.getElementById("about-display").style.display = "none";
     });
     
+    // Save About Information
     function saveAboutInfo() {
-      contentData.about.name = document.getElementById("edit-about-name").value;
-      contentData.about.dob = document.getElementById("edit-about-dob").value;
-      contentData.about.nationality = document.getElementById("edit-about-nationality").value;
-      contentData.about.address = document.getElementById("edit-about-address").value;
-      contentData.about.university = document.getElementById("edit-about-university").value;
-      contentData.about.college = document.getElementById("edit-about-college").value;
-      contentData.about.school = document.getElementById("edit-about-school").value;
-      contentData.about.skills = document.getElementById("edit-about-skills").value.split(",").map(s => s.trim());
-      contentData.about.bio = document.getElementById("edit-about-bio").value;
-      contentData.about.hobbies = document.getElementById("edit-about-hobbies").value.split(",").map(s => s.trim());
-      
+      contentData.about.name = document.getElementById("edit-about-name").value.trim();
+      contentData.about.dob = document.getElementById("edit-about-dob").value.trim();
+      contentData.about.nationality = document.getElementById("edit-about-nationality").value.trim();
+      contentData.about.address = document.getElementById("edit-about-address").value.trim();
+      contentData.about.university = document.getElementById("edit-about-university").value.trim();
+      contentData.about.college = document.getElementById("edit-about-college").value.trim();
+      contentData.about.school = document.getElementById("edit-about-school").value.trim();
+    
+      // Convert comma-separated strings to arrays and trim each item
+      contentData.about.skills = document.getElementById("edit-about-skills").value
+        .split(",")
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+    
+      contentData.about.bio = document.getElementById("edit-about-bio").value.trim();
+    
+      contentData.about.hobbies = document.getElementById("edit-about-hobbies").value
+        .split(",")
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+    
       saveData();
       renderContent();
-      
+    
       document.getElementById("about-edit-form").style.display = "none";
       document.getElementById("about-display").style.display = "flex";
     }
@@ -1937,15 +1950,16 @@
       document.getElementById("research-display").style.display = "none";
     });
     
+    // Save Research Information
     function saveResearchInfo() {
-      contentData.research.area = document.getElementById("edit-research-area").value;
-      contentData.research.duration = document.getElementById("edit-research-duration").value;
-      contentData.research.supervisor = document.getElementById("edit-research-supervisor").value;
-      contentData.research.description = document.getElementById("edit-research-description").value;
-      
+      contentData.research.area = document.getElementById("edit-research-area").value.trim();
+      contentData.research.duration = document.getElementById("edit-research-duration").value.trim();
+      contentData.research.supervisor = document.getElementById("edit-research-supervisor").value.trim();
+      contentData.research.description = document.getElementById("edit-research-description").value.trim();
+    
       saveData();
       renderContent();
-      
+    
       document.getElementById("research-edit-form").style.display = "none";
       document.getElementById("research-display").style.display = "block";
     }
@@ -1963,16 +1977,17 @@
       document.getElementById("contact-display").style.display = "none";
     });
     
+    // Save Contact Information
     function saveContactInfo() {
-      contentData.contact.email = document.getElementById("edit-contact-email").value;
-      contentData.contact.phone = document.getElementById("edit-contact-phone").value;
-      contentData.contact.linkedin = document.getElementById("edit-contact-linkedin").value;
-      contentData.contact.facebook = document.getElementById("edit-contact-facebook").value;
-      contentData.contact.twitter = document.getElementById("edit-contact-twitter").value;
-      
+      contentData.contact.email = document.getElementById("edit-contact-email").value.trim();
+      contentData.contact.phone = document.getElementById("edit-contact-phone").value.trim();
+      contentData.contact.linkedin = document.getElementById("edit-contact-linkedin").value.trim();
+      contentData.contact.facebook = document.getElementById("edit-contact-facebook").value.trim();
+      contentData.contact.twitter = document.getElementById("edit-contact-twitter").value.trim();
+    
       saveData();
       renderContent();
-      
+    
       document.getElementById("contact-edit-form").style.display = "none";
       document.getElementById("contact-display").style.display = "grid";
     }
