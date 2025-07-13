@@ -1430,6 +1430,59 @@
     </div>
   </footer>
 
+      <style>
+      /* Hide edit buttons and upload areas by default */
+      .edit-btn,
+      .upload-area,
+      .file-actions {
+        display: none !important;
+      }
+    </style>
+    
+    <script>
+      // Assume these are defined somewhere globally in your script
+      // let isAuthorLoggedIn = false; 
+      // const AUTHOR_ID = "admin"; // example
+      // const AUTHOR_PASSWORD = "password"; // example
+    
+      // Function to toggle UI elements based on login status
+      function toggleLoginUI() {
+        const showElements = isAuthorLoggedIn;
+        
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+          btn.style.display = showElements ? "block" : "none";
+        });
+        
+        document.querySelectorAll('.upload-area').forEach(el => {
+          el.style.display = showElements ? "block" : "none";
+        });
+        
+        document.querySelectorAll('.file-actions').forEach(el => {
+          el.style.display = showElements ? "flex" : "none";
+        });
+        
+        // Example toggles for login/logout UI
+        if (isAuthorLoggedIn) {
+          document.querySelector('.login-message')?.style.setProperty('display', 'block');
+          document.querySelector('.author-logout')?.style.setProperty('display', 'block');
+          document.getElementById('change-pass-section')?.style.setProperty('display', 'block');
+          document.getElementById('author-id').value = "";
+          document.getElementById('author-password').value = "";
+          alert("Welcome Author! You can now edit content.");
+        } else {
+          document.querySelector('.login-message')?.style.setProperty('display', 'none');
+          document.querySelector('.author-logout')?.style.setProperty('display', 'none');
+          document.getElementById('change-pass-section')?.style.setProperty('display', 'none');
+        }
+      }
+    
+      // Run on page load to apply initial UI state
+      document.addEventListener('DOMContentLoaded', () => {
+        toggleLoginUI();
+      });
+    </script>
+
+  
   <script>
     // Initialize data storage
     let contentData = {
