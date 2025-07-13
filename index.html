@@ -1133,30 +1133,38 @@
       </section>
 
       <!-- Work Experience Section -->
-      <section id="work" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
-          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
-        </div>
-        
-        
-<div class="upload-author-only">
-  <h3>Add Work Experience</h3>
-  <label>Position Title:</label>
-  <input type="text" id="work-title" class="editable-field" placeholder="e.g. Research Intern" />
+<section id="work" class="section">
+  <div class="section-header">
+    <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+    <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+  </div>
 
-  <label>Company/Institute:</label>
-  <input type="text" id="work-org" class="editable-field" placeholder="e.g. BUET" />
+  <!-- Add Work Experience Form -->
+  <div class="upload-author-only">
+    <h3>Add Work Experience</h3>
+    
+    <label>Position Title:</label>
+    <input type="text" id="work-title" class="editable-field" placeholder="e.g. Research Intern" />
 
-  <label>Duration:</label>
-  <input type="text" id="work-duration" class="editable-field" placeholder="e.g. Jan 2023 - May 2023" />
+    <label>Company/Institute:</label>
+    <input type="text" id="work-org" class="editable-field" placeholder="e.g. BUET" />
 
-  <label>Description:</label>
-  <textarea id="work-description" class="editable-field" rows="3" placeholder="e.g. Worked on nanomaterials..."></textarea>
+    <label>Duration:</label>
+    <input type="text" id="work-duration" class="editable-field" placeholder="e.g. Jan 2023 - May 2023" />
 
-  <button onclick="addWorkExperience()" class="btn-success"><i class="fas fa-plus"></i> Add Experience</button>
-</div>
+    <label>Description:</label>
+    <textarea id="work-description" class="editable-field" rows="3" placeholder="e.g. Worked on nanomaterials..."></textarea>
 
+    <button onclick="addWorkExperience()" class="btn-success"><i class="fas fa-plus"></i> Add Experience</button>
+  </div>
+
+  <!-- Timeline Container -->
+  <div class="timeline" id="work-experience">
+    <!-- Work experience items will be loaded here -->
+  </div>
+</section>
+
+<!-- JavaScript for Add/Delete -->
 <script>
   function addWorkExperience() {
     const title = document.getElementById("work-title").value.trim();
@@ -1177,18 +1185,72 @@
         <h4>${title}</h4>
         <div class="date"><i class="fas fa-calendar-alt"></i> ${duration}</div>
         <p><strong>${org}</strong><br>${desc}</p>
-      </div>`;
+        <button class="btn-danger delete-btn" onclick="deleteWorkExperience(this)">
+          <i class="fas fa-trash-alt"></i> Delete
+        </button>
+      </div>
+    `;
     container.appendChild(newItem);
 
-    // Clear fields
-    ["work-title", "work-org", "work-duration", "work-description"].forEach(id => document.getElementById(id).value = "");
+    // Clear form fields
+    ["work-title", "work-org", "work-duration", "work-description"].forEach(id => {
+      document.getElementById(id).value = "";
+    });
+  }
+
+  function deleteWorkExperience(button) {
+    const item = button.closest(".timeline-item");
+    if (item) item.remove();
   }
 </script>
-<div class="timeline" id="work-experience">
-          <!-- Work experience items will be loaded here -->
-        </div>
-      </section>
 
+<!-- Optional CSS for Delete Button -->
+<style>
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+
+  .timeline-item {
+    background: #f9f9f9;
+    border-left: 4px solid #007bff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+
+  .timeline-content h4 {
+    margin: 0 0 5px;
+  }
+
+  .timeline-content .date {
+    font-size: 0.9em;
+    color: #555;
+  }
+</style>
       <!-- Blog/Writings Section -->
       <section id="blog" class="section">
         <div class="section-header">
