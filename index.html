@@ -3,608 +3,247 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shamim Al Razi | BUET MME Student</title>
+  <title>Shamim Al Razi | Portfolio</title>
   <link rel="icon" href="favicon.ico" />
   <style>
-    /* Modern Color Scheme */
-    :root {
-      --primary: #2c3e50;
-      --secondary: #e74c3c;
-      --accent: #3498db;
-      --light: #ecf0f1;
-      --dark: #34495e;
-    }
-    
-    /* Base Styles */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
-    
-    /* Header Styles */
-    header {
-      background-color: var(--primary);
-      padding: 30px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    
-    .logo {
-      height: 80px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-    }
-    
-    .profile {
-      height: 80px;
-      width: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid white;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-    }
-    
-    .profile:hover {
-      transform: scale(1.05);
-    }
-    
-    .header-text {
-      flex: 1;
-      text-align: center;
-      color: white;
-      padding: 0 20px;
-    }
-    
-    .header-text h1 {
-      margin: 10px 0 5px;
-      font-size: 24px;
-      letter-spacing: 0.5px;
-    }
-    
-    .header-text p {
-      margin: 0;
-      font-size: 16px;
-      opacity: 0.9;
-    }
-    
-    /* Navigation Styles */
-    nav {
-      background-color: var(--dark);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 25px;
-      padding: 15px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-    }
-    
-    nav a:hover {
-      color: #ffd700;
-      background-color: rgba(255,255,255,0.1);
-    }
-    
-    /* Section Styles */
-    section {
-      padding: 40px;
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease;
-    }
-    
-    section:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-    
-    h2 {
-      border-bottom: 3px solid var(--accent);
-      padding-bottom: 12px;
-      margin-bottom: 25px;
-      color: var(--primary);
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-    }
-    
-    /* Form Elements */
-    input, button {
-      font-size: 16px;
-      padding: 12px;
-      margin: 10px 0;
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      transition: all 0.3s ease;
-    }
-    
-    input:focus {
-      border-color: var(--accent);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    }
-    
-    button {
-      background: var(--secondary);
-      color: white;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
-    }
-    
-    button:hover {
-      background: #c0392b;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
-    }
-    
-    /* Upload Sections */
-    .upload-author-only {
-      display: none;
-      margin-bottom: 30px;
-      padding: 20px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      border-left: 4px solid var(--accent);
-    }
-    
-    /* File Items */
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      padding: 12px;
-      background: white;
-      border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-    }
-    
-    .file-item:hover {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    
-    .file-item a {
-      word-break: break-all;
-      color: var(--primary);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .file-item a:hover {
-      color: var(--accent);
-      text-decoration: underline;
-    }
-    
-    .file-item button {
-      width: auto;
-      padding: 8px 16px;
-      font-size: 14px;
-      margin-left: 15px;
-    }
-    
-    /* YouTube Videos */
-    #youtube-videos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    #youtube-videos iframe {
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    
-    #youtube-videos iframe:hover {
-      transform: scale(1.02);
-    }
-    
-    /* Contact Section */
-    #contact p {
-      margin: 15px 0;
-      display: flex;
-      align-items: center;
-    }
-    
-    #contact a {
-      color: var(--secondary);
-      text-decoration: none;
-      margin-left: 8px;
-      transition: color 0.3s ease;
-    }
-    
-    #contact a:hover {
-      color: #c0392b;
-      text-decoration: underline;
-    }
-    
-    /* Password Change Section */
-    #change-pass-section {
-      max-width: 500px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      display: none;
-    }
-    
-    /* Footer */
-    footer {
-      background-color: var(--primary);
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-      margin-top: 50px;
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .logo, .profile {
-        margin-bottom: 20px;
-      }
-      
-      nav {
-        gap: 15px;
-        padding: 10px;
-      }
-      
-      section {
-        padding: 25px;
-        margin: 20px auto;
-      }
-      
-      #youtube-videos {
-        grid-template-columns: 1fr;
-      }
-    }
+    :root { --primary:#2c3e50;--secondary:#e74c3c;--accent:#3498db;--light:#ecf0f1;--dark:#34495e; }
+    body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f7fa;color:#333;line-height:1.6;}
+    header{background:var(--primary);padding:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+    .logo{height:60px;}
+    .profile{height:60px;width:60px;border-radius:50%;object-fit:cover;border:2px solid #fff;}
+    .header-text{flex:1;text-align:center;color:#fff;}
+    nav{background:var(--dark);display:flex;flex-wrap:wrap;justify-content:center;padding:10px;position:sticky;top:0;z-index:100;}
+    nav a{color:#fff;padding:8px 12px;text-decoration:none;margin:2px;border-radius:4px;}
+    nav a:hover{background:rgba(255,255,255,0.1);}
+    section{background:#fff;max-width:800px;margin:20px auto;padding:20px;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+    h2{border-bottom:2px solid var(--accent);padding-bottom:8px;color:var(--primary);}
+    input,textarea,button{width:100%;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:4px;}
+    button{background:var(--secondary);color:#fff;border:none;cursor:pointer;}
+    button:hover{opacity:0.9;}
+    .upload-author-only{display:none;border-left:4px solid var(--accent);background:#f9f9f9;padding:10px;}
+    .download-list .file-item{display:flex;justify-content:space-between;align-items:center;background:#eee;padding:6px;border-radius:4px;margin:4px 0;}
+    iframe{width:100%;height:200px;border:none;border-radius:4px;}
+    footer{background:var(--dark);color:#fff;text-align:center;padding:20px;margin-top:20px;}
+    @media(max-width:600px){header,nav,section{padding:10px;}iframe{height:150px;}}
   </style>
 </head>
 <body>
   <header>
-    <img src="buet-logo.png" alt="BUET Logo" class="logo" />
+    <img class="logo" src="https://drive.google.com/uc?export=view&id=1ybT-H0OS-aX-EenazWq5ywZZspI4ZbZ5" alt="BUET Logo" />
     <div class="header-text">
-      <h1>Md. Shamim Al Razi</h1>
-      <p>Materials & Metallurgical Engineering Student | BUET</p>
+      <h1 id="disp-name">Md. Shamim Al Razi</h1>
+      <p id="disp-title">Materials & Metallurgical Engineering Student | BUET</p>
     </div>
-    <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
+    <img id="top-profile" class="profile" src="" alt="Profile" />
   </header>
 
   <nav>
-    <a href="#fusion">Fusion Shilpigosti</a>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="https://script.google.com/macros/s/AKfycbzFPc-oOl6sBB0khxc_2rd2MxDEB8nujcxxd4-xB65amh3qFhJGzK8RmF4wLaj9Rpch/exec?fusion">Fusion</a>
     <a href="#publications">Publications</a>
+    <a href="#research">Research</a>
+    <a href="#work">Work</a>
     <a href="#writings">Writings</a>
+    <a href="#certifications">Certifications</a>
     <a href="#contact">Contact</a>
   </nav>
 
-  <div id="author-login" style="text-align:center; margin: 30px auto; max-width: 500px;">
-    <h3 style="color: var(--primary); margin-bottom: 20px;">Author Login</h3>
-    <input type="text" 
-           id="author-id" 
-           placeholder="Author ID" 
-           autocomplete="username" />
-    <input type="password" 
-           id="author-password" 
-           placeholder="Password" 
-           autocomplete="current-password" />
+  <div id="author-login" style="max-width:300px;margin:20px auto;">
+    <h3>Author Login</h3>
+    <input id="author-id" placeholder="Author ID" />
+    <input id="author-pass" type="password" placeholder="Password" />
     <button onclick="checkAuthorLogin()">Login</button>
   </div>
-
-  <div id="author-logout" style="display:none; text-align:center; margin: 30px auto; max-width: 500px;">
-    <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-      <h3 style="color: var(--primary); margin-bottom: 10px;">Welcome, Author!</h3>
-      <p style="color: #2e7d32;">You have access to manage content</p>
-    </div>
-    <button onclick="signOutAuthor()" style="max-width: 200px; margin: 0 auto;">Sign Out</button>
+  <div id="author-logout" style="display:none;text-align:center;max-width:300px;margin:20px auto;">
+    <h3>Welcome, Author!</h3>
+    <button onclick="signOutAuthor()">Sign Out</button>
   </div>
+
+  <section id="home">
+    <h2>Home</h2>
+    <img id="home-img" class="profile" src="" alt="Profile" />
+    <p><strong>Name:</strong> <span id="disp-home-name"></span></p>
+    <p><strong>School:</strong> <span id="disp-home-school"></span></p>
+    <p><strong>Address:</strong> <span id="disp-home-address"></span></p>
+    <div class="upload-author-only">
+      <input id="home-name" placeholder="Name" />
+      <input id="home-school" placeholder="School" />
+      <input id="home-address" placeholder="Address" />
+      <input type="file" id="homePicUpload" accept="image/*" />
+      <button onclick="saveHome()">Save</button>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <p><strong>Address:</strong> <span id="disp-about-address"></span></p>
+    <p><strong>School:</strong> <span id="disp-about-school"></span></p>
+    <p><strong>College:</strong> <span id="disp-about-college"></span></p>
+    <p><strong>University:</strong> <span id="disp-about-univ"></span></p>
+    <p><strong>Skills:</strong> <span id="disp-about-skills"></span></p>
+    <p><strong>Bio:</strong> <span id="disp-about-bio"></span></p>
+    <p><strong>Hobbies:</strong> <span id="disp-about-hobby"></span></p>
+    <div class="upload-author-only">
+      <input id="about-address" placeholder="Address" />
+      <input id="about-school" placeholder="School" />
+      <input id="about-college" placeholder="College" />
+      <input id="about-univ" placeholder="University" />
+      <input id="about-skills" placeholder="Skills" />
+      <textarea id="about-bio" rows="2" placeholder="Bio"></textarea>
+      <input id="about-hobby" placeholder="Hobbies" />
+      <button onclick="saveAbout()">Save</button>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="upload-author-only">
+      <input type="file" id="projectUpload" />
+      <button onclick="uploadFile('projectUpload','projects')">Upload</button>
+    </div>
+    <div id="projects-files" class="download-list"></div>
+  </section>
 
   <section id="fusion">
     <h2>Fusion Shilpigosti</h2>
-    <p>Explore music and videos under Fusion Shilpigosti.</p>
-    
-    <div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
-      <a href="https://youtube.com/@fusion_393" 
-         target="_blank" 
-         rel="noopener"
-         style="display: inline-block; background: #ff0000; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-        Watch on YouTube
-      </a>
-      <a href="https://www.facebook.com/fusion393" 
-         target="_blank" 
-         rel="noopener"
-         style="display: inline-block; background: #3b5998; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-        Visit Facebook Page
-      </a>
-    </div>
-
+    <div id="youtube-videos">Loading...</div>
+    <button id="show-all-videos" style="display:none;" onclick="window.open('https://youtube.com/@fusion_393','_blank')">Show All</button>
     <div class="upload-author-only">
-      <h3>Upload Your Music or Video</h3>
       <input type="file" id="fusionUpload" accept="video/*,audio/*" />
-      <button onclick="uploadFile('fusionUpload', 'fusion')">Upload</button>
+      <button onclick="uploadFile('fusionUpload','fusion')">Upload</button>
     </div>
-
-    <h3>Public Downloads</h3>
-    <div class="download-list" id="fusion-files">Loading files...</div>
-
-    <h3>Latest YouTube Videos</h3>
-    <div id="youtube-videos">Loading videos...</div>
+    <div id="fusion-files" class="download-list"></div>
   </section>
 
   <section id="publications">
     <h2>Publications</h2>
     <div class="upload-author-only">
       <input type="file" id="pubUpload" accept="application/pdf" />
-      <button onclick="uploadFile('pubUpload', 'publications')">Upload</button>
+      <button onclick="uploadFile('pubUpload','publications')">Upload</button>
     </div>
-    <div class="download-list" id="publication-files">Loading files...</div>
+    <div id="publications-files" class="download-list"></div>
+  </section>
+
+  <section id="research">
+    <h2>Research Experience</h2>
+    <div id="research-info"></div>
+    <div class="upload-author-only">
+      <textarea id="research-input" rows="3" placeholder="Research details"></textarea>
+      <button onclick="saveResearch()">Save</button>
+      <input type="file" id="researchUpload" />
+      <button onclick="uploadFile('researchUpload','research')">Upload</button>
+    </div>
+    <div id="research-files" class="download-list"></div>
+  </section>
+
+  <section id="work">
+    <h2>Work Experience</h2>
+    <ul id="work-list"></ul>
+    <div class="upload-author-only">
+      <input id="work-input" placeholder="Add entry" />
+      <button onclick="addWork()">Add</button>
+    </div>
   </section>
 
   <section id="writings">
     <h2>Writings</h2>
     <div class="upload-author-only">
-      <input type="file" id="writeUpload" accept=".txt,.pdf,.docx" />
-      <button onclick="uploadFile('writeUpload', 'writings')">Upload</button>
+      <input type="file" id="writeUpload" accept=".pdf,.doc,.docx" />
+      <button onclick="uploadFile('writeUpload','writings')">Upload</button>
     </div>
-    <div class="download-list" id="writing-files">Loading files...</div>
+    <div id="writings-files" class="download-list"></div>
+  </section>
+
+  <section id="certifications">
+    <h2>Certifications</h2>
+    <div class="upload-author-only">
+      <input type="file" id="certUpload" />
+      <button onclick="uploadFile('certUpload','certifications')">Upload</button>
+    </div>
+    <div id="certifications-files" class="download-list"></div>
   </section>
 
   <section id="contact">
-    <h2>Contact Me</h2>
-    <p><span style="font-weight: 600; color: var(--primary);">Email:</span> 
-       <a href="mailto:shamim393393@gmail.com">shamim393393@gmail.com</a></p>
-    <p><span style="font-weight: 600; color: var(--primary);">Phone:</span> 
-       <a href="tel:+8801628912047">01628912047</a></p>
-    <p><span style="font-weight: 600; color: var(--primary);">LinkedIn:</span> 
-       <a href="https://www.linkedin.com/in/shamim393/" target="_blank" rel="noopener">linkedin.com/in/shamim393</a></p>
-    <p><span style="font-weight: 600; color: var(--primary);">Facebook:</span> 
-       <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank" rel="noopener">md.shamimalrazi.393</a></p>
-    <p><span style="font-weight: 600; color: var(--primary);">Twitter:</span> 
-       <a href="https://x.com/Shamim393" target="_blank" rel="noopener">@Shamim393</a></p>
+    <h2>Contact</h2>
+    <div id="contact-info"></div>
+    <div class="upload-author-only">
+      <input id="contact-email" placeholder="Email" />
+      <input id="contact-phone" placeholder="Phone" />
+      <input id="contact-linkedin" placeholder="LinkedIn URL" />
+      <input id="contact-twitter" placeholder="Twitter URL" />
+      <button onclick="saveContact()">Save</button>
+    </div>
   </section>
 
   <section id="change-pass-section">
-    <h2>Change Author ID & Password</h2>
-    <input type="text" 
-           id="new-author-id" 
-           placeholder="New Author ID" 
-           autocomplete="username" />
-    <input type="password" 
-           id="new-author-pass" 
-           placeholder="New Password" 
-           autocomplete="new-password" />
-    <button onclick="changeAuthorCredentials()">Save Changes</button>
+    <h2>Change Credentials</h2>
+    <div class="upload-author-only">
+      <input id="new-author-id" placeholder="New ID" />
+      <input id="new-author-pass" type="password" placeholder="New Password" />
+      <button onclick="changeCredentials()">Change</button>
+    </div>
   </section>
 
   <footer>
     <p>&copy; 2025 Md. Shamim Al Razi. All rights reserved.</p>
+    <p>Contact: shamim393393@gmail.com | +8801628912047</p>
   </footer>
 
   <script>
-    // Initialize author credentials from localStorage or defaults
-    let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
-    let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
-    let isAuthorLoggedIn = false;
-
-    // Load uploaded files from localStorage or empty arrays per section
-    let uploadedFiles = JSON.parse(localStorage.getItem("uploaded_files") || 
-      '{"fusion":[],"publications":[],"writings":[]}');
-
-    // Check login credentials and toggle UI accordingly
-    function checkAuthorLogin() {
-      const id = document.getElementById("author-id").value.trim();
-      const pass = document.getElementById("author-password").value.trim();
-      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
-        isAuthorLoggedIn = true;
-        alert("Login successful!");
-        toggleLoginUI();
-        renderFiles();
-      } else {
-        alert("Invalid credentials.");
-      }
+    const YT_CHANNEL_ID='UCZpabp4C9ttk68-G1_SOsJQ';
+    const YT_API_KEY='AIzaSyC0Z9fSpsm-GUipCRgG0GJTeKTvRza0pFU';
+    let AUTHOR_ID=localStorage.getItem('author_id')||'admin';
+    let AUTHOR_PASS=localStorage.getItem('author_pass')||'123456';
+    let isAuthor=false;
+    let files=JSON.parse(localStorage.getItem('files')||'{}');
+    let info=JSON.parse(localStorage.getItem('info')||'{}');
+    let workList=JSON.parse(localStorage.getItem('work')||'[]');
+    function toggleUI(){
+      document.querySelectorAll('.upload-author-only').forEach(el=>el.style.display=isAuthor?'block':'none');
+      document.getElementById('author-login').style.display=isAuthor?'none':'block';
+      document.getElementById('author-logout').style.display=isAuthor?'block':'none';
     }
-
-    // Sign out author and reset UI
-    function signOutAuthor() {
-      isAuthorLoggedIn = false;
-      toggleLoginUI();
-      renderFiles();
+    function checkAuthorLogin(){
+      const id=document.getElementById('author-id').value;
+      const pass=document.getElementById('author-pass').value;
+      if(id===AUTHOR_ID&&pass===AUTHOR_PASS){isAuthor=true;toggleUI();renderAll();}else alert('Invalid');
     }
-
-    // Show/hide upload controls, login/logout UI and password change form
-    function toggleLoginUI() {
-      document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
-      document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
-      document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
-
-      document.querySelectorAll('.upload-author-only').forEach(el => {
-        el.style.display = isAuthorLoggedIn ? "block" : "none";
-      });
-
-      // Clear login inputs on sign out
-      if (!isAuthorLoggedIn) {
-        document.getElementById("author-id").value = "";
-        document.getElementById("author-password").value = "";
-      }
+    function signOutAuthor(){isAuthor=false;toggleUI();}
+    function saveHome(){
+      info.home={name:disp(input='home-name'),school:disp('home-school'),address:disp('home-address')};
+      savePic();localStorage.setItem('info',JSON.stringify(info));renderHome();
     }
-
-    // Upload a file to specific section
-    function uploadFile(inputId, section) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to upload.");
-        return;
-      }
-      const input = document.getElementById(inputId);
-      const file = input.files[0];
-      if (!file) return alert("Please select a file first.");
-
-      // Read file as Data URL for persistence
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-
-        // Save file info: name + dataUrl
-        uploadedFiles[section].push({ name: file.name, dataUrl });
-        saveFiles();
-        alert(`Uploaded '${file.name}' to ${section}.`);
-        input.value = "";
-        renderFiles();
-      };
-      reader.readAsDataURL(file);
+    function disp(id){return document.getElementById(id).value;}    
+    function renderHome(){
+      const h=info.home||{};
+      document.getElementById('disp-home-name').textContent=h.name||'';
+      document.getElementById('disp-home-school').textContent=h.school||'';
+      document.getElementById('disp-home-address').textContent=h.address||'';
+      const pic=localStorage.getItem('homePic');if(pic)document.getElementById('home-img').src=pic;
     }
-
-    // Delete file from section at index
-    function deleteFile(section, index) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to delete files.");
-        return;
-      }
-      if (!confirm("Are you sure you want to delete this file?")) return;
-      uploadedFiles[section].splice(index, 1);
-      saveFiles();
-      renderFiles();
+    function savePic(){
+      const f=document.getElementById('homePicUpload').files[0];if(!f)return;
+      const r=new FileReader();r.onload=e=>localStorage.setItem('homePic',e.target.result);r.readAsDataURL(f);
     }
-
-    // Save uploadedFiles to localStorage for persistence
-    function saveFiles() {
-      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
+    function saveAbout(){
+      info.about={address:disp('about-address'),school:disp('about-school'),college:disp('about-college'),univ:disp('about-univ'),skills:disp('about-skills'),bio:document.getElementById('about-bio').value,hobby:disp('about-hobby')};
+      localStorage.setItem('info',JSON.stringify(info));renderAbout();
     }
-
-    // Render files in their respective sections with delete buttons for author
-    function renderFiles() {
-      // Fusion
-      const fusionDiv = document.getElementById("fusion-files");
-      fusionDiv.innerHTML = "";
-      if(uploadedFiles.fusion.length === 0) {
-        fusionDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.fusion.forEach((file, i) => {
-          fusionDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
-
-      // Publications
-      const pubDiv = document.getElementById("publication-files");
-      pubDiv.innerHTML = "";
-      if(uploadedFiles.publications.length === 0) {
-        pubDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.publications.forEach((file, i) => {
-          pubDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
-
-      // Writings
-      const writeDiv = document.getElementById("writing-files");
-      writeDiv.innerHTML = "";
-      if(uploadedFiles.writings.length === 0) {
-        writeDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.writings.forEach((file, i) => {
-          writeDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
-    }
-
-    // Fetch YouTube videos and show
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
-        .then(res => res.json())
-        .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
-            }
-          });
-        })
-        .catch(() => {
-          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
-        });
-    }
-
-    // Change author credentials and log out immediately
-    function changeAuthorCredentials() {
-      if (!isAuthorLoggedIn) {
-        alert("Please login first.");
-        return;
-      }
-      const newId = document.getElementById("new-author-id").value.trim();
-      const newPass = document.getElementById("new-author-pass").value.trim();
-      if(newId.length < 3 || newPass.length < 3) {
-        alert("Author ID and Password must be at least 3 characters.");
-        return;
-      }
-      if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
-
-      AUTHOR_ID = newId;
-      AUTHOR_PASSWORD = newPass;
-      localStorage.setItem("author_id", AUTHOR_ID);
-      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-
-      alert("Author credentials changed. Please log in again.");
-      signOutAuthor();
-
-      // Clear inputs
-      document.getElementById("new-author-id").value = "";
-      document.getElementById("new-author-pass").value = "";
-    }
-
-    // On page load
-    window.onload = () => {
-      fetchVideos();
-      toggleLoginUI();
-      renderFiles();
-    };
+    function renderAbout(){const a=info.about||{};['address','school','college','univ','skills','bio','hobby'].forEach(k=>document.getElementById('disp-about-'+k).textContent=a[k]||'');}
+    function uploadFile(id,sec){if(!isAuthor)return;const f=document.getElementById(id).files[0];if(!f)return;const r=new FileReader();r.onload=e=>{files[sec]=files[sec]||[];files[sec].push({name:f.name,data:e.target.result});localStorage.setItem('files',JSON.stringify(files));renderFiles();};r.readAsDataURL(f);}    
+    function renderFiles(){Object.keys(files).forEach(sec=>{const div=document.getElementById(sec+'-files');if(!div)return;div.innerHTML='';files[sec].forEach((f,i)=>{const d=document.createElement('div');d.className='file-item';d.innerHTML=`<a href="${f.data}" target="_blank">${f.name}</a>${isAuthor?`<button onclick="deleteFile('${sec}',${i})">Del</button>`:''}`;div.appendChild(d);});});}
+    function deleteFile(sec,i){if(!confirm('Del?'))return;files[sec].splice(i,1);localStorage.setItem('files',JSON.stringify(files));renderFiles();}
+    function saveResearch(){info.research=document.getElementById('research-input').value;localStorage.setItem('info',JSON.stringify(info));}
+    function saveContact(){info.contact={email:disp('contact-email'),phone:disp('contact-phone'),linkedin:disp('contact-linkedin'),twitter:disp('contact-twitter')};localStorage.setItem('info',JSON.stringify(info));}
+    function saveWork(){localStorage.setItem('work',JSON.stringify(workList));renderWork();}
+    function addWork(){const v=disp('work-input');if(v){workList.push(v);saveWork();document.getElementById('work-input').value='';}}
+    function renderWork(){const ul=document.getElementById('work-list');ul.innerHTML='';workList.forEach((w,i)=>{const li=document.createElement('li');li.textContent=w; if(isAuthor){const b=document.createElement('button');b.textContent='Del';b.onclick=()=>{workList.splice(i,1);saveWork();};li.appendChild(b);}ul.appendChild(li);});}
+    function changeCredentials(){const id=disp('new-author-id'),pw=disp('new-author-pass');AUTHOR_ID=id;AUTHOR_PASS=pw;localStorage.setItem('author_id',id);localStorage.setItem('author_pass',pw);alert('Changed');signOutAuthor();}
+    function fetchVideos(){fetch(`https://www.googleapis.com/youtube/v3/search?key=${YT_API_KEY}&channelId=${YT_CHANNEL_ID}&part=snippet,id&order=date&maxResults=5`).then(r=>r.json()).then(d=>{const dv=document.getElementById('youtube-videos');dv.innerHTML='';d.items.forEach(i=>{if(i.id.kind==='youtube#video'){const ifr=document.createElement('iframe');ifr.src=`https://www.youtube.com/embed/${i.id.videoId}`;dv.appendChild(ifr);}});document.getElementById('show-all-videos').style.display='block';});}
+    function renderAll(){toggleUI();renderHome();renderAbout();renderFiles();renderWork();fetchVideos();}
+    window.onload=renderAll;
   </script>
 </body>
 </html>
