@@ -926,14 +926,6 @@
         </div>
         
         <div class="edit-form" id="about-edit-form">
-<input type="url" id="edit-about-img" class="editable-field" placeholder="Enter Image URL" />
-<script>
-  document.getElementById("edit-about-img").addEventListener("change", function() {
-    const url = this.value;
-    if (url) document.querySelector(".about-img").src = url;
-  });
-</script>
-
           <h3>Edit About Information</h3>
           <label>Full Name:</label>
           <input type="text" id="edit-about-name" class="editable-field" />
@@ -1046,7 +1038,20 @@
         
         <p>Explore music and videos under Fusion Shilpigosti.</p>
         
-        
+        <div style="display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap;">
+          <a href="https://youtube.com/@fusion_393" 
+             target="_blank" 
+             rel="noopener"
+             style="display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(255,0,0,0.3);">
+            <i class="fab fa-youtube"></i> Watch on YouTube
+          </a>
+          <a href="https://www.facebook.com/fusion393" 
+             target="_blank" 
+             rel="noopener"
+             style="display: inline-flex; align-items: center; background: #3b5998; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(59,89,152,0.3);">
+            <i class="fab fa-facebook"></i> Visit Facebook Page
+          </a>
+        </div>
 
         <div class="upload-area upload-author-only">
           <h3>Upload Your Music or Video</h3>
@@ -1127,7 +1132,7 @@
         </div>
       </section>
 
-      <!-- Work Experience Section -->
+       <!-- Work Experience Section -->
       <section id="work" class="section">
         <div class="section-header">
           <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
@@ -1183,6 +1188,7 @@
           <!-- Work experience items will be loaded here -->
         </div>
       </section>
+
 
       <!-- Blog/Writings Section -->
       <section id="blog" class="section">
@@ -1913,7 +1919,18 @@
       }
     }
     
-    
+    // Fetch YouTube videos and show
+    function fetchVideos() {
+      // In a real implementation, this would use the YouTube API
+      const videosDiv = document.getElementById('youtube-videos');
+      videosDiv.innerHTML = `
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      `;
+    }
+
     // On page load
     window.onload = () => {
       loadData();
@@ -1924,10 +1941,3 @@
   </script>
 </body>
 </html>
-<script>
-// Fetch YouTube videos and show
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}
-</script>
