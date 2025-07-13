@@ -1045,12 +1045,23 @@
              style="display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(255,0,0,0.3);">
             <i class="fab fa-youtube"></i> Watch on YouTube
           </a>
-          <a href="https://www.facebook.com/IslamInMyHeart11" 
+          <a href="https://www.facebook.com/fusion393" 
              target="_blank" 
              rel="noopener"
              style="display: inline-flex; align-items: center; background: #3b5998; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(59,89,152,0.3);">
             <i class="fab fa-facebook"></i> Visit Facebook Page
           </a>
+        </div>
+
+        <div class="upload-area upload-author-only">
+          <h3>Upload Your Music or Video</h3>
+          <input type="file" id="fusionUpload" accept="video/*,audio/*" />
+          <button onclick="uploadFile('fusionUpload', 'fusion')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
+        </div>
+
+        <h3>Public Downloads</h3>
+        <div class="download-list" id="fusion-files">
+          <!-- Fusion files will be loaded here -->
         </div>
 
         <h3>Latest YouTube Videos</h3>
@@ -1121,7 +1132,7 @@
         </div>
       </section>
 
-       <!-- Work Experience Section -->
+      <!-- Work Experience Section -->
       <section id="work" class="section">
         <div class="section-header">
           <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
@@ -1177,7 +1188,6 @@
           <!-- Work experience items will be loaded here -->
         </div>
       </section>
-
 
       <!-- Blog/Writings Section -->
       <section id="blog" class="section">
