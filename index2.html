@@ -1872,17 +1872,31 @@
         document.getElementById("contact-display").style.display = "grid";
       }
     }
-    
+  
     // Fetch YouTube videos and show
     function fetchVideos() {
-      // In a real implementation, this would use the YouTube API
-      const videosDiv = document.getElementById('youtube-videos');
-      videosDiv.innerHTML = `
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      `;
+      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
+        .then(res => res.json())
+        .then(data => {
+          const videosDiv = document.getElementById('youtube-videos');
+          videosDiv.innerHTML = '';
+          if (!data.items) return videosDiv.textContent = 'No videos found.';
+          data.items.forEach(item => {
+            if (item.id.kind === "youtube#video") {
+              const iframe = document.createElement('iframe');
+              iframe.width = "320";
+              iframe.height = "180";
+              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
+              iframe.allowFullscreen = true;
+              videosDiv.appendChild(iframe);
+            }
+          });
+        })
+        .catch(() => {
+          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
+        });
     }
 
     // On page load
