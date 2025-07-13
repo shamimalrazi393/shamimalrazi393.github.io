@@ -481,124 +481,198 @@
         const containerId = section === "fusion" ? "fusion-files" : 
                             section === "publications" ? "publication-files" : "writing-files";
         const container = document.getElementById(containerId);
-        container.innerHTML = "";
+<script>
+  // Initialize author credentials from localStorage or defaults
+  let AUTHOR_ID = localStorage.getItem("author_id") || "admin";
+  let AUTHOR_PASSWORD = localStorage.getItem("author_pass") || "123456";
+  let isAuthorLoggedIn = false;
 
-        if (uploadedFiles[section].length === 0) {
-          container.textContent = "No files uploaded.";
+  // Load uploaded files from localStorage or use default structure
+  let uploadedFiles = JSON.parse(localStorage.getItem("uploaded_files") || 
+    '{"fusion":[],"publications":[],"writings":[]}');
+
+  // Toggle login/logout and upload UI
+  function toggleLoginUI() {
+    document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
+    document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
+
+    document.querySelectorAll(".upload-author-only").forEach(el => {
+      el.style.display = isAuthorLoggedIn ? "block" : "none";
+    });
+
+    document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
+  }
+
+  // Upload file handler
+  function uploadFile(inputId, section) {
+    if (!isAuthorLoggedIn) {
+      alert("You must be logged in as author to upload.");
+      return;
+    }
+
+    const input = document.getElementById(inputId);
+    if (input.files.length === 0) {
+      alert("Please select a file.");
+      return;
+    }
+
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const dataUrl = e.target.result;
+      uploadedFiles[section].push({ name: file.name, dataUrl });
+      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
+      alert(`File "${file.name}" uploaded successfully!`);
+      input.value = "";
+      renderFiles();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Render uploaded files
+  function renderFiles() {
+    ["fusion", "publications", "writings"].forEach(section => {
+      const containerId = section === "fusion" ? "fusion-files" : 
+                          section === "publications" ? "publication-files" : "writing-files";
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      if (!uploadedFiles[section] || uploadedFiles[section].length === 0) {
+        container.textContent = "No files uploaded.";
+        return;
+      }
+
+      uploadedFiles[section].forEach((file, idx) => {
+        const div = document.createElement("div");
+        div.className = "file-item";
+
+        const link = document.createElement("a");
+        link.href = file.dataUrl || "#";
+        link.textContent = file.name || "[Unnamed]";
+        link.target = "_blank";
+        div.appendChild(link);
+
+        if (isAuthorLoggedIn) {
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "Delete";
+          delBtn.onclick = () => {
+            if (confirm(`Delete "${file.name}"?`)) {
+              uploadedFiles[section].splice(idx, 1);
+              localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
+              renderFiles();
+            }
+          };
+          div.appendChild(delBtn);
+        }
+
+        container.appendChild(div);
+      });
+    });
+  }
+
+  // Change author credentials
+  function changeAuthorCredentials() {
+    const newId = document.getElementById("new-author-id").value.trim();
+    const newPass = document.getElementById("new-author-pass").value.trim();
+    if (newId === "" || newPass === "") {
+      alert("Please fill both fields.");
+      return;
+    }
+    AUTHOR_ID = newId;
+    AUTHOR_PASSWORD = newPass;
+    localStorage.setItem("author_id", AUTHOR_ID);
+    localStorage.setItem("author_pass", AUTHOR_PASSWORD);
+    alert("Credentials updated. Please log in again.");
+    signOutAuthor();
+  }
+
+  // Sign out logic
+  function signOutAuthor() {
+    isAuthorLoggedIn = false;
+    toggleLoginUI();
+    renderFiles();
+  }
+
+  // Login check
+  function checkAuthorLogin() {
+    const id = document.getElementById("author-id").value.trim();
+    const pass = document.getElementById("author-password").value.trim();
+    if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
+      isAuthorLoggedIn = true;
+      alert("Login successful!");
+      toggleLoginUI();
+      renderFiles();
+    } else {
+      alert("Invalid credentials.");
+    }
+  }
+
+  // YouTube API fetch with Show All button
+  const maxInitialVideos = 5;
+  let allVideos = [];
+
+  function fetchVideos() {
+    const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+    const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+    const maxResults = 50;
+
+    fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.items) {
+          document.getElementById('youtube-videos').textContent = 'No videos found.';
           return;
         }
 
-        uploadedFiles[section].forEach((fileName, idx) => {
-          const div = document.createElement("div");
-          div.className = "file-item";
+        allVideos = data.items.filter(item => item.id.kind === "youtube#video");
+        renderVideos(allVideos.slice(0, maxInitialVideos));
 
-          const link = document.createElement("a");
-          link.href = "#"; // In real app, link to file URL
-          link.textContent = fileName;
-          link.target = "_blank";
-          div.appendChild(link);
-
-          if (isAuthorLoggedIn) {
-            const delBtn = document.createElement("button");
-            delBtn.textContent = "Delete";
-            delBtn.onclick = () => {
-              if (confirm(`Delete "${fileName}"?`)) {
-                uploadedFiles[section].splice(idx, 1);
-                localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
-                renderFiles();
-              }
-            };
-            div.appendChild(delBtn);
-          }
-
-          container.appendChild(div);
-        });
+        if (allVideos.length > maxInitialVideos) {
+          showLoadAllButton();
+        }
+      })
+      .catch(() => {
+        document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
       });
+  }
+
+  function renderVideos(videos) {
+    const videosDiv = document.getElementById('youtube-videos');
+    videosDiv.innerHTML = '';
+    videos.forEach(item => {
+      const videoId = item.id.videoId;
+      const iframe = document.createElement('iframe');
+      iframe.width = "320";
+      iframe.height = "180";
+      iframe.src = `https://www.youtube.com/embed/${videoId}`;
+      iframe.setAttribute("allowfullscreen", "");
+      videosDiv.appendChild(iframe);
+    });
+  }
+
+  function showLoadAllButton() {
+    let btn = document.getElementById('load-all-btn');
+    if (!btn) {
+      btn = document.createElement('button');
+      btn.id = 'load-all-btn';
+      btn.textContent = 'Show All Videos';
+      btn.style.marginTop = '20px';
+      btn.onclick = () => {
+        renderVideos(allVideos);
+        btn.style.display = 'none';
+      };
+      document.getElementById('youtube-videos').after(btn);
+    } else {
+      btn.style.display = 'block';
     }
+  }
 
-    // Change author credentials and save in localStorage
-    function changeAuthorCredentials() {
-      const newId = document.getElementById("new-author-id").value.trim();
-      const newPass = document.getElementById("new-author-pass").value.trim();
-      if (newId === "" || newPass === "") {
-        alert("Please fill both fields.");
-        return;
-      }
-      AUTHOR_ID = newId;
-      AUTHOR_PASSWORD = newPass;
-      localStorage.setItem("author_id", AUTHOR_ID);
-      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-      alert("Credentials updated. Please log in again.");
-      signOutAuthor();
-    }
-
-    // YouTube API Section to fetch videos & show 5 first, then all on button click
-    const maxInitialVideos = 5;
-    let allVideos = [];
-
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      const maxResults = 50;
-
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
-        .then(res => res.json())
-        .then(data => {
-          if (!data.items) {
-            document.getElementById('youtube-videos').textContent = 'No videos found.';
-            return;
-          }
-
-          allVideos = data.items.filter(item => item.id.kind === "youtube#video");
-
-          renderVideos(allVideos.slice(0, maxInitialVideos));
-
-          if (allVideos.length > maxInitialVideos) {
-            showLoadAllButton();
-          }
-        })
-        .catch(() => {
-          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
-        });
-    }
-
-    function renderVideos(videos) {
-      const videosDiv = document.getElementById('youtube-videos');
-      videosDiv.innerHTML = '';
-      videos.forEach(item => {
-        const videoId = item.id.videoId;
-        const iframe = document.createElement('iframe');
-        iframe.width = "320";
-        iframe.height = "180";
-        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-        iframe.setAttribute("allowfullscreen", "");
-        videosDiv.appendChild(iframe);
-      });
-    }
-
-    function showLoadAllButton() {
-      let btn = document.getElementById('load-all-btn');
-      if (!btn) {
-        btn = document.createElement('button');
-        btn.id = 'load-all-btn';
-        btn.textContent = 'Show All Videos';
-        btn.style.marginTop = '20px';
-        btn.onclick = () => {
-          renderVideos(allVideos);
-          btn.style.display = 'none';
-        };
-        document.getElementById('youtube-videos').after(btn);
-      } else {
-        btn.style.display = 'block';
-      }
-    }
-
-    // Initialize
-    window.onload = () => {
-      toggleLoginUI();
-      renderFiles();
-      fetchVideos();
-    };
-  </script>
+  // On page load
+  window.onload = () => {
+    toggleLoginUI();
+    renderFiles();
+    fetchVideos();
+  };
+</script>
 </body>
 </html>
