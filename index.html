@@ -926,6 +926,14 @@
         </div>
         
         <div class="edit-form" id="about-edit-form">
+<input type="url" id="edit-about-img" class="editable-field" placeholder="Enter Image URL" />
+<script>
+  document.getElementById("edit-about-img").addEventListener("change", function() {
+    const url = this.value;
+    if (url) document.querySelector(".about-img").src = url;
+  });
+</script>
+
           <h3>Edit About Information</h3>
           <label>Full Name:</label>
           <input type="text" id="edit-about-name" class="editable-field" />
@@ -1017,7 +1025,7 @@
           <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
-        <div class="upload-area">
+        <div class="upload-area upload-author-only">
           <h3>Upload Project File</h3>
           <input type="file" id="projectUpload" />
           <button onclick="uploadFile('projectUpload', 'projects')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
@@ -1038,22 +1046,9 @@
         
         <p>Explore music and videos under Fusion Shilpigosti.</p>
         
-        <div style="display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap;">
-          <a href="https://youtube.com/@fusion_393" 
-             target="_blank" 
-             rel="noopener"
-             style="display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(255,0,0,0.3);">
-            <i class="fab fa-youtube"></i> Watch on YouTube
-          </a>
-          <a href="https://www.facebook.com/fusion393" 
-             target="_blank" 
-             rel="noopener"
-             style="display: inline-flex; align-items: center; background: #3b5998; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(59,89,152,0.3);">
-            <i class="fab fa-facebook"></i> Visit Facebook Page
-          </a>
-        </div>
+        
 
-        <div class="upload-area">
+        <div class="upload-area upload-author-only">
           <h3>Upload Your Music or Video</h3>
           <input type="file" id="fusionUpload" accept="video/*,audio/*" />
           <button onclick="uploadFile('fusionUpload', 'fusion')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
@@ -1065,9 +1060,7 @@
         </div>
 
         <h3>Latest YouTube Videos</h3>
-        <div class="youtube-videos" id="youtube-videos">
-          <!-- YouTube videos will be loaded here -->
-        </div>
+        <div id="youtube-videos">Loading videos...</div>
       </section>
 
       <!-- Publications Section -->
@@ -1077,7 +1070,7 @@
           <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
-        <div class="upload-area">
+        <div class="upload-area upload-author-only">
           <input type="file" id="pubUpload" accept="application/pdf" />
           <button onclick="uploadFile('pubUpload', 'publications')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
@@ -1114,7 +1107,7 @@
           </div>
         </div>
         
-        <div class="upload-area">
+        <div class="upload-area upload-author-only">
           <h3>Upload Research File</h3>
           <input type="file" id="researchUpload" />
           <button onclick="uploadFile('researchUpload', 'research')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
@@ -1141,7 +1134,52 @@
           <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
-        <div class="timeline" id="work-experience">
+        
+<div class="upload-author-only">
+  <h3>Add Work Experience</h3>
+  <label>Position Title:</label>
+  <input type="text" id="work-title" class="editable-field" placeholder="e.g. Research Intern" />
+
+  <label>Company/Institute:</label>
+  <input type="text" id="work-org" class="editable-field" placeholder="e.g. BUET" />
+
+  <label>Duration:</label>
+  <input type="text" id="work-duration" class="editable-field" placeholder="e.g. Jan 2023 - May 2023" />
+
+  <label>Description:</label>
+  <textarea id="work-description" class="editable-field" rows="3" placeholder="e.g. Worked on nanomaterials..."></textarea>
+
+  <button onclick="addWorkExperience()" class="btn-success"><i class="fas fa-plus"></i> Add Experience</button>
+</div>
+
+<script>
+  function addWorkExperience() {
+    const title = document.getElementById("work-title").value.trim();
+    const org = document.getElementById("work-org").value.trim();
+    const duration = document.getElementById("work-duration").value.trim();
+    const desc = document.getElementById("work-description").value.trim();
+
+    if (!title || !org || !duration || !desc) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const container = document.getElementById("work-experience");
+    const newItem = document.createElement("div");
+    newItem.className = "timeline-item";
+    newItem.innerHTML = `
+      <div class="timeline-content">
+        <h4>${title}</h4>
+        <div class="date"><i class="fas fa-calendar-alt"></i> ${duration}</div>
+        <p><strong>${org}</strong><br>${desc}</p>
+      </div>`;
+    container.appendChild(newItem);
+
+    // Clear fields
+    ["work-title", "work-org", "work-duration", "work-description"].forEach(id => document.getElementById(id).value = "");
+  }
+</script>
+<div class="timeline" id="work-experience">
           <!-- Work experience items will be loaded here -->
         </div>
       </section>
@@ -1153,7 +1191,7 @@
           <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
-        <div class="upload-area">
+        <div class="upload-area upload-author-only">
           <input type="file" id="blogUpload" accept=".txt,.pdf,.docx" />
           <button onclick="uploadFile('blogUpload', 'blog')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
@@ -1170,7 +1208,7 @@
           <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
-        <div class="upload-area">
+        <div class="upload-area upload-author-only">
           <input type="file" id="certUpload" />
           <button onclick="uploadFile('certUpload', 'certifications')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
@@ -1875,18 +1913,7 @@
       }
     }
     
-    // Fetch YouTube videos and show
-    function fetchVideos() {
-      // In a real implementation, this would use the YouTube API
-      const videosDiv = document.getElementById('youtube-videos');
-      videosDiv.innerHTML = `
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      `;
-    }
-
+    
     // On page load
     window.onload = () => {
       loadData();
@@ -1897,3 +1924,10 @@
   </script>
 </body>
 </html>
+<script>
+// Fetch YouTube videos and show
+    function fetchVideos() {
+      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}
+</script>
