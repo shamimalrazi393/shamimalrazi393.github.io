@@ -207,9 +207,9 @@
     
     /* YouTube Videos */
     #youtube-videos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
       margin-top: 20px;
     }
     
@@ -284,7 +284,7 @@
       }
       
       #youtube-videos {
-        grid-template-columns: 1fr;
+        flex-direction: column;
       }
     }
   </style>
@@ -443,167 +443,161 @@
     function toggleLoginUI() {
       document.getElementById("author-login").style.display = isAuthorLoggedIn ? "none" : "block";
       document.getElementById("author-logout").style.display = isAuthorLoggedIn ? "block" : "none";
-      document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
 
-      document.querySelectorAll('.upload-author-only').forEach(el => {
+      document.querySelectorAll(".upload-author-only").forEach(el => {
         el.style.display = isAuthorLoggedIn ? "block" : "none";
       });
 
-      // Clear login inputs on sign out
-      if (!isAuthorLoggedIn) {
-        document.getElementById("author-id").value = "";
-        document.getElementById("author-password").value = "";
-      }
+      document.getElementById("change-pass-section").style.display = isAuthorLoggedIn ? "block" : "none";
     }
 
-    // Upload a file to specific section
+    // Upload file handler (simulated, files stored in localStorage as file names only)
     function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
-        alert("Please login as author to upload.");
+        alert("You must be logged in as author to upload.");
         return;
       }
+
       const input = document.getElementById(inputId);
-      const file = input.files[0];
-      if (!file) return alert("Please select a file first.");
-
-      // Read file as Data URL for persistence
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const dataUrl = e.target.result;
-
-        // Save file info: name + dataUrl
-        uploadedFiles[section].push({ name: file.name, dataUrl });
-        saveFiles();
-        alert(`Uploaded '${file.name}' to ${section}.`);
-        input.value = "";
-        renderFiles();
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // Delete file from section at index
-    function deleteFile(section, index) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to delete files.");
+      if (input.files.length === 0) {
+        alert("Please select a file.");
         return;
       }
-      if (!confirm("Are you sure you want to delete this file?")) return;
-      uploadedFiles[section].splice(index, 1);
-      saveFiles();
+      
+      const file = input.files[0];
+      // Here, in real app, upload to backend or Google Drive or server
+      // For demo, we just store file name in localStorage
+
+      uploadedFiles[section].push(file.name);
+      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
+      alert(`File "${file.name}" uploaded successfully!`);
+      input.value = ""; // clear file input
       renderFiles();
     }
 
-    // Save uploadedFiles to localStorage for persistence
-    function saveFiles() {
-      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
-    }
-
-    // Render files in their respective sections with delete buttons for author
+    // Render uploaded files lists with delete buttons for author
     function renderFiles() {
-      // Fusion
-      const fusionDiv = document.getElementById("fusion-files");
-      fusionDiv.innerHTML = "";
-      if(uploadedFiles.fusion.length === 0) {
-        fusionDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.fusion.forEach((file, i) => {
-          fusionDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('fusion', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
+      ["fusion", "publications", "writings"].forEach(section => {
+        const containerId = section === "fusion" ? "fusion-files" : 
+                            section === "publications" ? "publication-files" : "writing-files";
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
 
-      // Publications
-      const pubDiv = document.getElementById("publication-files");
-      pubDiv.innerHTML = "";
-      if(uploadedFiles.publications.length === 0) {
-        pubDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.publications.forEach((file, i) => {
-          pubDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('publications', ${i})">Delete</button>` : ''}
-            </div>`;
-        });
-      }
+        if (uploadedFiles[section].length === 0) {
+          container.textContent = "No files uploaded.";
+          return;
+        }
 
-      // Writings
-      const writeDiv = document.getElementById("writing-files");
-      writeDiv.innerHTML = "";
-      if(uploadedFiles.writings.length === 0) {
-        writeDiv.textContent = "No files uploaded.";
-      } else {
-        uploadedFiles.writings.forEach((file, i) => {
-          writeDiv.innerHTML += `
-            <div class="file-item">
-              <a href="${file.dataUrl}" target="_blank" rel="noopener">${file.name}</a>
-              ${isAuthorLoggedIn ? `<button onclick="deleteFile('writings', ${i})">Delete</button>` : ''}
-            </div>`;
+        uploadedFiles[section].forEach((fileName, idx) => {
+          const div = document.createElement("div");
+          div.className = "file-item";
+
+          const link = document.createElement("a");
+          link.href = "#"; // In real app, link to file URL
+          link.textContent = fileName;
+          link.target = "_blank";
+          div.appendChild(link);
+
+          if (isAuthorLoggedIn) {
+            const delBtn = document.createElement("button");
+            delBtn.textContent = "Delete";
+            delBtn.onclick = () => {
+              if (confirm(`Delete "${fileName}"?`)) {
+                uploadedFiles[section].splice(idx, 1);
+                localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
+                renderFiles();
+              }
+            };
+            div.appendChild(delBtn);
+          }
+
+          container.appendChild(div);
         });
-      }
+      });
     }
 
-    // Fetch YouTube videos and show
+    // Change author credentials and save in localStorage
+    function changeAuthorCredentials() {
+      const newId = document.getElementById("new-author-id").value.trim();
+      const newPass = document.getElementById("new-author-pass").value.trim();
+      if (newId === "" || newPass === "") {
+        alert("Please fill both fields.");
+        return;
+      }
+      AUTHOR_ID = newId;
+      AUTHOR_PASSWORD = newPass;
+      localStorage.setItem("author_id", AUTHOR_ID);
+      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
+      alert("Credentials updated. Please log in again.");
+      signOutAuthor();
+    }
+
+    // YouTube API Section to fetch videos & show 5 first, then all on button click
+    const maxInitialVideos = 5;
+    let allVideos = [];
+
     function fetchVideos() {
       const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
       const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
+      const maxResults = 50;
+
+      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
         .then(res => res.json())
         .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
-            }
-          });
+          if (!data.items) {
+            document.getElementById('youtube-videos').textContent = 'No videos found.';
+            return;
+          }
+
+          allVideos = data.items.filter(item => item.id.kind === "youtube#video");
+
+          renderVideos(allVideos.slice(0, maxInitialVideos));
+
+          if (allVideos.length > maxInitialVideos) {
+            showLoadAllButton();
+          }
         })
         .catch(() => {
           document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
         });
     }
 
-    // Change author credentials and log out immediately
-    function changeAuthorCredentials() {
-      if (!isAuthorLoggedIn) {
-        alert("Please login first.");
-        return;
-      }
-      const newId = document.getElementById("new-author-id").value.trim();
-      const newPass = document.getElementById("new-author-pass").value.trim();
-      if(newId.length < 3 || newPass.length < 3) {
-        alert("Author ID and Password must be at least 3 characters.");
-        return;
-      }
-      if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
-
-      AUTHOR_ID = newId;
-      AUTHOR_PASSWORD = newPass;
-      localStorage.setItem("author_id", AUTHOR_ID);
-      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-
-      alert("Author credentials changed. Please log in again.");
-      signOutAuthor();
-
-      // Clear inputs
-      document.getElementById("new-author-id").value = "";
-      document.getElementById("new-author-pass").value = "";
+    function renderVideos(videos) {
+      const videosDiv = document.getElementById('youtube-videos');
+      videosDiv.innerHTML = '';
+      videos.forEach(item => {
+        const videoId = item.id.videoId;
+        const iframe = document.createElement('iframe');
+        iframe.width = "320";
+        iframe.height = "180";
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        iframe.setAttribute("allowfullscreen", "");
+        videosDiv.appendChild(iframe);
+      });
     }
 
-    // On page load
+    function showLoadAllButton() {
+      let btn = document.getElementById('load-all-btn');
+      if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'load-all-btn';
+        btn.textContent = 'Show All Videos';
+        btn.style.marginTop = '20px';
+        btn.onclick = () => {
+          renderVideos(allVideos);
+          btn.style.display = 'none';
+        };
+        document.getElementById('youtube-videos').after(btn);
+      } else {
+        btn.style.display = 'block';
+      }
+    }
+
+    // Initialize
     window.onload = () => {
-      fetchVideos();
       toggleLoginUI();
       renderFiles();
+      fetchVideos();
     };
   </script>
 </body>
