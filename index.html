@@ -830,6 +830,21 @@
     .edit-controls button {
       flex: 1;
     }
+    
+    /* Profile Image Section */
+    .profile-image-section {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .image-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
@@ -839,7 +854,7 @@
       <h1 id="header-name">Md. Shamim Al Razi</h1>
       <p id="header-title">Materials & Metallurgical Engineering Student | BUET</p>
     </div>
-    <img src="profile.jpg" alt="Shamim Al Razi" class="profile" />
+    <img src="profile.jpg" alt="Shamim Al Razi" class="profile" id="header-profile-img" />
   </header>
 
   <div class="container">
@@ -871,10 +886,10 @@
       <!-- Image upload & preview -->
       <div class="profile-image-section">
         <img id="home-profile-img" src="profile.jpg" alt="Profile Image" class="home-img" />
-        <div class="edit-btn upload-btn-container">
+        <div class="image-controls" id="image-controls">
           <input type="file" id="home-image-upload" accept="image/*" style="display:none" />
-          <button id="upload-home-img-btn"><i class="fas fa-upload"></i> Upload/Change Image</button>
-          <button id="delete-home-img-btn"><i class="fas fa-trash"></i> Delete Image</button>
+          <button id="upload-home-img-btn" class="btn-success"><i class="fas fa-upload"></i> Upload/Change Image</button>
+          <button id="delete-home-img-btn" class="btn-danger"><i class="fas fa-trash"></i> Delete Image</button>
         </div>
       </div>
     
@@ -1022,96 +1037,6 @@
         </div>
       </div>
     </section>
-    
-    <style>
-      .profile-image-section {
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .home-img, .about-img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #ccc;
-      }
-      .upload-btn-container button {
-        margin-right: 5px;
-      }
-    </style>
-    
-    <script>
-      // Make sure isAuthorLoggedIn is defined and toggled elsewhere in your code.
-      // contentData should be your global object holding data.
-    
-      // Initialize profile image from localStorage or default
-      function loadProfileImage() {
-        const imgData = localStorage.getItem('profileImageData');
-        if (imgData) {
-          setProfileImage(imgData);
-        }
-      }
-    
-      // Set profile image for both sections
-      function setProfileImage(dataUrl) {
-        document.getElementById('home-profile-img').src = dataUrl;
-        document.getElementById('about-profile-img').src = dataUrl;
-        localStorage.setItem('profileImageData', dataUrl);
-      }
-    
-      // Delete profile image (revert to default)
-      function deleteProfileImage() {
-        const defaultImg = 'profile.jpg';
-        setProfileImage(defaultImg);
-        localStorage.removeItem('profileImageData');
-      }
-    
-      // Handle image file input change
-      document.getElementById('home-image-upload').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        if (!file.type.startsWith('image/')) {
-          alert('Please select a valid image file.');
-          return;
-        }
-    
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          setProfileImage(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
-    
-      // Upload button triggers file input click
-      document.getElementById('upload-home-img-btn').addEventListener('click', function() {
-        if (!isAuthorLoggedIn) {
-          alert('Please login as author to upload image.');
-          return;
-        }
-        document.getElementById('home-image-upload').click();
-      });
-    
-      // Delete button click
-      document.getElementById('delete-home-img-btn').addEventListener('click', function() {
-        if (!isAuthorLoggedIn) {
-          alert('Please login as author to delete image.');
-          return;
-        }
-        if (confirm('Are you sure you want to delete the profile image?')) {
-          deleteProfileImage();
-        }
-      });
-    
-      // On page load
-      document.addEventListener('DOMContentLoaded', () => {
-        loadProfileImage();
-      });
-    
-      // Make sure to toggle .edit-btn visibility with your login system (like toggleLoginUI function)
-    </script>
-
 
       <!-- Projects Section -->
       <section id="projects" class="section">
@@ -1148,7 +1073,7 @@
              style="display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(255,0,0,0.3);">
             <i class="fab fa-youtube"></i> Watch on YouTube
           </a>
-          <a href="https://www.facebook.com/fusion393" 
+          <a href="https://www.facebook.com/IslamInMyHeart11" 
              target="_blank" 
              rel="noopener"
              style="display: inline-flex; align-items: center; background: #3b5998; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 10px; box-shadow: 0 4px 8px rgba(59,89,152,0.3);">
@@ -1266,94 +1191,6 @@
     <!-- Work experience items will be loaded here -->
   </div>
 </section>
-
-<!-- JavaScript for Add/Delete -->
-<script>
-  function addWorkExperience() {
-    const title = document.getElementById("work-title").value.trim();
-    const org = document.getElementById("work-org").value.trim();
-    const duration = document.getElementById("work-duration").value.trim();
-    const desc = document.getElementById("work-description").value.trim();
-
-    if (!title || !org || !duration || !desc) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    const container = document.getElementById("work-experience");
-    const newItem = document.createElement("div");
-    newItem.className = "timeline-item";
-    newItem.innerHTML = `
-      <div class="timeline-content">
-        <h4>${title}</h4>
-        <div class="date"><i class="fas fa-calendar-alt"></i> ${duration}</div>
-        <p><strong>${org}</strong><br>${desc}</p>
-        <button class="btn-danger delete-btn" onclick="deleteWorkExperience(this)">
-          <i class="fas fa-trash-alt"></i> Delete
-        </button>
-      </div>
-    `;
-    container.appendChild(newItem);
-
-    // Clear form fields
-    ["work-title", "work-org", "work-duration", "work-description"].forEach(id => {
-      document.getElementById(id).value = "";
-    });
-  }
-
-  function deleteWorkExperience(button) {
-    const item = button.closest(".timeline-item");
-    if (item) item.remove();
-  }
-</script>
-
-<!-- Optional CSS for Delete Button -->
-<style>
-  .btn-success {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-
-  .btn-success:hover {
-    background-color: #218838;
-  }
-
-  .btn-danger {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-
-  .btn-danger:hover {
-    background-color: #c82333;
-  }
-
-  .timeline-item {
-    background: #f9f9f9;
-    border-left: 4px solid #007bff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
-
-  .timeline-content h4 {
-    margin: 0 0 5px;
-  }
-
-  .timeline-content .date {
-    font-size: 0.9em;
-    color: #555;
-  }
-</style>
       <!-- Blog/Writings Section -->
       <section id="blog" class="section">
         <div class="section-header">
@@ -1876,6 +1713,14 @@
         document.querySelector('.author-logout').style.display = "none";
         document.getElementById('change-pass-section').style.display = "none";
       }
+      
+      // Toggle image controls
+      const uploadBtn = document.getElementById('upload-home-img-btn');
+      const deleteBtn = document.getElementById('delete-home-img-btn');
+      if (uploadBtn && deleteBtn) {
+        uploadBtn.style.display = isAuthorLoggedIn ? "inline-block" : "none";
+        deleteBtn.style.display = isAuthorLoggedIn ? "inline-block" : "none";
+      }
     }
 
     // Upload a file to specific section
@@ -2125,12 +1970,76 @@
         });
     }
 
+    // Initialize profile image from localStorage or default
+    function loadProfileImage() {
+      const imgData = localStorage.getItem('profileImageData');
+      if (imgData) {
+        setProfileImage(imgData);
+      }
+    }
+    
+    // Set profile image for both sections
+    function setProfileImage(dataUrl) {
+      document.getElementById('home-profile-img').src = dataUrl;
+      document.getElementById('about-profile-img').src = dataUrl;
+      document.getElementById('header-profile-img').src = dataUrl;
+      localStorage.setItem('profileImageData', dataUrl);
+    }
+    
+    // Delete profile image (revert to default)
+    function deleteProfileImage() {
+      const defaultImg = 'profile.jpg';
+      setProfileImage(defaultImg);
+      localStorage.removeItem('profileImageData');
+    }
+    
     // On page load
     window.onload = () => {
       loadData();
       renderContent();
       fetchVideos();
       toggleLoginUI();
+      loadProfileImage();
+
+      // Set up image controls
+      const uploadBtn = document.getElementById('upload-home-img-btn');
+      const deleteBtn = document.getElementById('delete-home-img-btn');
+      
+      // Upload button triggers file input click
+      uploadBtn.addEventListener('click', function() {
+        if (!isAuthorLoggedIn) {
+          alert('Please login as author to upload image.');
+          return;
+        }
+        document.getElementById('home-image-upload').click();
+      });
+      
+      // Delete button click
+      deleteBtn.addEventListener('click', function() {
+        if (!isAuthorLoggedIn) {
+          alert('Please login as author to delete image.');
+          return;
+        }
+        if (confirm('Are you sure you want to delete the profile image?')) {
+          deleteProfileImage();
+        }
+      });
+      
+      // Handle image file input change
+      document.getElementById('home-image-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+          alert('Please select a valid image file.');
+          return;
+        }
+      
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          setProfileImage(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
     };
   </script>
 </body>
