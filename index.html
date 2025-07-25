@@ -1427,7 +1427,7 @@
     // Load data from WebApp (Google Apps Script)
 async function loadDataFromWebApp() {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec?action=getData');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData');
     const data = await response.json();
     if(data.contentData) contentData = data.contentData;
     if(data.uploadedFiles) uploadedFiles = data.uploadedFiles;
@@ -1466,7 +1466,7 @@ async function loadDataFromWebApp() {
     // Save data permanently to WebApp (Google Apps Script)
 async function saveDataToWebApp() {
   try {
-    await fetch('https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'saveData', contentData, uploadedFiles, author: { id: AUTHOR_ID, pass: AUTHOR_PASSWORD } })
@@ -1767,7 +1767,7 @@ async function uploadFile(inputId, section) {
   formData.append("file", file);
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec", {
       method: "POST",
       body: formData
     });
@@ -1820,7 +1820,7 @@ async function deleteFile(section, index) {
   }
   if (!confirm("Are you sure you want to delete this file?")) return;
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "deleteFile", section, index })
@@ -1865,7 +1865,7 @@ async function changeAuthorCredentials() {
   }
   if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "changeAuthor", id: newId, pass: newPass })
