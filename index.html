@@ -1425,22 +1425,31 @@
     };
 
     // Load data from WebApp (Google Apps Script)
-async function loadDataFromWebApp() {
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData');
-    const data = await response.json();
-    if(data.contentData) contentData = data.contentData;
-    if(data.uploadedFiles) uploadedFiles = data.uploadedFiles;
-    if(data.author) {
-      AUTHOR_ID = data.author.id;
-      AUTHOR_PASSWORD = data.author.pass;
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec";
+
+  async function loadDataFromWebApp() {
+    try {
+      const res = await fetch(
+        `${WEBAPP_URL}?action=getData&t=${new Date().getTime()}`,
+        { cache: "no-store" }
+      );
+      const data = await res.json();
+      if (data.contentData) contentData = data.contentData;
+      if (data.uploadedFiles) uploadedFiles = data.uploadedFiles;
+      if (data.author) {
+        AUTHOR_ID = data.author.id;
+        AUTHOR_PASSWORD = data.author.pass;
+      }
+      renderContent();
+    } catch (e) {
+      console.error("Error loading data from WebApp:", e);
+      alert("Could not load latest data. Showing cached content.");
     }
-    renderContent();
-  } catch (e) {
-    console.error("Error loading data from WebApp:", e);
-    alert("Could not load latest data. Showing cached content.");
   }
-}
+
+  // call it on page load
+  loadDataFromWebApp();
+  
     function loadData() {
       // Load content data
       const savedContent = localStorage.getItem("contentData");
