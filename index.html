@@ -1424,7 +1424,23 @@
       certifications: []
     };
 
-    // Load data from localStorage
+    // Load data from WebApp (Google Apps Script)
+async function loadDataFromWebApp() {
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec?action=getData');
+    const data = await response.json();
+    if(data.contentData) contentData = data.contentData;
+    if(data.uploadedFiles) uploadedFiles = data.uploadedFiles;
+    if(data.author) {
+      AUTHOR_ID = data.author.id;
+      AUTHOR_PASSWORD = data.author.pass;
+    }
+    renderContent();
+  } catch (e) {
+    console.error("Error loading data from WebApp:", e);
+    alert("Could not load latest data. Showing cached content.");
+  }
+}
     function loadData() {
       // Load content data
       const savedContent = localStorage.getItem("contentData");
@@ -1447,7 +1463,19 @@
       }
     }
     
-    // Save data to localStorage
+    // Save data permanently to WebApp (Google Apps Script)
+async function saveDataToWebApp() {
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'saveData', contentData, uploadedFiles, author: { id: AUTHOR_ID, pass: AUTHOR_PASSWORD } })
+    });
+  } catch (e) {
+    console.error("Error saving to WebApp:", e);
+    alert("Failed to save changes. Try again.");
+  }
+}
     function saveData() {
       localStorage.setItem("contentData", JSON.stringify(contentData));
       localStorage.setItem("author_id", AUTHOR_ID);
@@ -1723,7 +1751,40 @@
       }
     }
 
-    // Upload a file to specific section
+    // Upload a file permanently via WebApp
+async function uploadFile(inputId, section) {
+  if (!isAuthorLoggedIn) {
+    alert("Please login as author to upload.");
+    return;
+  }
+  const input = document.getElementById(inputId);
+  const file = input.files[0];
+  if (!file) return alert("Please select a file first.");
+
+  const formData = new FormData();
+  formData.append("action", "uploadFile");
+  formData.append("section", section);
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec", {
+      method: "POST",
+      body: formData
+    });
+    const result = await response.json();
+    if (result.success) {
+      alert(`Uploaded '${file.name}' to ${section}.`);
+      uploadedFiles = result.uploadedFiles;
+      renderFiles();
+    } else {
+      alert("Upload failed.");
+    }
+  } catch (e) {
+    console.error("Upload error:", e);
+    alert("Upload error.");
+  }
+  input.value = "";
+}
     function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to upload.");
@@ -1751,7 +1812,32 @@
       renderFiles();
     }
 
-    // Delete file from section at index
+    // Delete a file permanently via WebApp
+async function deleteFile(section, index) {
+  if (!isAuthorLoggedIn) {
+    alert("Please login as author to delete files.");
+    return;
+  }
+  if (!confirm("Are you sure you want to delete this file?")) return;
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "deleteFile", section, index })
+    });
+    const result = await response.json();
+    if(result.success){
+      uploadedFiles = result.uploadedFiles;
+      renderFiles();
+      alert("Deleted successfully.");
+    } else {
+      alert("Delete failed.");
+    }
+  } catch (e) {
+    console.error("Delete error:", e);
+    alert("Delete error.");
+  }
+}
     function deleteFile(section, index) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to delete files.");
@@ -1765,7 +1851,41 @@
       renderFiles();
     }
 
-    // Change author credentials and log out immediately
+    // Change author credentials permanently via WebApp
+async function changeAuthorCredentials() {
+  if (!isAuthorLoggedIn) {
+    alert("Please login first.");
+    return;
+  }
+  const newId = document.getElementById("new-author-id").value.trim();
+  const newPass = document.getElementById("new-author-pass").value.trim();
+  if(newId.length < 3 || newPass.length < 3) {
+    alert("Author ID and Password must be at least 3 characters.");
+    return;
+  }
+  if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "changeAuthor", id: newId, pass: newPass })
+    });
+    const result = await response.json();
+    if(result.success){
+      AUTHOR_ID = newId;
+      AUTHOR_PASSWORD = newPass;
+      alert("Author credentials changed. Please log in again.");
+      signOutAuthor();
+      document.getElementById("new-author-id").value = "";
+      document.getElementById("new-author-pass").value = "";
+    } else {
+      alert("Failed to change credentials.");
+    }
+  } catch (e) {
+    console.error("Change author error:", e);
+    alert("Change author error.");
+  }
+}
     function changeAuthorCredentials() {
       if (!isAuthorLoggedIn) {
         alert("Please login first.");
@@ -1995,7 +2115,7 @@
     
     // On page load
     window.onload = () => {
-      loadData();
+      loadDataFromWebApp();
       renderContent();
       fetchVideos();
       toggleLoginUI();
