@@ -1467,8 +1467,6 @@
         copyrightName: "Md. Shamim Al Razi",
         copyrightYear: "2025"
       }
-        version: "2025-08-10-v1"
-    
     };
     
     
@@ -1564,32 +1562,8 @@
     function loadData() {
       const savedContent = localStorage.getItem("contentData");
       if (savedContent) {
-        try {
-          const parsed = JSON.parse(savedContent);
-          if (parsed.version && parsed.version === contentData.version) {
-            contentData = parsed;
-          } else {
-            // cached version mismatch — clear old cache
-            localStorage.removeItem('contentData');
-          }
-        } catch (e) {
-          console.warn('Bad cached contentData, clearing it.');
-          localStorage.removeItem('contentData');
-        }
+        contentData = JSON.parse(savedContent);
       }
-
-      const savedAuthorId = localStorage.getItem("author_id");
-      const savedAuthorPass = localStorage.getItem("author_pass");
-      if (savedAuthorId && savedAuthorPass) {
-        AUTHOR_ID = savedAuthorId;
-        AUTHOR_PASSWORD = savedAuthorPass;
-      }
-
-      const savedFiles = localStorage.getItem("uploaded_files");
-      if (savedFiles) {
-        try { uploadedFiles = JSON.parse(savedFiles); } catch(e) { localStorage.removeItem('uploaded_files'); }
-      }
-    }
       
       const savedAuthorId = localStorage.getItem("author_id");
       const savedAuthorPass = localStorage.getItem("author_pass");
@@ -2234,7 +2208,5 @@
       });
     };
   </script>
-
-  <button id="clear-cache-btn" style="position:fixed;bottom:12px;right:12px;padding:10px 12px;border-radius:8px;background:#e74c3c;color:white;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.15);cursor:pointer;z-index:9999;">Clear Cache</button>
 </body>
 </html>
