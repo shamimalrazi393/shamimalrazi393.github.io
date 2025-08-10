@@ -1467,9 +1467,9 @@
         copyrightName: "Md. Shamim Al Razi",
         copyrightYear: "2025"
       }
+        version: "2025-08-10-v1"
     
     };
-    renderContent();
     
     
     renderContent();
@@ -1529,7 +1529,24 @@
     }
     
     // Load data from WebApp (Google Apps Script)
-    async  catch (e) {
+    async function loadDataFromWebApp() {
+      try {
+        showSpinner('home');
+        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData');
+        const data = await response.json();
+        
+        if (data.status === "success") {
+          if (data.contentData) contentData = data.contentData;
+          if (data.uploadedFiles) uploadedFiles = data.uploadedFiles;
+          if (data.author) {
+            AUTHOR_ID = data.author.id;
+            AUTHOR_PASSWORD = data.author.pass;
+          }
+          renderContent();
+        } else {
+          throw new Error("Failed to load data from server");
+        }
+      } catch (e) {
         console.error("Error loading data from WebApp:", e);
         loadData();
         renderContent();
@@ -1544,26 +1561,17 @@
     }
     
     // Load data from localStorage
-    
     function loadData() {
       const savedContent = localStorage.getItem("contentData");
       if (savedContent) {
-        try { contentData = JSON.parse(savedContent); } 
-        catch(e) { localStorage.removeItem("contentData"); }
-      }
-      const savedAuthorId = localStorage.getItem("author_id");
-      const savedAuthorPass = localStorage.getItem("author_pass");
-      if (savedAuthorId && savedAuthorPass) {
-        AUTHOR_ID = savedAuthorId;
-        AUTHOR_PASSWORD = savedAuthorPass;
-      }
-      const savedFiles = localStorage.getItem("uploaded_files");
-      if (savedFiles) {
-        try { uploadedFiles = JSON.parse(savedFiles); } 
-        catch(e) { localStorage.removeItem("uploaded_files"); }
-      }
-    }
-
+        try {
+          const parsed = JSON.parse(savedContent);
+          if (parsed.version && parsed.version === contentData.version) {
+            contentData = parsed;
+          } else {
+            // cached version mismatch — clear old cache
+            localStorage.removeItem('contentData');
+          }
         } catch (e) {
           console.warn('Bad cached contentData, clearing it.');
           localStorage.removeItem('contentData');
@@ -2225,43 +2233,6 @@
         reader.readAsDataURL(file);
       });
     };
-    // Improved loadDataFromWebApp with backend version sync
-    function loadDataFromWebApp() {
-      fetch(WEBAPP_URL + "?action=getData")
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === "success") {
-            if (data.version) {
-              const cachedVersion = localStorage.getItem("contentDataVersion");
-              if (cachedVersion !== data.version) {
-                localStorage.removeItem("contentData");
-                localStorage.setItem("contentDataVersion", data.version);
-              }
-            }
-            contentData = data.contentData || contentData;
-            uploadedFiles = data.uploadedFiles || {};
-            if (data.author) {
-              AUTHOR_ID = data.author.id;
-              AUTHOR_PASSWORD = data.author.pass;
-              localStorage.setItem("author_id", AUTHOR_ID);
-              localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-            }
-            localStorage.setItem("contentData", JSON.stringify(contentData));
-            localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
-            renderContent();
-          } else {
-            console.warn("Backend returned error:", data.error || data);
-            // Show cached content if available
-            renderContent();
-          }
-        })
-        .catch(err => {
-          console.error("Error fetching from backend:", err);
-          // Show cached content if available
-          renderContent();
-        });
-    }
-
   </script>
 
   <button id="clear-cache-btn" style="position:fixed;bottom:12px;right:12px;padding:10px 12px;border-radius:8px;background:#e74c3c;color:white;border:none;box-shadow:0 4px 10px rgba(0,0,0,0.15);cursor:pointer;z-index:9999;">Clear Cache</button>
