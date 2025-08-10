@@ -101,9 +101,21 @@
     
     .header-text h1 {
       margin: 5px 0;
-      font-size: 24px;
-      letter-spacing: 0.5px;
-      font-weight: 600;
+      font-size: 26px; /* Slightly larger */
+      letter-spacing: 0.8px; /* More spacing for elegance */
+      font-weight: 700; /* Bolder */
+      color: #ffd700; /* Gold instead of white */
+      text-shadow: 
+        0 1px 0 rgba(0,0,0,0.4), /* Stronger base shadow */
+        0 0 10px rgba(255,215,0,0.5); /* Gold glow */
+      transition: all 0.3s ease; /* Smooth hover effect */
+    }
+    
+    .header-text h1:hover {
+      color: #fffacd; /* Brighter gold on hover */
+      text-shadow: 
+        0 0 5px #ffd700, 
+        0 0 15px rgba(255,215,0,0.7); /* Enhanced glow */
     }
     
     .header-text p {
