@@ -1668,19 +1668,25 @@
       try {
         showSpinner('home');
         
-        // Use the web app URL (not the script URL) for proper CORS handling
-        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData&_=' + Date.now();
-    
-        // IMPORTANT: Remove 'no-cors' mode to actually read the response
-        const response = await fetch(url, {
-          redirect: 'follow',
-          cache: 'no-store'
+        // Use the web app URL with proper deployment settings
+        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec';
+        
+        // Add timestamp parameter to prevent caching
+        const fullUrl = `${url}?action=getData&_=${Date.now()}`;
+        
+        // Use fetch with proper error handling
+        const response = await fetch(fullUrl, {
+          method: 'GET',
+          mode: 'no-cors', // Important for CORS with Google Apps Script
+          redirect: 'follow'
         });
     
-        // Check for HTTP errors
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        // Check if response is OK (even in no-cors mode)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
     
-        // Parse the JSON response
+        // Parse the response
         const data = await response.json();
     
         if (data.status === "success") {
@@ -1691,14 +1697,22 @@
             AUTHOR_PASSWORD = data.author.pass;
           }
           renderContent();
+          return; // Success - no need for fallback
         } else {
           throw new Error(data.error || "Failed to load data from server");
         }
       } catch (e) {
         console.error("Error loading data:", e);
-        loadData(); // Fallback to localStorage
-        renderContent();
-        showError('home', "Could not load latest data. Showing cached content.");
+        // Try alternative approach for CORS issues
+        try {
+          await loadDataViaJsonp();
+          return; // Success with JSONP
+        } catch (jsonpError) {
+          console.error("JSONP fallback failed:", jsonpError);
+          loadData(); // Final fallback to localStorage
+          renderContent();
+          showError('home', "Could not load latest data. Showing cached content.");
+        }
       } finally {
         hideSpinner('home');
       }
