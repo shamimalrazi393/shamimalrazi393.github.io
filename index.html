@@ -1685,11 +1685,9 @@
         console.error("Error loading data from WebApp:", e);
         loadData();
         renderContent();
-
-        // Only show error message to author
-        if (isAuthorLoggedIn) {
-          showError('home', "Could not load latest data. Showing cached content.");
-        }
+        
+        showError('home', "Could not load latest data. Showing cached content.");
+        
       } finally {
         hideSpinner('home');
       }
