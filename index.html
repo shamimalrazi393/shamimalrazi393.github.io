@@ -1668,11 +1668,18 @@
       try {
         showSpinner('home');
     
-        // Add cache-busting timestamp query param
         const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData&_=' + Date.now();
     
-        // Prevent browser cache with fetch cache option
-        const response = await fetch(url, { cache: 'no-store' });
+        // Use fetch with 'no-cors' mode to bypass CORS restrictions
+        const response = await fetch(url, { 
+          mode: 'no-cors', // Bypass CORS restrictions
+          cache: 'no-store' // Prevent caching
+        });
+    
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+    
         const data = await response.json();
     
         if (data.status === "success") {
@@ -1688,9 +1695,8 @@
         }
       } catch (e) {
         console.error("Error loading data from WebApp:", e);
-        loadData();
+        loadData(); // Fallback to localStorage data
         renderContent();
-    
         showError('home', "Could not load latest data. Showing cached content.");
       } finally {
         hideSpinner('home');
