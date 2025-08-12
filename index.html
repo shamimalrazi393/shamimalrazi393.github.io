@@ -1667,19 +1667,20 @@
     async function loadDataFromWebApp() {
       try {
         showSpinner('home');
-    
+        
+        // Use the web app URL (not the script URL) for proper CORS handling
         const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData&_=' + Date.now();
     
-        // Use fetch with 'no-cors' mode to bypass CORS restrictions
-        const response = await fetch(url, { 
-          mode: 'no-cors', // Bypass CORS restrictions
-          cache: 'no-store' // Prevent caching
+        // IMPORTANT: Remove 'no-cors' mode to actually read the response
+        const response = await fetch(url, {
+          redirect: 'follow',
+          cache: 'no-store'
         });
     
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        // Check for HTTP errors
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     
+        // Parse the JSON response
         const data = await response.json();
     
         if (data.status === "success") {
@@ -1691,18 +1692,17 @@
           }
           renderContent();
         } else {
-          throw new Error("Failed to load data from server");
+          throw new Error(data.error || "Failed to load data from server");
         }
       } catch (e) {
-        console.error("Error loading data from WebApp:", e);
-        loadData(); // Fallback to localStorage data
+        console.error("Error loading data:", e);
+        loadData(); // Fallback to localStorage
         renderContent();
         showError('home', "Could not load latest data. Showing cached content.");
       } finally {
         hideSpinner('home');
       }
     }
-
     
     // Load data from localStorage
     function loadData() {
