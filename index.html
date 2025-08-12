@@ -1677,19 +1677,33 @@
         // Use fetch with proper error handling
         const response = await fetch(fullUrl, {
           method: 'GET',
-          mode: 'no-cors', // Important for CORS with Google Apps Script
-          redirect: 'follow'
+          redirect: 'follow',
+          credentials: 'omit'
         });
     
-        // Check if response is OK (even in no-cors mode)
+        // Check if response is OK
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
     
-        // Parse the response
-        const data = await response.json();
+        // Parse the response as text first to handle potential redirects
+        const responseText = await response.text();
+        
+        // Try to parse as JSON
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (e) {
+          // If parsing fails, try to extract JSON from possible HTML wrapper
+          const jsonMatch = responseText.match(/\{.*\}/);
+          if (jsonMatch) {
+            data = JSON.parse(jsonMatch[0]);
+          } else {
+            throw new Error("Invalid JSON response");
+          }
+        }
     
-        if (data.status === "success") {
+        if (data && data.status === "success") {
           if (data.contentData) contentData = data.contentData;
           if (data.uploadedFiles) uploadedFiles = data.uploadedFiles;
           if (data.author) {
@@ -1699,20 +1713,13 @@
           renderContent();
           return; // Success - no need for fallback
         } else {
-          throw new Error(data.error || "Failed to load data from server");
+          throw new Error(data?.error || "Invalid response format");
         }
       } catch (e) {
         console.error("Error loading data:", e);
-        // Try alternative approach for CORS issues
-        try {
-          await loadDataViaJsonp();
-          return; // Success with JSONP
-        } catch (jsonpError) {
-          console.error("JSONP fallback failed:", jsonpError);
-          loadData(); // Final fallback to localStorage
-          renderContent();
-          showError('home', "Could not load latest data. Showing cached content.");
-        }
+        loadData(); // Fallback to localStorage
+        renderContent();
+        showError('home', "Could not load latest data. Showing cached content.");
       } finally {
         hideSpinner('home');
       }
