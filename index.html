@@ -1667,9 +1667,14 @@
     async function loadDataFromWebApp() {
       try {
         showSpinner('home');
-        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData');
+    
+        // Add cache-busting timestamp query param
+        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=getData&_=' + Date.now();
+    
+        // Prevent browser cache with fetch cache option
+        const response = await fetch(url, { cache: 'no-store' });
         const data = await response.json();
-        
+    
         if (data.status === "success") {
           if (data.contentData) contentData = data.contentData;
           if (data.uploadedFiles) uploadedFiles = data.uploadedFiles;
@@ -1685,13 +1690,13 @@
         console.error("Error loading data from WebApp:", e);
         loadData();
         renderContent();
-        
+    
         showError('home', "Could not load latest data. Showing cached content.");
-        
       } finally {
         hideSpinner('home');
       }
     }
+
     
     // Load data from localStorage
     function loadData() {
