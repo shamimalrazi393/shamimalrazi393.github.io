@@ -1267,8 +1267,12 @@
           <!-- Fusion files will be loaded here -->
         </div>
 
-        <h3>Latest YouTube Videos</h3>
-        <div id="youtube-videos">Loading videos...</div>
+        <h3>Latest Videos</h3>
+        <div id="youtube-videos" class="youtube-videos"></div>
+        <button id="show-all-videos" style="margin-top:20px; padding:10px 20px; display:none;">
+          Show All Videos
+        </button>
+
       </section>
 
       <!-- Publications Section -->
@@ -2273,30 +2277,45 @@
     }
   
     // Fetch YouTube videos and show
-    function fetchVideos() {
-      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=4`)
-        .then(res => res.json())
-        .then(data => {
-          const videosDiv = document.getElementById('youtube-videos');
-          videosDiv.innerHTML = '';
-          if (!data.items) return videosDiv.textContent = 'No videos found.';
-          data.items.forEach(item => {
-            if (item.id.kind === "youtube#video") {
-              const iframe = document.createElement('iframe');
-              iframe.width = "320";
-              iframe.height = "180";
-              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-              iframe.allowFullscreen = true;
-              videosDiv.appendChild(iframe);
+    function fetchVideos(showAll = false) {
+        const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+        const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+        const maxResults = showAll ? 20 : 4; // show 4 by default, all if requested
+      
+        fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
+          .then(res => res.json())
+          .then(data => {
+            const videosDiv = document.getElementById('youtube-videos');
+            videosDiv.innerHTML = '';
+            if (!data.items) {
+              videosDiv.textContent = 'No videos found.';
+              return;
             }
+            data.items.forEach(item => {
+              if (item.id.kind === "youtube#video") {
+                const iframe = document.createElement('iframe');
+                iframe.width = "320";
+                iframe.height = "180";
+                iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
+                iframe.allowFullscreen = true;
+                videosDiv.appendChild(iframe);
+              }
+            });
+      
+            // show button only if not showing all
+            const btn = document.getElementById("show-all-videos");
+            if (!showAll && data.items.length > 0) {
+              btn.style.display = "block";
+              btn.onclick = () => fetchVideos(true);
+            } else {
+              btn.style.display = "none";
+            }
+          })
+          .catch(() => {
+            document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
           });
-        })
-        .catch(() => {
-          document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
-        });
-    }
+      }
+
 
     // Initialize profile image from localStorage or default
     function loadProfileImage() {
