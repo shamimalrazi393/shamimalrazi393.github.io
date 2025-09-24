@@ -1680,7 +1680,7 @@
     };
 
     // Google Apps Script URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4bbXbpM0jfVXeTFT1q64WG0uZQ9ztcaGWY730mmoFDtWg2PZ-RiSVwYvYUknHFPSkfQ/exec';
 
     // Show spinner and hide error
     function showSpinner(section) {
@@ -2133,17 +2133,16 @@
       const input = document.getElementById(inputId);
       const file = input.files[0];
       if (!file) return alert("Please select a file first.");
-
+    
       try {
         showUploadProgress(section, 10);
         
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('section', section);
         
         showUploadProgress(section, 50);
         
-        const response = await fetch(`${SCRIPT_URL}?action=uploadFile`, {
+        const response = await fetch(`${SCRIPT_URL}?action=uploadFile&section=${section}`, {
           method: 'POST',
           body: formData
         });
@@ -2156,7 +2155,7 @@
         
         const result = await response.json();
         
-        if (result.success) {
+        if (result.status === "success") {
           uploadedFiles[section] = result.uploadedFiles[section];
           saveData();
           saveDataToWebApp();
