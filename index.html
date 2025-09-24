@@ -1754,10 +1754,11 @@
         AUTHOR_PASSWORD = savedAuthorPass;
       }
       
-      const savedFiles = localStorage.getItem("uploaded_files");
+      const savedFiles = localStorage.getItem("uploadedFiles");
       if (savedFiles) {
         uploadedFiles = JSON.parse(savedFiles);
       }
+
     }
     
     // Save data to localStorage
@@ -1765,22 +1766,23 @@
       localStorage.setItem("contentData", JSON.stringify(contentData));
       localStorage.setItem("author_id", AUTHOR_ID);
       localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-      localStorage.setItem("uploaded_files", JSON.stringify(uploadedFiles));
+      localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
     }
     
     // Save data to WebApp
     async function saveDataToWebApp() {
       try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec', {
+        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=saveData';
+        const response = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            action: 'saveData',
             contentData,
             uploadedFiles,
             author: { id: AUTHOR_ID, pass: AUTHOR_PASSWORD }
           })
         });
+
         
         const result = await response.json();
         if (result.status !== "success") {
@@ -2387,6 +2389,19 @@
           deleteProfileImage();
         }
       });
+      // Attach universal edit button handler
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const section = btn.closest('.section');
+          const form = section.querySelector('.edit-form');
+          if (form) {
+            form.style.display = 'block';
+          } else {
+            console.warn("No edit form found for section:", section.id);
+          }
+        });
+      });
+
       
       // Handle image file input change
       document.getElementById('home-image-upload').addEventListener('change', function(event) {
