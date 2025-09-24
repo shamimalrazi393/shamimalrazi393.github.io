@@ -51,7 +51,7 @@
       color: var(--primary);
     }
     
-    /* Header Styles - Professional Enhancement */
+    /* Header Styles - Fixed Scrolling Issue */
     header {
       background: linear-gradient(to right, var(--primary), #152238);
       padding: 15px 20px;
@@ -60,8 +60,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      position: sticky;
-      top: 0;
+      position: relative; /* Changed from sticky to relative */
       z-index: 1000;
       border-bottom: 2px solid rgba(255,255,255,0.1);
     }
@@ -101,21 +100,21 @@
     
     .header-text h1 {
       margin: 5px 0;
-      font-size: 26px; /* Slightly larger */
-      letter-spacing: 0.8px; /* More spacing for elegance */
-      font-weight: 700; /* Bolder */
-      color: #ffd700; /* Gold instead of white */
+      font-size: 26px;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+      color: #ffd700;
       text-shadow: 
-        0 1px 0 rgba(0,0,0,0.4), /* Stronger base shadow */
-        0 0 10px rgba(255,215,0,0.5); /* Gold glow */
-      transition: all 0.3s ease; /* Smooth hover effect */
+        0 1px 0 rgba(0,0,0,0.4),
+        0 0 10px rgba(255,215,0,0.5);
+      transition: all 0.3s ease;
     }
     
     .header-text h1:hover {
-      color: #fffacd; /* Brighter gold on hover */
+      color: #fffacd;
       text-shadow: 
         0 0 5px #ffd700, 
-        0 0 15px rgba(255,215,0,0.7); /* Enhanced glow */
+        0 0 15px rgba(255,215,0,0.7);
     }
     
     .header-text p {
@@ -134,14 +133,14 @@
       width: 100%;
     }
     
-    /* Sidebar Navigation - Professional Enhancement */
+    /* Sidebar Navigation */
     .sidebar {
       width: var(--sidebar-width);
       background: linear-gradient(to bottom, var(--dark), #25354d);
       color: white;
       height: calc(100vh - var(--header-height));
       position: sticky;
-      top: var(--header-height);
+      top: 0; /* Changed to 0 since header is not sticky anymore */
       overflow-y: auto;
       padding: 20px 0;
       box-shadow: 3px 0 12px rgba(0,0,0,0.15);
@@ -199,7 +198,7 @@
       color: rgba(255,255,255,0.7);
     }
     
-    /* Main Content - Professional Enhancement */
+    /* Main Content */
     .main-content {
       flex: 1;
       padding: 35px;
@@ -276,7 +275,7 @@
       box-shadow: var(--shadow-md);
     }
     
-    /* Home Section - Professional Enhancement */
+    /* Home Section */
     .home-content {
       display: flex;
       gap: 40px;
@@ -314,7 +313,7 @@
       line-height: 1.7;
     }
     
-    /* About Section - Professional Enhancement */
+    /* About Section */
     .about-content {
       display: flex;
       gap: 40px;
@@ -388,7 +387,7 @@
       font-size: 20px;
     }
     
-    /* Form Elements - Professional Enhancement */
+    /* Form Elements */
     input, textarea, button, select {
       font-size: 16px;
       padding: 14px 18px;
@@ -438,7 +437,7 @@
       box-shadow: var(--shadow-md);
     }
     
-    /* Upload Sections - Professional Enhancement */
+    /* Upload Sections */
     .upload-area {
       margin-bottom: 30px;
       padding: 25px;
@@ -454,7 +453,7 @@
       box-shadow: inset 0 0 15px rgba(0,0,0,0.08);
     }
     
-    /* File Items - Professional Enhancement */
+    /* File Items */
     .file-item {
       display: flex;
       align-items: center;
@@ -505,7 +504,7 @@
       border-radius: var(--radius-sm);
     }
     
-    /* YouTube Videos - Professional Enhancement */
+    /* YouTube Videos */
     .youtube-videos {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -525,7 +524,7 @@
       transform: scale(1.03);
     }
     
-    /* Contact Section - Professional Enhancement */
+    /* Contact Section */
     .contact-info {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -588,7 +587,7 @@
       flex-shrink: 0;
     }
     
-    /* Experience & Education - Professional Enhancement */
+    /* Experience & Education */
     .timeline {
       position: relative;
       max-width: 900px;
@@ -660,7 +659,7 @@
       font-size: 22px;
     }
     
-    /* Login Section - Professional Enhancement */
+    /* Login Section */
     .login-container {
       max-width: 500px;
       margin: 0 auto;
@@ -693,7 +692,7 @@
       font-size: 19px;
     }
     
-    /* Password Change Section - Professional Enhancement */
+    /* Password Change Section */
     .change-pass-section {
       max-width: 500px;
       margin: 45px auto;
@@ -705,7 +704,7 @@
       border: 1px solid #eef2f7;
     }
     
-    /* Footer - Professional Enhancement */
+    /* Footer */
     footer {
       background: linear-gradient(to right, var(--primary), #152238);
       color: white;
@@ -784,7 +783,7 @@
       opacity: 0.8;
     }
     
-    /* Responsive Design - Professional Enhancement */
+    /* Responsive Design */
     @media (max-width: 1200px) {
       .container {
         flex-direction: column;
@@ -857,7 +856,7 @@
       }
     }
     
-    /* Edit Mode Styles - Professional Enhancement */
+    /* Edit Mode Styles */
     .editable-field {
       padding: 12px;
       border: 1px dashed #e1e5eb;
@@ -915,7 +914,7 @@
       padding: 12px;
     }
     
-    /* Profile Image Section - Professional Enhancement */
+    /* Profile Image Section */
     .profile-image-section {
       margin-bottom: 20px;
       display: flex;
@@ -955,6 +954,24 @@
       margin: 18px 0;
       display: none;
       font-weight: 500;
+    }
+    
+    /* Upload Progress */
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      margin: 10px 0;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .progress {
+      height: 100%;
+      background-color: var(--accent);
+      width: 0%;
+      transition: width 0.3s ease;
     }
     
     /* New Professional Elements */
@@ -1211,7 +1228,7 @@
       <section id="projects" class="section">
         <div class="section-header">
           <h2><i class="fas fa-project-diagram"></i> Projects</h2>
-          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="edit-btn" id="edit-projects-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
         <div class="spinner" id="projects-spinner"></div>
@@ -1220,6 +1237,9 @@
         <div class="upload-area upload-author-only">
           <h3>Upload Project File</h3>
           <input type="file" id="projectUpload" />
+          <div class="progress-bar" id="project-progress-bar">
+            <div class="progress" id="project-progress"></div>
+          </div>
           <button onclick="uploadFile('projectUpload', 'projects')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
         
@@ -1233,7 +1253,7 @@
       <section id="fusion" class="section">
         <div class="section-header">
           <h2><i class="fas fa-music"></i> Fusion ShilpiGosti</h2>
-          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="edit-btn" id="edit-fusion-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
         <div class="spinner" id="fusion-spinner"></div>
@@ -1259,6 +1279,9 @@
         <div class="upload-area upload-author-only">
           <h3>Upload Your Music or Video</h3>
           <input type="file" id="fusionUpload" accept="video/*,audio/*" />
+          <div class="progress-bar" id="fusion-progress-bar">
+            <div class="progress" id="fusion-progress"></div>
+          </div>
           <button onclick="uploadFile('fusionUpload', 'fusion')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
 
@@ -1279,7 +1302,7 @@
       <section id="publications" class="section">
         <div class="section-header">
           <h2><i class="fas fa-book"></i> Publications</h2>
-          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="edit-btn" id="edit-publications-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
         <div class="spinner" id="publications-spinner"></div>
@@ -1287,6 +1310,9 @@
         
         <div class="upload-area upload-author-only">
           <input type="file" id="pubUpload" accept="application/pdf" />
+          <div class="progress-bar" id="pub-progress-bar">
+            <div class="progress" id="pub-progress"></div>
+          </div>
           <button onclick="uploadFile('pubUpload', 'publications')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
         
@@ -1305,7 +1331,7 @@
         <div class="spinner" id="research-spinner"></div>
         <div class="error-message" id="research-error"></div>
         
-        <div class="edit-form" id="research-edit-form">
+        <div class="edit-form" id="research-edit-form" style="display:none;">
           <h3>Edit Research Information</h3>
           <label>Research Area:</label>
           <input type="text" id="edit-research-area" class="editable-field" />
@@ -1328,6 +1354,9 @@
         <div class="upload-area upload-author-only">
           <h3>Upload Research File</h3>
           <input type="file" id="researchUpload" />
+          <div class="progress-bar" id="research-progress-bar">
+            <div class="progress" id="research-progress"></div>
+          </div>
           <button onclick="uploadFile('researchUpload', 'research')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
         
@@ -1349,7 +1378,7 @@
 <section id="work" class="section">
   <div class="section-header">
     <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
-    <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+    <button class="edit-btn" id="edit-work-btn"><i class="fas fa-edit"></i> Edit</button>
   </div>
 
   <div class="spinner" id="work-spinner"></div>
@@ -1383,7 +1412,7 @@
       <section id="blog" class="section">
         <div class="section-header">
           <h2><i class="fas fa-blog"></i> Blog/Writings</h2>
-          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="edit-btn" id="edit-blog-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
         <div class="spinner" id="blog-spinner"></div>
@@ -1391,6 +1420,9 @@
         
         <div class="upload-area upload-author-only">
           <input type="file" id="blogUpload" accept=".txt,.pdf,.docx" />
+          <div class="progress-bar" id="blog-progress-bar">
+            <div class="progress" id="blog-progress"></div>
+          </div>
           <button onclick="uploadFile('blogUpload', 'blog')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
         
@@ -1403,7 +1435,7 @@
       <section id="certifications" class="section">
         <div class="section-header">
           <h2><i class="fas fa-certificate"></i> Certifications</h2>
-          <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+          <button class="edit-btn" id="edit-certifications-btn"><i class="fas fa-edit"></i> Edit</button>
         </div>
         
         <div class="spinner" id="certifications-spinner"></div>
@@ -1411,6 +1443,9 @@
         
         <div class="upload-area upload-author-only">
           <input type="file" id="certUpload" />
+          <div class="progress-bar" id="cert-progress-bar">
+            <div class="progress" id="cert-progress"></div>
+          </div>
           <button onclick="uploadFile('certUpload', 'certifications')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
         </div>
         
@@ -1429,7 +1464,7 @@
         <div class="spinner" id="contact-spinner"></div>
         <div class="error-message" id="contact-error"></div>
         
-        <div class="edit-form" id="contact-edit-form">
+        <div class="edit-form" id="contact-edit-form" style="display:none;">
           <h3>Edit Contact Information</h3>
           <label>Email:</label>
           <input type="email" id="edit-contact-email" class="editable-field" />
@@ -1615,7 +1650,7 @@
     // Initialize author credentials
     let AUTHOR_ID = "admin";
     let AUTHOR_PASSWORD = "123456";
-    let isAuthorLoggedIn = localStorage.getItem('isAuthorLoggedIn') === 'true';
+    let isAuthorLoggedIn = false;
     
     // File storage
     let uploadedFiles = {
@@ -1644,6 +1679,9 @@
       ]
     };
 
+    // Google Apps Script URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec';
+
     // Show spinner and hide error
     function showSpinner(section) {
       const spinner = document.getElementById(`${section}-spinner`);
@@ -1667,15 +1705,32 @@
       }
     }
     
-    // Load data from WebApp (Google Apps Script) with lastUpdated check
+    // Show upload progress
+    function showUploadProgress(section, percent) {
+      const progressBar = document.getElementById(`${section}-progress-bar`);
+      const progress = document.getElementById(`${section}-progress`);
+      if (progressBar && progress) {
+        progressBar.style.display = "block";
+        progress.style.width = `${percent}%`;
+      }
+    }
+    
+    // Hide upload progress
+    function hideUploadProgress(section) {
+      const progressBar = document.getElementById(`${section}-progress-bar`);
+      if (progressBar) {
+        progressBar.style.display = "none";
+      }
+    }
+    
+    // Load data from WebApp (Google Apps Script)
     async function loadDataFromWebApp() {
       try {
         showSpinner('home');
     
-        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec';
-        const fullUrl = `${url}?action=getData&_=${Date.now()}`;
+        const url = `${SCRIPT_URL}?action=getData&_=${Date.now()}`;
     
-        const response = await fetch(fullUrl, {
+        const response = await fetch(url, {
           method: 'GET',
           redirect: 'follow',
           credentials: 'omit'
@@ -1759,6 +1814,11 @@
         uploadedFiles = JSON.parse(savedFiles);
       }
 
+      // Load login state
+      const savedLoginState = localStorage.getItem("isAuthorLoggedIn");
+      if (savedLoginState) {
+        isAuthorLoggedIn = savedLoginState === "true";
+      }
     }
     
     // Save data to localStorage
@@ -1767,12 +1827,13 @@
       localStorage.setItem("author_id", AUTHOR_ID);
       localStorage.setItem("author_pass", AUTHOR_PASSWORD);
       localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
+      localStorage.setItem("isAuthorLoggedIn", isAuthorLoggedIn.toString());
     }
     
     // Save data to WebApp
     async function saveDataToWebApp() {
       try {
-        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=saveData';
+        const url = `${SCRIPT_URL}?action=saveData`;
         const response = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2007,37 +2068,19 @@
     function checkAuthorLogin() {
       const id = document.getElementById("author-id").value.trim();
       const pass = document.getElementById("author-password").value.trim();
-      
-      // Show loading
-      showSpinner('login');
-      
-      // Verify credentials through Google Apps Script
-      fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=verifyLogin', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id: id, password: pass})
-      })
-      .then(response => response.json())
-      .then(data => {
-        hideSpinner('login');
-        if (data.success) {
-          isAuthorLoggedIn = true;
-          localStorage.setItem('isAuthorLoggedIn', 'true');
-          toggleLoginUI();
-          alert("Login successful!");
-        } else {
-          alert("Invalid credentials.");
-        }
-      })
-      .catch(error => {
-        hideSpinner('login');
-        showError('login', 'Login failed: ' + error.message);
-      });
+      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
+        isAuthorLoggedIn = true;
+        saveData();
+        toggleLoginUI();
+      } else {
+        alert("Invalid credentials.");
+      }
     }
-    
+
+    // Sign out author and reset UI
     function signOutAuthor() {
       isAuthorLoggedIn = false;
-      localStorage.removeItem('isAuthorLoggedIn');
+      saveData();
       toggleLoginUI();
     }
 
@@ -2081,78 +2124,90 @@
       }
     }
 
-    // Upload a file
+    // Upload a file to Google Drive
     async function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to upload.");
         return;
       }
-      
       const input = document.getElementById(inputId);
       const file = input.files[0];
       if (!file) return alert("Please select a file first.");
-    
-      // Show upload progress
-      showSpinner(section);
-      const progressText = document.createElement('div');
-      progressText.innerHTML = `<p>Uploading ${file.name}... Please wait.</p>`;
-      document.getElementById(section).appendChild(progressText);
-    
+
       try {
-        // Convert file to base64 for transmission
-        const reader = new FileReader();
-        const fileData = await new Promise((resolve, reject) => {
-          reader.onload = () => resolve(reader.result.split(',')[1]); // Get base64 part
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-    
-        // Upload to Google Drive via Apps Script
-        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=uploadFile', {
+        showUploadProgress(section, 10);
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('section', section);
+        
+        showUploadProgress(section, 50);
+        
+        const response = await fetch(`${SCRIPT_URL}?action=uploadFile`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            section: section,
-            fileName: file.name,
-            fileData: fileData,
-            mimeType: file.type
-          })
+          body: formData
         });
-    
+        
+        showUploadProgress(section, 90);
+        
+        if (!response.ok) {
+          throw new Error(`Upload failed: ${response.status}`);
+        }
+        
         const result = await response.json();
-        hideSpinner(section);
-        progressText.remove();
-    
+        
         if (result.success) {
-          // Refresh file list from server
-          await loadDataFromWebApp();
+          uploadedFiles[section] = result.uploadedFiles[section];
+          saveData();
+          saveDataToWebApp();
           renderFiles();
-          alert(`Successfully uploaded '${file.name}' to ${section}.`);
+          alert(`Uploaded '${file.name}' to ${section}.`);
         } else {
-          alert('Upload failed: ' + result.error);
+          throw new Error(result.error || "Upload failed");
         }
       } catch (error) {
-        hideSpinner(section);
-        progressText.remove();
-        alert('Upload error: ' + error.message);
+        console.error("Upload error:", error);
+        alert("Upload failed. Please try again.");
+      } finally {
+        hideUploadProgress(section);
+        input.value = "";
       }
-      
-      input.value = ""; // Clear the input
     }
 
-    // Delete a file
-    function deleteFile(section, index) {
+    // Delete a file from Google Drive
+    async function deleteFile(section, index) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to delete files.");
         return;
       }
       if (!confirm("Are you sure you want to delete this file?")) return;
       
-      // Remove from storage
-      uploadedFiles[section].splice(index, 1);
-      saveData();
-      saveDataToWebApp();
-      renderFiles();
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=deleteFile`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ section, index })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Delete failed: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          uploadedFiles[section] = result.uploadedFiles[section];
+          saveData();
+          saveDataToWebApp();
+          renderFiles();
+          alert("File deleted successfully.");
+        } else {
+          throw new Error(result.error || "Delete failed");
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert("Delete failed. Please try again.");
+      }
     }
 
     // Change author credentials
@@ -2200,51 +2255,24 @@
     });
     
     // Save Home Information
-    async function saveHomeInfo() {
-      showSpinner('home');
-      
-      const updatedData = {
-        name: document.getElementById("edit-home-name").value.trim(),
-        school: document.getElementById("edit-home-school").value.trim(),
-        dept: document.getElementById("edit-home-dept").value.trim(),
-        id: document.getElementById("edit-home-id").value.trim(),
-        level: document.getElementById("edit-home-level").value.trim(),
-        term: document.getElementById("edit-home-term").value.trim(),
-        session: document.getElementById("edit-home-session").value.trim(),
-        hall: document.getElementById("edit-home-hall").value.trim(),
-        address: document.getElementById("edit-home-address").value.trim()
-      };
+    function saveHomeInfo() {
+      contentData.home.name = document.getElementById("edit-home-name").value.trim();
+      contentData.home.school = document.getElementById("edit-home-school").value.trim();
+      contentData.home.dept = document.getElementById("edit-home-dept").value.trim();
+      contentData.home.id = document.getElementById("edit-home-id").value.trim();
+      contentData.home.level = document.getElementById("edit-home-level").value.trim();
+      contentData.home.term = document.getElementById("edit-home-term").value.trim();
+      contentData.home.session = document.getElementById("edit-home-session").value.trim();
+      contentData.home.hall = document.getElementById("edit-home-hall").value.trim();
+      contentData.home.address = document.getElementById("edit-home-address").value.trim();
     
-      try {
-        // Save to Google Drive via Apps Script
-        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=saveContent', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            section: 'home',
-            data: updatedData
-          })
-        });
+      saveData();
+      saveDataToWebApp();
+      renderContent();
     
-        const result = await response.json();
-        hideSpinner('home');
-    
-        if (result.success) {
-          // Update local data and UI
-          contentData.home = updatedData;
-          saveData();
-          renderContent();
-          
-          document.getElementById("home-edit-form").style.display = "none";
-          document.getElementById("home-display").style.display = "flex";
-          alert("Home information updated successfully!");
-        } else {
-          alert("Failed to save: " + result.error);
-        }
-      } catch (error) {
-        hideSpinner('home');
-        alert("Error saving data: " + error.message);
-      }
+      // Hide edit form, show display section
+      document.getElementById("home-edit-form").style.display = "none";
+      document.getElementById("home-display").style.display = "flex";
     }
     
     // About info functions
@@ -2370,14 +2398,19 @@
     function fetchVideos(showAll = false) {
         const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
         const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-        const maxResults = showAll ? 20 : 4; // show 4 by default, all if requested
+        const maxResults = showAll ? 20 : 4;
       
         fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
-          .then(res => res.json())
+          .then(res => {
+            if (!res.ok) {
+              throw new Error(`YouTube API error: ${res.status}`);
+            }
+            return res.json();
+          })
           .then(data => {
             const videosDiv = document.getElementById('youtube-videos');
             videosDiv.innerHTML = '';
-            if (!data.items) {
+            if (!data.items || data.items.length === 0) {
               videosDiv.textContent = 'No videos found.';
               return;
             }
@@ -2388,6 +2421,7 @@
                 iframe.height = "180";
                 iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
                 iframe.allowFullscreen = true;
+                iframe.loading = "lazy";
                 videosDiv.appendChild(iframe);
               }
             });
@@ -2401,11 +2435,11 @@
               btn.style.display = "none";
             }
           })
-          .catch(() => {
-            document.getElementById('youtube-videos').textContent = 'Failed to load videos.';
+          .catch((error) => {
+            console.error("YouTube API error:", error);
+            document.getElementById('youtube-videos').textContent = 'Failed to load videos. Please try again later.';
           });
       }
-
 
     // Initialize profile image from localStorage or default
     function loadProfileImage() {
@@ -2466,19 +2500,6 @@
           deleteProfileImage();
         }
       });
-      // Attach universal edit button handler
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const section = btn.closest('.section');
-          const form = section.querySelector('.edit-form');
-          if (form) {
-            form.style.display = 'block';
-          } else {
-            console.warn("No edit form found for section:", section.id);
-          }
-        });
-      });
-
       
       // Handle image file input change
       document.getElementById('home-image-upload').addEventListener('change', function(event) {
@@ -2494,6 +2515,25 @@
           setProfileImage(e.target.result);
         };
         reader.readAsDataURL(file);
+      });
+
+      // Attach edit button handlers for all sections
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (!isAuthorLoggedIn) {
+            alert('Please login as author to edit content.');
+            return;
+          }
+          
+          const section = this.closest('.section');
+          const form = section.querySelector('.edit-form');
+          const display = section.querySelector('[id$="display"]');
+          
+          if (form && display) {
+            form.style.display = 'block';
+            display.style.display = 'none';
+          }
+        });
       });
     };
   </script>
