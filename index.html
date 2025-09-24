@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -1667,38 +1667,29 @@
       }
     }
     
-    // Load data from WebApp (Google Apps Script)
+    // Load data from WebApp (Google Apps Script) with lastUpdated check
     async function loadDataFromWebApp() {
       try {
         showSpinner('home');
-        
-        // Use the web app URL with proper deployment settings
+    
         const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec';
-        
-        // Add timestamp parameter to prevent caching
         const fullUrl = `${url}?action=getData&_=${Date.now()}`;
-        
-        // Use fetch with proper error handling
+    
         const response = await fetch(fullUrl, {
           method: 'GET',
           redirect: 'follow',
           credentials: 'omit'
         });
     
-        // Check if response is OK
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
     
-        // Parse the response as text first to handle potential redirects
         const responseText = await response.text();
-        
-        // Try to parse as JSON
         let data;
         try {
           data = JSON.parse(responseText);
         } catch (e) {
-          // If parsing fails, try to extract JSON from possible HTML wrapper
           const jsonMatch = responseText.match(/\{.*\}/);
           if (jsonMatch) {
             data = JSON.parse(jsonMatch[0]);
@@ -1708,26 +1699,46 @@
         }
     
         if (data && data.status === "success") {
-          if (data.contentData) contentData = data.contentData;
-          if (data.uploadedFiles) uploadedFiles = data.uploadedFiles;
-          if (data.author) {
-            AUTHOR_ID = data.author.id;
-            AUTHOR_PASSWORD = data.author.pass;
+          const newTime = data.lastUpdated || new Date().toISOString();
+          const oldTime = localStorage.getItem("lastUpdated") || "1970-01-01T00:00:00Z";
+    
+          // Update localStorage only if newer
+          if (new Date(newTime) > new Date(oldTime)) {
+            localStorage.setItem("lastUpdated", newTime);
+            if (data.contentData) {
+              contentData = data.contentData;
+              localStorage.setItem("contentData", JSON.stringify(contentData));
+            }
+            if (data.uploadedFiles) {
+              uploadedFiles = data.uploadedFiles;
+              localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
+            }
+            if (data.author) {
+              AUTHOR_ID = data.author.id;
+              AUTHOR_PASSWORD = data.author.pass;
+              localStorage.setItem("author_id", AUTHOR_ID);
+              localStorage.setItem("author_pass", AUTHOR_PASSWORD);
+            }
+          } else {
+            // Load from localStorage if server data not newer
+            loadData();
           }
+    
           renderContent();
-          return; // Success - no need for fallback
+          return;
         } else {
           throw new Error(data?.error || "Invalid response format");
         }
       } catch (e) {
         console.error("Error loading data:", e);
-        loadData(); // Fallback to localStorage
+        loadData();
         renderContent();
         showError('home', "Could not load latest data. Showing cached content.");
       } finally {
         hideSpinner('home');
       }
     }
+
     
     // Load data from localStorage
     function loadData() {
