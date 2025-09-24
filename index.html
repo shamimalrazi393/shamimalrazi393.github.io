@@ -1356,7 +1356,7 @@
   <div class="error-message" id="work-error"></div>
 
   <!-- Add Work Experience Form -->
-  <div class="upload-area upload-author-only">
+  <div class="upload-author-only">
     <h3>Add Work Experience</h3>
     
     <label>Position Title:</label>
@@ -1771,36 +1771,15 @@
     
     // Save data to WebApp
     async function saveDataToWebApp() {
-  try {
-    const url = 'https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec?action=saveData';
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contentData,
-        uploadedFiles,
-        author: { id: AUTHOR_ID, pass: AUTHOR_PASSWORD }
-      })
-    });
-
-    const result = await response.json();
-
-    // Accept either server { success: true } or { status: "success" }
-    if (!result || !(result.success === true || result.status === "success")) {
-      console.error("Failed to save data to server", result);
-      return false;
-    }
-
-    // If server returned lastUpdated, keep it in localStorage
-    if (result.lastUpdated) {
-      localStorage.setItem("lastUpdated", result.lastUpdated);
-    }
-    return true;
-  } catch (e) {
-    console.error("Error saving data to WebApp:", e);
-    return false;
-  }
-}
+      try {
+        const url = 'https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=saveData';
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentData,
+            uploadedFiles,
+            author: { id: AUTHOR_ID, pass: AUTHOR_PASSWORD }
           })
         });
 
@@ -2083,55 +2062,11 @@
     }
 
     // Upload a file
-    // Upload file via FormData to Apps Script endpoint (POST)
-async function uploadFile(inputId, section) {
-  if (!isAuthorLoggedIn) {
-    alert("Please login as author to upload.");
-    return;
-  }
-  const input = document.getElementById(inputId);
-  const file = input.files[0];
-  if (!file) return alert("Please select a file first.");
-
-  try {
-    // Use your deployed web app base URL here (ensure it matches your deployment)
-    const urlBase = 'https://script.google.com/macros/s/AKfycbwh3Y1hPEkAWIgLRWcFPCynlPYPIbdCLC7R-gIsvmV5xOEAIcUp1vFZmRd8lwDcddWqVw/exec';
-    const url = `${urlBase}?action=uploadFile&section=${encodeURIComponent(section)}`;
-
-    const form = new FormData();
-    form.append('file', file, file.name);
-
-    const resp = await fetch(url, {
-      method: 'POST',
-      body: form
-    });
-
-    const result = await resp.json();
-
-    if (result && (result.success === true || result.status === "success")) {
-      // If server returned updated uploadedFiles, use it
-      if (result.uploadedFiles) {
-        uploadedFiles = result.uploadedFiles;
-        saveData(); // update localStorage copy
-      } else {
-        // Optionally push a minimal record if server didn't return full list:
-        uploadedFiles[section] = uploadedFiles[section] || [];
-        uploadedFiles[section].push({ name: file.name, dataUrl: result.dataUrl || '#' });
-        saveData();
+    function uploadFile(inputId, section) {
+      if (!isAuthorLoggedIn) {
+        alert("Please login as author to upload.");
+        return;
       }
-      renderFiles();
-      alert(`Uploaded '${file.name}' to ${section}.`);
-    } else {
-      console.error("Upload failed", result);
-      alert("Upload failed. Check console for details.");
-    }
-  } catch (err) {
-    console.error("Upload error:", err);
-    alert("Upload error - check console.");
-  } finally {
-    input.value = "";
-  }
-}
       const input = document.getElementById(inputId);
       const file = input.files[0];
       if (!file) return alert("Please select a file first.");
