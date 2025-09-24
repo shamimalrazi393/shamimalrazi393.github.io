@@ -1615,7 +1615,7 @@
     // Initialize author credentials
     let AUTHOR_ID = "admin";
     let AUTHOR_PASSWORD = "123456";
-    let isAuthorLoggedIn = false;
+    let isAuthorLoggedIn = localStorage.getItem('isAuthorLoggedIn') === 'true';
     
     // File storage
     let uploadedFiles = {
@@ -2007,17 +2007,37 @@
     function checkAuthorLogin() {
       const id = document.getElementById("author-id").value.trim();
       const pass = document.getElementById("author-password").value.trim();
-      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
-        isAuthorLoggedIn = true;
-        toggleLoginUI();
-      } else {
-        alert("Invalid credentials.");
-      }
+      
+      // Show loading
+      showSpinner('login');
+      
+      // Verify credentials through Google Apps Script
+      fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=verifyLogin', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: id, password: pass})
+      })
+      .then(response => response.json())
+      .then(data => {
+        hideSpinner('login');
+        if (data.success) {
+          isAuthorLoggedIn = true;
+          localStorage.setItem('isAuthorLoggedIn', 'true');
+          toggleLoginUI();
+          alert("Login successful!");
+        } else {
+          alert("Invalid credentials.");
+        }
+      })
+      .catch(error => {
+        hideSpinner('login');
+        showError('login', 'Login failed: ' + error.message);
+      });
     }
-
-    // Sign out author and reset UI
+    
     function signOutAuthor() {
       isAuthorLoggedIn = false;
+      localStorage.removeItem('isAuthorLoggedIn');
       toggleLoginUI();
     }
 
@@ -2062,32 +2082,62 @@
     }
 
     // Upload a file
-    function uploadFile(inputId, section) {
+    async function uploadFile(inputId, section) {
       if (!isAuthorLoggedIn) {
         alert("Please login as author to upload.");
         return;
       }
+      
       const input = document.getElementById(inputId);
       const file = input.files[0];
       if (!file) return alert("Please select a file first.");
-
-      // For this demo, we'll just store the file name
-      const fileName = file.name;
+    
+      // Show upload progress
+      showSpinner(section);
+      const progressText = document.createElement('div');
+      progressText.innerHTML = `<p>Uploading ${file.name}... Please wait.</p>`;
+      document.getElementById(section).appendChild(progressText);
+    
+      try {
+        // Convert file to base64 for transmission
+        const reader = new FileReader();
+        const fileData = await new Promise((resolve, reject) => {
+          reader.onload = () => resolve(reader.result.split(',')[1]); // Get base64 part
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+    
+        // Upload to Google Drive via Apps Script
+        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=uploadFile', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            section: section,
+            fileName: file.name,
+            fileData: fileData,
+            mimeType: file.type
+          })
+        });
+    
+        const result = await response.json();
+        hideSpinner(section);
+        progressText.remove();
+    
+        if (result.success) {
+          // Refresh file list from server
+          await loadDataFromWebApp();
+          renderFiles();
+          alert(`Successfully uploaded '${file.name}' to ${section}.`);
+        } else {
+          alert('Upload failed: ' + result.error);
+        }
+      } catch (error) {
+        hideSpinner(section);
+        progressText.remove();
+        alert('Upload error: ' + error.message);
+      }
       
-      // Create file info
-      const fileInfo = {
-        name: fileName,
-        dataUrl: "#" // In a real app, this would be the file data
-      };
-      
-      // Add to our storage
-      uploadedFiles[section].push(fileInfo);
-      saveData();
-      saveDataToWebApp();
-      
-      alert(`Uploaded '${fileName}' to ${section}.`);
-      input.value = "";
-      renderFiles();
+      input.value = ""; // Clear the input
     }
 
     // Delete a file
@@ -2150,24 +2200,51 @@
     });
     
     // Save Home Information
-    function saveHomeInfo() {
-      contentData.home.name = document.getElementById("edit-home-name").value.trim();
-      contentData.home.school = document.getElementById("edit-home-school").value.trim();
-      contentData.home.dept = document.getElementById("edit-home-dept").value.trim();
-      contentData.home.id = document.getElementById("edit-home-id").value.trim();
-      contentData.home.level = document.getElementById("edit-home-level").value.trim();
-      contentData.home.term = document.getElementById("edit-home-term").value.trim();
-      contentData.home.session = document.getElementById("edit-home-session").value.trim();
-      contentData.home.hall = document.getElementById("edit-home-hall").value.trim();
-      contentData.home.address = document.getElementById("edit-home-address").value.trim();
+    async function saveHomeInfo() {
+      showSpinner('home');
+      
+      const updatedData = {
+        name: document.getElementById("edit-home-name").value.trim(),
+        school: document.getElementById("edit-home-school").value.trim(),
+        dept: document.getElementById("edit-home-dept").value.trim(),
+        id: document.getElementById("edit-home-id").value.trim(),
+        level: document.getElementById("edit-home-level").value.trim(),
+        term: document.getElementById("edit-home-term").value.trim(),
+        session: document.getElementById("edit-home-session").value.trim(),
+        hall: document.getElementById("edit-home-hall").value.trim(),
+        address: document.getElementById("edit-home-address").value.trim()
+      };
     
-      saveData();
-      saveDataToWebApp();
-      renderContent();
+      try {
+        // Save to Google Drive via Apps Script
+        const response = await fetch('https://script.google.com/macros/s/AKfycbygJzy6lrY2pW-aK6RaZW7S0xnZZ0WV2JVS7qt1AgfZAQqVOLmw1jbJIBfM-7-ZvXYb2A/exec?action=saveContent', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            section: 'home',
+            data: updatedData
+          })
+        });
     
-      // Hide edit form, show display section
-      document.getElementById("home-edit-form").style.display = "none";
-      document.getElementById("home-display").style.display = "flex";
+        const result = await response.json();
+        hideSpinner('home');
+    
+        if (result.success) {
+          // Update local data and UI
+          contentData.home = updatedData;
+          saveData();
+          renderContent();
+          
+          document.getElementById("home-edit-form").style.display = "none";
+          document.getElementById("home-display").style.display = "flex";
+          alert("Home information updated successfully!");
+        } else {
+          alert("Failed to save: " + result.error);
+        }
+      } catch (error) {
+        hideSpinner('home');
+        alert("Error saving data: " + error.message);
+      }
     }
     
     // About info functions
