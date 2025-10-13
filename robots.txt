@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shamimalrazi393.github.io/sitemap.xml
