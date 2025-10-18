@@ -78,9 +78,6 @@
       background: linear-gradient(135deg, #f5f7fa 0%, #e4e7eb 100%);
       color: #333;
       line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
       background-attachment: fixed;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -91,7 +88,7 @@
       color: var(--primary);
     }
     
-    /* Header Styles */
+    /* Header Styles - FIXED: Removed fixed positioning */
     header {
       background: linear-gradient(to right, var(--primary), #152238);
       padding: 15px 20px;
@@ -100,7 +97,10 @@
       justify-content: space-between;
       flex-wrap: wrap;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      position: relative;
+      /* REMOVED: position: fixed; */
+      /* REMOVED: top: 0; */
+      /* REMOVED: left: 0; */
+      /* REMOVED: right: 0; */
       z-index: 1000;
       border-bottom: 2px solid rgba(255,255,255,0.1);
     }
@@ -164,91 +164,66 @@
       letter-spacing: 0.3px;
     }
     
-    /* Main Container */
-    .container {
-      display: flex;
-      flex: 1;
-      max-width: 1600px;
+    /* Navigation Bar - FIXED: Removed fixed positioning */
+    .nav-bar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      /* REMOVED: position: fixed; */
+      /* REMOVED: top: var(--header-height); */
+      /* REMOVED: left: 0; */
+      /* REMOVED: right: 0; */
+      z-index: 999;
+      padding: 10px 0;
+    }
+    
+    .nav-container {
+      max-width: 1200px;
       margin: 0 auto;
-      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 0 20px;
     }
     
-    /* Sidebar Navigation */
-    .sidebar {
-      width: var(--sidebar-width);
-      background: linear-gradient(to bottom, var(--dark), #25354d);
-      color: white;
-      height: calc(100vh - var(--header-height));
-      position: sticky;
-      top: 0;
-      overflow-y: auto;
-      padding: 20px 0;
-      box-shadow: 3px 0 12px rgba(0,0,0,0.15);
-      z-index: 900;
-      border-right: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .sidebar h3 {
-      padding: 15px 20px;
-      font-size: 18px;
-      border-bottom: 2px solid rgba(255,255,255,0.15);
-      margin-bottom: 15px;
-      color: #ffd700;
-      text-align: center;
-      background: rgba(0,0,0,0.1);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    
-    .sidebar ul {
-      list-style: none;
-      padding: 0 10px;
-    }
-    
-    .sidebar li {
-      margin-bottom: 8px;
+    .nav-btn {
+      background: white;
+      border: 1px solid #e1e5eb;
+      padding: 8px 16px;
       border-radius: var(--radius-sm);
-      overflow: hidden;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
       transition: var(--transition);
-    }
-    
-    .sidebar a {
+      color: var(--dark);
+      text-decoration: none;
       display: flex;
       align-items: center;
-      color: rgba(255,255,255,0.9);
-      text-decoration: none;
-      padding: 14px 20px;
-      transition: var(--transition);
-      font-weight: 500;
-      background: rgba(255,255,255,0.05);
-      font-size: 15px;
+      gap: 8px;
     }
     
-    .sidebar a:hover, .sidebar a.active {
-      background: rgba(255,255,255,0.15);
-      color: #ffd700;
-      transform: translateX(5px);
+    .nav-btn:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
     
-    .sidebar i {
-      width: 25px;
-      text-align: center;
-      margin-right: 12px;
-      font-size: 18px;
-      color: rgba(255,255,255,0.7);
+    .nav-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
     }
     
-    /* Main Content */
+    /* Main Content - FIXED: Adjusted padding since headers are not fixed anymore */
     .main-content {
-      flex: 1;
-      padding: 35px;
-      max-width: calc(100% - var(--sidebar-width));
-      background: rgba(255,255,255,0.92);
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.03);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 60px; /* Reduced top padding */
     }
     
     .section {
-      display: none;
       background: white;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
@@ -256,16 +231,7 @@
       margin-bottom: 35px;
       transition: var(--transition);
       border: 1px solid #eef2f7;
-    }
-    
-    .section.active {
-      display: block;
-      animation: fadeIn 0.6s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      scroll-margin-top: 20px; /* Reduced scroll margin */
     }
     
     .section:hover {
@@ -314,7 +280,7 @@
       transform: scale(1.03);
     }
     
-    .home-text h3 {
+    .home-text h1 {
       font-size: 34px;
       margin-bottom: 20px;
       color: var(--primary);
@@ -507,22 +473,20 @@
     }
     
     .skill-icon {
-  width: 70px;
-  height: 70px;
-  margin-bottom: 15px;
-  padding: 8px;
-  border-radius: 12px;
-  background: #f5f7fa;
-  object-fit: contain;
-  display: block;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
-}
+      width: 70px;
+      height: 70px;
+      margin-bottom: 15px;
+      padding: 8px;
+      border-radius: 12px;
+      background: #f5f7fa;
+      object-fit: contain;
+      display: block;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
 
-.skill-icon:hover {
-  transform: scale(1.1);
-}
-
+    .skill-icon:hover {
+      transform: scale(1.1);
     }
     
     .skill-name {
@@ -721,7 +685,7 @@
       transform: scale(1.03);
     }
     
-    /* Resume Section */
+    /* Resume Section - UPDATED with actual content */
     .timeline {
       position: relative;
       max-width: 900px;
@@ -949,24 +913,10 @@
       opacity: 0.8;
     }
     
-    /* Responsive Design */
+    /* Responsive Design - IMPROVED MOBILE FIXES */
     @media (max-width: 1200px) {
-      .container {
-        flex-direction: column;
-      }
-      
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        top: 0;
-        border-right: none;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-      }
-      
       .main-content {
-        max-width: 100%;
-        padding: 30px;
+        padding: 40px 15px 60px;
       }
       
       .home-content, .about-content {
@@ -994,18 +944,53 @@
       header {
         flex-direction: column;
         text-align: center;
+        padding: 10px 15px;
       }
       
       .logo, .profile {
-        margin: 12px auto;
+        margin: 8px auto;
+        height: 60px;
+        width: 60px;
       }
       
       .header-text {
-        padding: 12px 0;
+        padding: 8px 0;
+      }
+      
+      .header-text h1 {
+        font-size: 22px;
+      }
+      
+      .header-text p {
+        font-size: 14px;
+      }
+      
+      .nav-container {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        gap: 3px;
+      }
+      
+      .nav-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        white-space: nowrap;
       }
       
       .section {
-        padding: 25px;
+        padding: 20px;
+        margin-bottom: 25px;
+      }
+      
+      .main-content {
+        padding: 30px 15px 40px;
+      }
+      
+      h2 {
+        font-size: 24px;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
       }
       
       .youtube-videos, .subsection-content {
@@ -1013,12 +998,66 @@
       }
       
       .home-img, .about-img {
-        width: 200px;
-        height: 200px;
+        width: 180px;
+        height: 180px;
+      }
+      
+      .home-text h1 {
+        font-size: 24px;
+        line-height: 1.3;
+      }
+      
+      .home-text p {
+        font-size: 16px;
+        margin: 10px 0;
       }
       
       .skills-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .writings-categories {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .category-card {
+        padding: 20px;
+      }
+      
+      .writings-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .writing-card {
+        margin-bottom: 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .home-text h1 {
+        font-size: 20px;
+      }
+      
+      .home-img, .about-img {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .section {
+        padding: 15px;
+      }
+      
+      .nav-btn {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
       }
     }
     
@@ -1249,243 +1288,243 @@
       background: #27ae60;
     }
 
-	/* Credentials Section Styles */
-.file-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
-}
+    /* Credentials Section Styles */
+    .file-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
 
-.file-card {
-  background: #fafafa;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
+    .file-card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
 
-.file-card iframe {
-  width: 100%;
-  height: 250px;
-  border: none;
-  border-radius: 8px;
-}
+    .file-card iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      border-radius: 8px;
+    }
 
-.file-card a {
-  display: block;
-  margin-top: 8px;
-  color: #0b74da;
-  font-weight: bold;
-  text-decoration: none;
-}
+    .file-card a {
+      display: block;
+      margin-top: 8px;
+      color: #0b74da;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-.file-card a:hover {
-  text-decoration: underline;
-}
+    .file-card a:hover {
+      text-decoration: underline;
+    }
 
-.show-more {
-  display: block;
-  background: #0b74da;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  margin: 15px auto 0;
-  cursor: pointer;
-  font-weight: bold;
-}
+    .show-more {
+      display: block;
+      background: #0b74da;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin: 15px auto 0;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.no-files {
-  text-align: center;
-  color: #666;
-  font-style: italic;
-  margin-top: 15px;
-  font-size: 1.05em;
-}
+    .no-files {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-top: 15px;
+      font-size: 1.05em;
+    }
 
-/* Credentials Section Specific Styles */
-#credentials .subsection {
-  background: #f9fafb;
-  padding: 25px;
-  border-radius: var(--radius-md);
-  margin-bottom: 25px;
-  border-left: 4px solid var(--accent);
-}
+    /* Credentials Section Specific Styles */
+    #credentials .subsection {
+      background: #f9fafb;
+      padding: 25px;
+      border-radius: var(--radius-md);
+      margin-bottom: 25px;
+      border-left: 4px solid var(--accent);
+    }
 
-#credentials .subsection-header h3 {
-  color: var(--primary);
-  margin-bottom: 15px;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+    #credentials .subsection-header h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-#credentials .file-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
-}
+    #credentials .file-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
 
-#credentials .file-card {
-  background: white;
-  border: 1px solid #e1e5eb;
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
+    #credentials .file-card {
+      background: white;
+      border: 1px solid #e1e5eb;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
 
-#credentials .file-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
+    #credentials .file-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
 
-#credentials .file-card iframe {
-  width: 100%;
-  height: 250px;
-  border: none;
-  border-radius: 8px;
-  background: #f8f9fa;
-}
+    #credentials .file-card iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
 
-#credentials .file-card a {
-  display: block;
-  margin-top: 10px;
-  color: var(--accent);
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 14px;
-}
+    #credentials .file-card a {
+      display: block;
+      margin-top: 10px;
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-#credentials .file-card a:hover {
-  text-decoration: underline;
-}
+    #credentials .file-card a:hover {
+      text-decoration: underline;
+    }
 
-#credentials .show-all-btn {
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  font-size: 14px;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
+    #credentials .show-all-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-#credentials .show-all-btn:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-}
+    #credentials .show-all-btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
 
-#credentials .no-files {
-  text-align: center;
-  color: #666;
-  font-style: italic;
-  margin-top: 15px;
-  font-size: 16px;
-  padding: 20px;
-}
+    #credentials .no-files {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-top: 15px;
+      font-size: 16px;
+      padding: 20px;
+    }
 
-/* Academic Section Specific Styles */
-#academic .file-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
-}
+    /* Academic Section Specific Styles */
+    #academic .file-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
 
-#academic .file-card {
-  background: #fafafa;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  transition: var(--transition);
-}
+    #academic .file-card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
 
-#academic .file-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-}
+    #academic .file-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
 
-#academic .file-card iframe {
-  width: 100%;
-  height: 250px;
-  border: none;
-  border-radius: 8px;
-  background: #f8f9fa;
-}
+    #academic .file-card iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      border-radius: 8px;
+      background: #f8f9fa;
+    }
 
-#academic .file-card a {
-  display: block;
-  margin-top: 8px;
-  color: var(--accent);
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 14px;
-}
+    #academic .file-card a {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-#academic .file-card a:hover {
-  text-decoration: underline;
-}
+    #academic .file-card a:hover {
+      text-decoration: underline;
+    }
 
-#academic .show-all-btn {
-  display: block;
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  margin: 15px auto 0;
-  cursor: pointer;
-  font-weight: bold;
-  transition: var(--transition);
-}
+    #academic .show-all-btn {
+      display: block;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin: 15px auto 0;
+      cursor: pointer;
+      font-weight: bold;
+      transition: var(--transition);
+    }
 
-#academic .show-all-btn:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-}
+    #academic .show-all-btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+    }
 
-#academic .no-files {
-  text-align: center;
-  color: #666;
-  font-style: italic;
-  margin-top: 15px;
-  font-size: 1.05em;
-  padding: 20px;
-}
+    #academic .no-files {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      margin-top: 15px;
+      font-size: 1.05em;
+      padding: 20px;
+    }
 
-/* Academic subsection headers */
-#academic .subsection-header h3 {
-  color: var(--primary);
-  margin-bottom: 15px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+    /* Academic subsection headers */
+    #academic .subsection-header h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-#academic .subsection-header h3 i {
-  color: var(--accent);
-  font-size: 20px;
-}
+    #academic .subsection-header h3 i {
+      color: var(--accent);
+      font-size: 20px;
+    }
 
-/* File icon styles for non-previewable files */
-.file-icon {
-  font-size: 48px;
-  color: var(--accent);
-  margin-bottom: 10px;
-}
+    /* File icon styles for non-previewable files */
+    .file-icon {
+      font-size: 48px;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
 
   </style>
 </head>
@@ -1499,380 +1538,375 @@
     <img src="profile.jpg" alt="Shamim Al Razi" class="profile" id="header-profile-img" />
   </header>
 
-  <div class="container">
-    <aside class="sidebar">
-      <h3>Navigation</h3>
-      <ul>
-        <li><a href="#home" class="active" data-section="home"><i class="fas fa-home"></i> Home Tab</a></li>
-        <li><a href="#about" data-section="about"><i class="fas fa-user"></i> About Tab</a></li>
-        <li><a href="#credentials" data-section="credentials"><i class="fas fa-certificate"></i> Credentials Tab</a></li>
-        <li><a href="#academic" data-section="academic"><i class="fas fa-graduation-cap"></i> Academic Tab</a></li>
-        <li><a href="#skill" data-section="skill"><i class="fas fa-tools"></i> Skill Tab</a></li>
-        <li><a href="#writings" data-section="writings"><i class="fas fa-pen"></i> Writings Tab</a></li>
-        <li><a href="#fusion" data-section="fusion"><i class="fas fa-music"></i> Fusion ShilpiGosti Tab</a></li>
-        <li><a href="#resume" data-section="resume"><i class="fas fa-file-alt"></i> Resume Tab</a></li>
-        <li><a href="#publications" data-section="publications"><i class="fas fa-book"></i> Publications Tab</a></li>
-        <li><a href="#research" data-section="research"><i class="fas fa-flask"></i> Research Experience Tab</a></li>
-        <li><a href="#work" data-section="work"><i class="fas fa-briefcase"></i> Work Experience Tab</a></li>
-        <li><a href="#login" data-section="login"><i class="fas fa-lock"></i> Author Login Tab</a></li>
-      </ul>
-    </aside>
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="#home" class="nav-btn active"><i class="fas fa-home"></i> Home</a>
+      <a href="#about" class="nav-btn"><i class="fas fa-user"></i> About</a>
+      <a href="#credentials" class="nav-btn"><i class="fas fa-certificate"></i> Credentials</a>
+      <a href="#academic" class="nav-btn"><i class="fas fa-graduation-cap"></i> Academic</a>
+      <a href="#skill" class="nav-btn"><i class="fas fa-tools"></i> Skills</a>
+      <a href="#writings" class="nav-btn"><i class="fas fa-pen"></i> Writings</a>
+      <a href="#fusion" class="nav-btn"><i class="fas fa-music"></i> Fusion</a>
+      <a href="#resume" class="nav-btn"><i class="fas fa-file-alt"></i> Resume</a>
+      <a href="#publications" class="nav-btn"><i class="fas fa-book"></i> Publications</a>
+      <a href="#research" class="nav-btn"><i class="fas fa-flask"></i> Research</a>
+      <a href="#work" class="nav-btn"><i class="fas fa-briefcase"></i> Work</a>
+      <a href="#login" class="nav-btn"><i class="fas fa-lock"></i> Login</a>
+    </div>
+  </nav>
 
-    <main class="main-content">
-      <!-- Home Tab -->
-      <section id="home" class="section active">
-        <h2><i class="fas fa-home"></i> Home</h2>
-        
-        <div class="home-content">
-          <img id="home-profile-img" src="profile.jpg" alt="Profile Image" class="home-img" />
-          <div class="home-text">
-            <h1 class="animated-text">Hello! I am Shamim, A visionary <br> bridging Materials Science,<br>Artificial Intelligence,and Human Creativity.</h1>
-            <p><strong>Email:</strong> shamim393393@gmail.com</p>
-            <p><strong>Contact:</strong> +8801628912047</p>
-            
-            <button class="contact-btn" id="show-contact-form"><i class="fas fa-envelope"></i> Send Message</button>
-            
-            <div class="contact-form" id="contact-form">
-              <h3>Send Me a Message</h3>
-              <input type="text" id="contact-name" placeholder="Your Name" />
-              <input type="email" id="contact-email" placeholder="Your Email" />
-              <input type="text" id="contact-subject" placeholder="Subject" />
-              <textarea id="contact-message" placeholder="Your Message" rows="5"></textarea>
-              <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send Message</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- About Tab -->
-      <section id="about" class="section">
-        <h2><i class="fas fa-user"></i> About</h2>
-        
-        <div class="about-content">
-          <img id="about-profile-img" src="profile.jpg" alt="Profile Image" class="about-img" />
-          <div class="about-info">
-            <div class="info-group">
-              <h4><i class="fas fa-info-circle"></i> About Me</h4>
-              <p><b>My objective as a Materials and Metallurgical Engineering (MME) student is to harness the unique properties of materials and the transformative potential of artificial intelligence to develop smarter, more efficient, and sustainable technologies. By integrating technical expertise with intellectual curiosity, I actively explore the intersection of science, intelligence, and creativity. Beyond my scientific endeavors, I express my passion for human insight and innovation through writing — including poems, songs, articles, travelogues, and short stories — reflecting a balanced harmony between analytical reasoning and creative thought.</b></p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+  <main class="main-content">
+    <!-- Home Section -->
+    <section id="home" class="section">
+      <h2><i class="fas fa-home"></i> Home</h2>
       
-<!-- Credentials Tab -->
-<section id="credentials" class="section">
-  <h2><i class="fas fa-certificate"></i> Credentials</h2>
-
-  <!-- Certificates Subsection -->
-  <div class="subsection">
-    <div class="subsection-header">
-      <h3><i class="fas fa-scroll"></i> Certificates</h3>
-    </div>
-    <div id="certificates" class="file-container">Loading...</div>
-    <button id="showMoreCerts" class="show-all-btn" style="display:none; margin-top: 20px;">
-      <i class="fas fa-chevron-down"></i> Show All Certificates
-    </button>
-  </div>
-
-  <!-- Honors & Awards Subsection -->
-  <div class="subsection">
-    <div class="subsection-header">
-      <h3><i class="fas fa-award"></i> Honors & Awards</h3>
-    </div>
-    <div id="honors" class="file-container">Loading...</div>
-    <button id="showMoreHonors" class="show-all-btn" style="display:none; margin-top: 20px;">
-      <i class="fas fa-chevron-down"></i> Show All Honors & Awards
-    </button>
-  </div>
-</section>
-
-
-      <!-- Academic Tab -->
-<section id="academic" class="section">
-  <h2><i class="fas fa-graduation-cap"></i> Academic Works</h2>
-
-  <!-- Post Section -->
-  <div class="subsection">
-    <div class="subsection-header">
-      <h3><i class="fa-solid fa-pen-nib"></i> Post</h3>
-    </div>
-    <div id="poster" class="file-container">Loading...</div>
-    <button id="showMorePoster" class="show-all-btn" style="display:none;">
-      <i class="fas fa-chevron-down"></i> Show All
-    </button>
-  </div>
-
-  <!-- Project Section -->
-  <div class="subsection">
-    <div class="subsection-header">
-      <h3><i class="fa-solid fa-diagram-project"></i> Project</h3>
-    </div>
-    <div id="project" class="file-container">Loading...</div>
-    <button id="showMoreProject" class="show-all-btn" style="display:none;">
-      <i class="fas fa-chevron-down"></i> Show All
-    </button>
-  </div>
-
-  <!-- Presentation Section -->
-  <div class="subsection">
-    <div class="subsection-header">
-      <h3><i class="fa-solid fa-chalkboard-user"></i> Presentation</h3>
-    </div>
-    <div id="presentation" class="file-container">Loading...</div>
-    <button id="showMorePresentation" class="show-all-btn" style="display:none;">
-      <i class="fas fa-chevron-down"></i> Show All
-    </button>
-  </div>
-
-  <!-- Lab Section -->
-  <div class="subsection">
-    <div class="subsection-header">
-      <h3><i class="fa-solid fa-flask-vial"></i> Lab</h3>
-    </div>
-    <div id="seasonal" class="file-container">Loading...</div>
-    <button id="showMoreSeasonal" class="show-all-btn" style="display:none;">
-      <i class="fas fa-chevron-down"></i> Show All
-    </button>
-  </div>
-</section>
-
-
-      <!-- Skill Tab -->
-      <section id="skill" class="section">
-        <h2><i class="fas fa-tools"></i> Skills</h2>
-        
-        <div class="skills-grid" id="skills-container">
-          <!-- Skills with logos and progress bars will be loaded here -->
-        </div>
-      </section>
-
-      <!-- Writings Tab - UPDATED -->
-      <section id="writings" class="section">
-        <h2><i class="fas fa-pen"></i> Writings</h2>
-        
-        <div class="writings-intro">
-          <p>Explore my creative works including poems, songs, travelogues, articles, and short stories that reflect my perspective on life, science, and human experience.</p>
-        </div>
-        
-        <div class="writings-categories">
-          <div class="category-card">
-            <div class="category-icon">
-              <i class="fas fa-feather-alt"></i>
-            </div>
-            <div class="category-title">Poems</div>
-            <div class="category-count" id="poems-count">12 pieces</div>
-            <div class="category-description">Expressions of emotion, thought, and observation through verse</div>
-            <button class="category-btn" data-category="poems">
-              <i class="fas fa-book-open"></i> Browse Poems
-            </button>
-          </div>
+      <div class="home-content">
+        <img id="home-profile-img" src="profile.jpg" alt="Profile Image" class="home-img" />
+        <div class="home-text">
+          <h1 class="animated-text">Hello! I am Shamim, A visionary <br> bridging Materials Science,<br>Artificial Intelligence,and Human Creativity.</h1>
+          <p><strong>Email:</strong> shamim393393@gmail.com</p>
+          <p><strong>Contact:</strong> +8801628912047</p>
           
-          <div class="category-card">
-            <div class="category-icon">
-              <i class="fas fa-music"></i>
-            </div>
-            <div class="category-title">Songs</div>
-            <div class="category-count" id="songs-count">8 pieces</div>
-            <div class="category-description">Lyrics and compositions blending melody with meaningful messages</div>
-            <button class="category-btn" data-category="songs">
-              <i class="fas fa-play-circle"></i> Browse Songs
-            </button>
-          </div>
+          <button class="contact-btn" id="show-contact-form"><i class="fas fa-envelope"></i> Send Message</button>
           
-          <div class="category-card">
-            <div class="category-icon">
-              <i class="fas fa-map-marked-alt"></i>
-            </div>
-            <div class="category-title">Travelogues</div>
-            <div class="category-count" id="travelogues-count">5 pieces</div>
-            <div class="category-description">Journeys and experiences from different places and cultures</div>
-            <button class="category-btn" data-category="travelogues">
-              <i class="fas fa-road"></i> Browse Travelogues
-            </button>
-          </div>
-          
-          <div class="category-card">
-            <div class="category-icon">
-              <i class="fas fa-newspaper"></i>
-            </div>
-            <div class="category-title">Articles</div>
-            <div class="category-count" id="articles-count">15 pieces</div>
-            <div class="category-description">Insights on technology, society, and personal development</div>
-            <button class="category-btn" data-category="articles">
-              <i class="fas fa-file-alt"></i> Browse Articles
-            </button>
-          </div>
-          
-          <div class="category-card">
-            <div class="category-icon">
-              <i class="fas fa-book"></i>
-            </div>
-            <div class="category-title">Short Stories</div>
-            <div class="category-count" id="stories-count">7 pieces</div>
-            <div class="category-description">Narratives exploring human nature and imaginative scenarios</div>
-            <button class="category-btn" data-category="stories">
-              <i class="fas fa-scroll"></i> Browse Stories
-            </button>
+          <div class="contact-form" id="contact-form">
+            <h3>Send Me a Message</h3>
+            <input type="text" id="contact-name" placeholder="Your Name" />
+            <input type="email" id="contact-email" placeholder="Your Email" />
+            <input type="text" id="contact-subject" placeholder="Subject" />
+            <textarea id="contact-message" placeholder="Your Message" rows="5"></textarea>
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send Message</button>
           </div>
         </div>
-        
-        <div class="writings-grid" id="writings-preview">
-          <!-- Writings preview will be loaded here -->
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <h2><i class="fas fa-user"></i> About</h2>
+      
+      <div class="about-content">
+        <img id="about-profile-img" src="profile.jpg" alt="Profile Image" class="about-img" />
+        <div class="about-info">
+          <div class="info-group">
+            <h4><i class="fas fa-info-circle"></i> About Me</h4>
+            <p><b>My objective as a Materials and Metallurgical Engineering (MME) student is to harness the unique properties of materials and the transformative potential of artificial intelligence to develop smarter, more efficient, and sustainable technologies. By integrating technical expertise with intellectual curiosity, I actively explore the intersection of science, intelligence, and creativity. Beyond my scientific endeavors, I express my passion for human insight and innovation through writing — including poems, songs, articles, travelogues, and short stories — reflecting a balanced harmony between analytical reasoning and creative thought.</b></p>
+          </div>
         </div>
-        
-        <div id="writings-full" style="display: none;">
-          <!-- All writings will be loaded here -->
+      </div>
+    </section>
+
+    <!-- Credentials Section -->
+    <section id="credentials" class="section">
+      <h2><i class="fas fa-certificate"></i> Credentials</h2>
+
+      <!-- Certificates Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fas fa-scroll"></i> Certificates</h3>
         </div>
-        
-        <button class="show-all-btn" id="show-all-writings" style="display: none;">
-          <i class="fas fa-book-open"></i> Show All Writings
+        <div id="certificates" class="file-container">Loading...</div>
+        <button id="showMoreCerts" class="show-all-btn" style="display:none; margin-top: 20px;">
+          <i class="fas fa-chevron-down"></i> Show All Certificates
         </button>
-      </section>
+      </div>
 
-      <!-- Fusion ShilpiGosti Tab -->
-      <section id="fusion" class="section">
-        <h2><i class="fas fa-music"></i> Fusion ShilpiGosti</h2>
-        
-        <p>Explore music and videos under Fusion Shilpigosti.</p>
-        
-        <div style="display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap;">
-          <a href="https://youtube.com/@fusion_393" 
-             target="_blank" 
-             rel="noopener"
-             style="display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 12px; box-shadow: 0 4px 10px rgba(255,0,0,0.25); transition: var(--transition);">
-            <i class="fab fa-youtube"></i> Watch on YouTube
-          </a>
-          <a href="https://www.facebook.com/IslamInMyHeart11" 
-             target="_blank" 
-             rel="noopener"
-             style="display: inline-flex; align-items: center; background: #3b5998; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 12px; box-shadow: 0 4px 10px rgba(59,89,152,0.25); transition: var(--transition);">
-            <i class="fab fa-facebook"></i> Visit Facebook Page
-          </a>
+      <!-- Honors & Awards Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fas fa-award"></i> Honors & Awards</h3>
         </div>
-
-        <h3>Latest Videos</h3>
-        <div id="youtube-videos" class="youtube-videos"></div>
-        <button id="show-all-videos" style="margin-top:20px; padding:10px 20px; display:none;">
-          Show All Videos
+        <div id="honors" class="file-container">Loading...</div>
+        <button id="showMoreHonors" class="show-all-btn" style="display:none; margin-top: 20px;">
+          <i class="fas fa-chevron-down"></i> Show All Honors & Awards
         </button>
-      </section>
+      </div>
+    </section>
 
-      <!-- Resume Tab -->
-      <section id="resume" class="section">
-        <h2><i class="fas fa-file-alt"></i> Resume</h2>
-        
-        <div class="subsection">
-          <div class="subsection-header">
-            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
-            <button class="show-details-btn" data-subsection="education"><i class="fas fa-chevron-down"></i> Show Details</button>
+    <!-- Academic Section -->
+    <section id="academic" class="section">
+      <h2><i class="fas fa-graduation-cap"></i> Academic Works</h2>
+
+      <!-- Post Section -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fa-solid fa-pen-nib"></i> Post</h3>
+        </div>
+        <div id="poster" class="file-container">Loading...</div>
+        <button id="showMorePoster" class="show-all-btn" style="display:none;">
+          <i class="fas fa-chevron-down"></i> Show All
+        </button>
+      </div>
+
+      <!-- Project Section -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fa-solid fa-diagram-project"></i> Project</h3>
+        </div>
+        <div id="project" class="file-container">Loading...</div>
+        <button id="showMoreProject" class="show-all-btn" style="display:none;">
+          <i class="fas fa-chevron-down"></i> Show All
+        </button>
+      </div>
+
+      <!-- Presentation Section -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fa-solid fa-chalkboard-user"></i> Presentation</h3>
+        </div>
+        <div id="presentation" class="file-container">Loading...</div>
+        <button id="showMorePresentation" class="show-all-btn" style="display:none;">
+          <i class="fas fa-chevron-down"></i> Show All
+        </button>
+      </div>
+
+      <!-- Lab Section -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fa-solid fa-flask-vial"></i> Lab</h3>
+        </div>
+        <div id="seasonal" class="file-container">Loading...</div>
+        <button id="showMoreSeasonal" class="show-all-btn" style="display:none;">
+          <i class="fas fa-chevron-down"></i> Show All
+        </button>
+      </div>
+    </section>
+
+    <!-- Skill Section -->
+    <section id="skill" class="section">
+      <h2><i class="fas fa-tools"></i> Skills</h2>
+      
+      <div class="skills-grid" id="skills-container">
+        <!-- Skills with logos and progress bars will be loaded here -->
+      </div>
+    </section>
+
+    <!-- Writings Section -->
+    <section id="writings" class="section">
+      <h2><i class="fas fa-pen"></i> Writings</h2>
+      
+      <div class="writings-intro">
+        <p>Explore my creative works including poems, songs, travelogues, articles, and short stories that reflect my perspective on life, science, and human experience.</p>
+      </div>
+      
+      <div class="writings-categories">
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-feather-alt"></i>
           </div>
-          
-          <div class="timeline" id="education-preview">
-            <!-- Education preview (max 4) will be loaded here -->
+          <div class="category-title">Poems</div>
+          <div class="category-count" id="poems-count">12 pieces</div>
+          <div class="category-description">Expressions of emotion, thought, and observation through verse</div>
+          <button class="category-btn" data-category="poems">
+            <i class="fas fa-book-open"></i> Browse Poems
+          </button>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-music"></i>
           </div>
-          
-          <div id="education-full" style="display: none;">
-            <!-- All education items will be loaded here -->
+          <div class="category-title">Songs</div>
+          <div class="category-count" id="songs-count">8 pieces</div>
+          <div class="category-description">Lyrics and compositions blending melody with meaningful messages</div>
+          <button class="category-btn" data-category="songs">
+            <i class="fas fa-play-circle"></i> Browse Songs
+          </button>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-map-marked-alt"></i>
           </div>
+          <div class="category-title">Travelogues</div>
+          <div class="category-count" id="travelogues-count">5 pieces</div>
+          <div class="category-description">Journeys and experiences from different places and cultures</div>
+          <button class="category-btn" data-category="travelogues">
+            <i class="fas fa-road"></i> Browse Travelogues
+          </button>
         </div>
         
-        <div class="subsection">
-          <div class="subsection-header">
-            <h3><i class="fas fa-briefcase"></i> Experience</h3>
-            <button class="show-details-btn" data-subsection="experience"><i class="fas fa-chevron-down"></i> Show Details</button>
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-newspaper"></i>
           </div>
-          
-          <div class="timeline" id="experience-preview">
-            <!-- Experience preview (max 4) will be loaded here -->
+          <div class="category-title">Articles</div>
+          <div class="category-count" id="articles-count">15 pieces</div>
+          <div class="category-description">Insights on technology, society, and personal development</div>
+          <button class="category-btn" data-category="articles">
+            <i class="fas fa-file-alt"></i> Browse Articles
+          </button>
+        </div>
+        
+        <div class="category-card">
+          <div class="category-icon">
+            <i class="fas fa-book"></i>
           </div>
-          
-          <div id="experience-full" style="display: none;">
-            <!-- All experience items will be loaded here -->
-          </div>
+          <div class="category-title">Short Stories</div>
+          <div class="category-count" id="stories-count">7 pieces</div>
+          <div class="category-description">Narratives exploring human nature and imaginative scenarios</div>
+          <button class="category-btn" data-category="stories">
+            <i class="fas fa-scroll"></i> Browse Stories
+          </button>
         </div>
-      </section>
+      </div>
+      
+      <div class="writings-grid" id="writings-preview">
+        <!-- Writings preview will be loaded here -->
+      </div>
+      
+      <div id="writings-full" style="display: none;">
+        <!-- All writings will be loaded here -->
+      </div>
+      
+      <button class="show-all-btn" id="show-all-writings" style="display: none;">
+        <i class="fas fa-book-open"></i> Show All Writings
+      </button>
+    </section>
 
-      <!-- Publications Tab -->
-      <section id="publications" class="section">
-        <h2><i class="fas fa-book"></i> Publications</h2>
-        
-        <div class="subsection-content" id="publications-preview">
-          <!-- Publications preview (max 4) will be loaded here -->
+    <!-- Fusion Section -->
+    <section id="fusion" class="section">
+      <h2><i class="fas fa-music"></i> Fusion ShilpiGosti</h2>
+      
+      <p>Explore music and videos under Fusion Shilpigosti.</p>
+      
+      <div style="display: flex; gap: 15px; margin: 25px 0; flex-wrap: wrap;">
+        <a href="https://youtube.com/@fusion_393" 
+           target="_blank" 
+           rel="noopener"
+           style="display: inline-flex; align-items: center; background: #ff0000; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 12px; box-shadow: 0 4px 10px rgba(255,0,0,0.25); transition: var(--transition);">
+          <i class="fab fa-youtube"></i> Watch on YouTube
+        </a>
+        <a href="https://www.facebook.com/IslamInMyHeart11" 
+           target="_blank" 
+           rel="noopener"
+           style="display: inline-flex; align-items: center; background: #3b5998; color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; gap: 12px; box-shadow: 0 4px 10px rgba(59,89,152,0.25); transition: var(--transition);">
+          <i class="fab fa-facebook"></i> Visit Facebook Page
+        </a>
+      </div>
+
+      <h3>Latest Videos</h3>
+      <div id="youtube-videos" class="youtube-videos"></div>
+      <button id="show-all-videos" style="margin-top:20px; padding:10px 20px; display:none;">
+        Show All Videos
+      </button>
+    </section>
+
+    <!-- Resume Section - UPDATED WITH ACTUAL CONTENT -->
+    <section id="resume" class="section">
+      <h2><i class="fas fa-file-alt"></i> Resume</h2>
+      
+      <!-- Education Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+          <button class="show-details-btn" data-subsection="education"><i class="fas fa-chevron-down"></i> Show Details</button>
         </div>
         
-        <div id="publications-full" style="display: none;">
-          <!-- All publications will be loaded here -->
+        <div class="timeline" id="education-preview">
+          <!-- Education items will be loaded here by JavaScript -->
         </div>
         
-        <button class="show-all-btn" id="show-all-publications" style="display: none;">Show All Publications</button>
-      </section>
-
-      <!-- Research Experience Tab -->
-      <section id="research" class="section">
-        <h2><i class="fas fa-flask"></i> Research Experience</h2>
-        
-        <div class="subsection-content" id="research-preview">
-          <!-- Research preview (max 4) will be loaded here -->
+        <div id="education-full" style="display: none;">
+          <!-- All education items will be loaded here by JavaScript -->
+        </div>
+      </div>
+      
+      <!-- Experience Subsection -->
+      <div class="subsection">
+        <div class="subsection-header">
+          <h3><i class="fas fa-briefcase"></i> Experience</h3>
+          <button class="show-details-btn" data-subsection="experience"><i class="fas fa-chevron-down"></i> Show Details</button>
         </div>
         
-        <div id="research-full" style="display: none;">
-          <!-- All research items will be loaded here -->
+        <div class="timeline" id="experience-preview">
+          <!-- Experience items will be loaded here by JavaScript -->
         </div>
         
-        <button class="show-all-btn" id="show-all-research" style="display: none;">Show All Research</button>
-      </section>
-
-      <!-- Work Experience Tab -->
-      <section id="work" class="section">
-        <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
-        
-        <div class="subsection-content" id="work-preview">
-          <!-- Work experience preview (max 4) will be loaded here -->
+        <div id="experience-full" style="display: none;">
+          <!-- All experience items will be loaded here by JavaScript -->
         </div>
-        
-        <div id="work-full" style="display: none;">
-          <!-- All work experience items will be loaded here -->
-        </div>
-        
-        <button class="show-all-btn" id="show-all-work" style="display: none;">Show All Work Experience</button>
-      </section>
+      </div>
+    </section>
 
-      <!-- Author Login Tab -->
-      <section id="login" class="section">
-  <h2><i class="fas fa-lock"></i> Author Login</h2>
+    <!-- Publications Section -->
+    <section id="publications" class="section">
+      <h2><i class="fas fa-book"></i> Publications</h2>
+      
+      <div class="subsection-content" id="publications-preview">
+        <!-- Publications preview (max 4) will be loaded here -->
+      </div>
+      
+      <div id="publications-full" style="display: none;">
+        <!-- All publications will be loaded here -->
+      </div>
+      
+      <button class="show-all-btn" id="show-all-publications" style="display: none;">Show All Publications</button>
+    </section>
 
-  <!-- BEFORE LOGIN -->
-  <div class="login-container" id="login-container">
-    <h3>Login to Author Account</h3>
-    <input type="text" id="author-id" placeholder="Author ID" autocomplete="username" />
-    <input type="password" id="author-password" placeholder="Password" autocomplete="current-password" />
-    <button onclick="checkAuthorLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
-  </div>
+    <!-- Research Section -->
+    <section id="research" class="section">
+      <h2><i class="fas fa-flask"></i> Research Experience</h2>
+      
+      <div class="subsection-content" id="research-preview">
+        <!-- Research preview (max 4) will be loaded here -->
+      </div>
+      
+      <div id="research-full" style="display: none;">
+        <!-- All research items will be loaded here -->
+      </div>
+      
+      <button class="show-all-btn" id="show-all-research" style="display: none;">Show All Research</button>
+    </section>
 
-  <!-- AFTER LOGIN -->
-  <div class="login-container" id="welcome-container" style="display: none;">
-    <h3 id="welcome-message"><i class="fas fa-user-shield"></i> Welcome, Author!</h3>
-    <p>You are successfully logged in as <strong>Administrator</strong>.</p>
+    <!-- Work Experience Section -->
+    <section id="work" class="section">
+      <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+      
+      <div class="subsection-content" id="work-preview">
+        <!-- Work experience preview (max 4) will be loaded here -->
+      </div>
+      
+      <div id="work-full" style="display: none;">
+        <!-- All work experience items will be loaded here -->
+      </div>
+      
+      <button class="show-all-btn" id="show-all-work" style="display: none;">Show All Work Experience</button>
+    </section>
 
-    <a href="https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec" 
-       class="manage-btn" 
-       id="manage-btn" 
-       target="_blank">
-      <i class="fas fa-cog"></i> Manage Content
-    </a>
+    <!-- Login Section -->
+    <section id="login" class="section">
+      <h2><i class="fas fa-lock"></i> Author Login</h2>
 
-    <button onclick="logoutAuthor()" 
-            style="margin-top:20px;background:#c0392b;color:white;border:none;
-                   padding:12px 25px;border-radius:6px;cursor:pointer;font-weight:600;">
-      <i class="fas fa-sign-out-alt"></i> Sign Out
-    </button>
-  </div>
-</section>
+      <!-- BEFORE LOGIN -->
+      <div class="login-container" id="login-container">
+        <h3>Login to Author Account</h3>
+        <input type="text" id="author-id" placeholder="Author ID" autocomplete="username" />
+        <input type="password" id="author-password" placeholder="Password" autocomplete="current-password" />
+        <button onclick="checkAuthorLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+      </div>
 
+      <!-- AFTER LOGIN -->
+      <div class="login-container" id="welcome-container" style="display: none;">
+        <h3 id="welcome-message"><i class="fas fa-user-shield"></i> Welcome, Author!</h3>
+        <p>You are successfully logged in as <strong>Administrator</strong>.</p>
 
-    </main>
-  </div>
+        <a href="https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec" 
+           class="manage-btn" 
+           id="manage-btn" 
+           target="_blank">
+          <i class="fas fa-cog"></i> Manage Content
+        </a>
+
+        <button onclick="logoutAuthor()" 
+                style="margin-top:20px;background:#c0392b;color:white;border:none;
+                       padding:12px 25px;border-radius:6px;cursor:pointer;font-weight:600;">
+          <i class="fas fa-sign-out-alt"></i> Sign Out
+        </button>
+      </div>
+    </section>
+  </main>
 
   <footer>
     <div class="footer-content">
@@ -1914,153 +1948,230 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrXyzvv26EZ1mIhg8oBO9BuWJY-pOrEeFpiFCKjfOUMm6xd0XjWupuNaHaHkbEK0-r/exec';
     const MANAGE_URL = 'https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec';
 
-// Academic Works URLs
-const ACADEMIC_URLS = {
-  poster: "https://script.google.com/macros/s/AKfycbwN-iHAVgOv1ET2ychLgfkKCuSL30Q_rybcDsUOET3PAI-Be0pJN403I3gxScaac9rQ/exec",
-  project: "https://script.google.com/macros/s/AKfycbz-Czs9Q6ky-rZFMy8BQr2flY_Z8v4DrNTDOCzMVaWw81k-rC28FYiZq0P2fggmgIXr/exec",
-  presentation: "https://script.google.com/macros/s/AKfycbyWjWY0Fz_KlGbo5dwMiGyazkRg7TKFd_L8ou9AxSFfwBFN0DvAY6dt1HSkh_iSyN0/exec",
-  seasonal: "https://script.google.com/macros/s/AKfycbwhRJNO9gJFt72D8Lnr6dNxbcizNBc0ITP9KsHZB7NRdWMNnETBv5ZnoFXeJNnNRUBM/exec"
-};
+    // Academic Works URLs
+    const ACADEMIC_URLS = {
+      poster: "https://script.google.com/macros/s/AKfycbwN-iHAVgOv1ET2ychLgfkKCuSL30Q_rybcDsUOET3PAI-Be0pJN403I3gxScaac9rQ/exec",
+      project: "https://script.google.com/macros/s/AKfycbz-Czs9Q6ky-rZFMy8BQr2flY_Z8v4DrNTDOCzMVaWw81k-rC28FYiZq0P2fggmgIXr/exec",
+      presentation: "https://script.google.com/macros/s/AKfycbyWjWY0Fz_KlGbo5dwMiGyazkRg7TKFd_L8ou9AxSFfwBFN0DvAY6dt1HSkh_iSyN0/exec",
+      seasonal: "https://script.google.com/macros/s/AKfycbwhRJNO9gJFt72D8Lnr6dNxbcizNBc0ITP9KsHZB7NRdWMNnETBv5ZnoFXeJNnNRUBM/exec"
+    };
+
+    // Credentials URLs
+    const certsUrl = "https://script.google.com/macros/s/AKfycbxSCOGTaAThoJVZJVVrKjvSswX_VZxNY1ju-fkb9BCl3Pv-xI20w6ZiIBqi89PU2BAT/exec";
+    const honorsUrl = "https://script.google.com/macros/s/AKfycbyQJGkZewrcNn9aCFypFcVY0bqflOtfBxoGyWremB8nHquF4W1VAO43d0MAqjlsee6S/exec";
     
     // --------------------- AUTHOR LOGIN SYSTEM ---------------------
 
-// Credentials
-const AUTHOR_ID = "admin";
-const AUTHOR_PASSWORD = "123456";
+    // Credentials
+    const AUTHOR_ID = "admin";
+    const AUTHOR_PASSWORD = "123456";
 
-// Login function
-function checkAuthorLogin() {
-  const id = document.getElementById('author-id').value.trim();
-  const pass = document.getElementById('author-password').value.trim();
+    // Login function
+    function checkAuthorLogin() {
+      const id = document.getElementById('author-id').value.trim();
+      const pass = document.getElementById('author-password').value.trim();
 
-  if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
-    // Save login state
-    localStorage.setItem('authorLoggedIn', 'true');
-    showAfterLogin();
-  } else {
-    alert('Invalid ID or Password!');
-  }
-}
+      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
+        // Save login state
+        localStorage.setItem('authorLoggedIn', 'true');
+        showAfterLogin();
+      } else {
+        alert('Invalid ID or Password!');
+      }
+    }
 
-// Logout function
-function logoutAuthor() {
-  localStorage.removeItem('authorLoggedIn');
-  showBeforeLogin();
-}
+    // Logout function
+    function logoutAuthor() {
+      localStorage.removeItem('authorLoggedIn');
+      showBeforeLogin();
+    }
 
-// Show after login (Manage + Logout)
-function showAfterLogin() {
-  document.getElementById('login-container').style.display = 'none';
-  document.getElementById('welcome-container').style.display = 'block';
-  document.getElementById('manage-btn').style.display = 'inline-block';
-}
+    // Show after login (Manage + Logout)
+    function showAfterLogin() {
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('welcome-container').style.display = 'block';
+      document.getElementById('manage-btn').style.display = 'inline-block';
+    }
 
-// Show before login (Login form only)
-function showBeforeLogin() {
-  document.getElementById('login-container').style.display = 'block';
-  document.getElementById('welcome-container').style.display = 'none';
-  document.getElementById('manage-btn').style.display = 'none';
-}
+    // Show before login (Login form only)
+    function showBeforeLogin() {
+      document.getElementById('login-container').style.display = 'block';
+      document.getElementById('welcome-container').style.display = 'none';
+      document.getElementById('manage-btn').style.display = 'none';
+    }
 
-// Maintain state after page reload
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('authorLoggedIn') === 'true') {
-    showAfterLogin();
-  } else {
-    showBeforeLogin();
-  }
-});
+    // Maintain state after page reload
+    window.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('authorLoggedIn') === 'true') {
+        showAfterLogin();
+      } else {
+        showBeforeLogin();
+      }
+    });
     
     // Data storage
     let contentData = {};
     let uploadedFiles = {};
 
-// Academic Works Loader
-async function loadAcademicFiles() {
-  await loadAcademicSection(ACADEMIC_URLS.poster, "poster", "showMorePoster");
-  await loadAcademicSection(ACADEMIC_URLS.project, "project", "showMoreProject");
-  await loadAcademicSection(ACADEMIC_URLS.presentation, "presentation", "showMorePresentation");
-  await loadAcademicSection(ACADEMIC_URLS.seasonal, "seasonal", "showMoreSeasonal");
-}
-
-// Common academic file loader
-async function loadAcademicSection(url, containerId, buttonId) {
-  const container = document.getElementById(containerId);
-  const showMoreBtn = document.getElementById(buttonId);
-
-  if (!container) return;
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const files = data.files || data.children || [];
-
-    if (!files.length) {
-      container.innerHTML = `<div class="no-files">No files uploaded yet.</div>`;
-      if (showMoreBtn) showMoreBtn.style.display = "none";
-      return;
+    // Academic Works Loader
+    async function loadAcademicFiles() {
+      await loadAcademicSection(ACADEMIC_URLS.poster, "poster", "showMorePoster");
+      await loadAcademicSection(ACADEMIC_URLS.project, "project", "showMoreProject");
+      await loadAcademicSection(ACADEMIC_URLS.presentation, "presentation", "showMorePresentation");
+      await loadAcademicSection(ACADEMIC_URLS.seasonal, "seasonal", "showMoreSeasonal");
     }
 
-    let visibleCount = 4;
+    // Common academic file loader
+    async function loadAcademicSection(url, containerId, buttonId) {
+      const container = document.getElementById(containerId);
+      const showMoreBtn = document.getElementById(buttonId);
 
-    function renderFiles(limit) {
-      container.innerHTML = "";
-      files.slice(0, limit).forEach(file => {
-        if (file.url) {
-          const card = document.createElement("div");
-          card.className = "file-card";
+      if (!container) return;
 
-          const ext = file.name.split('.').pop().toLowerCase();
-          let previewUrl = "";
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const files = data.files || data.children || [];
 
-          if (file.url.includes("view")) {
-            previewUrl = file.url.replace("/view", "/preview");
-          } else if (file.url.includes("open?id=")) {
-            const id = file.url.split("open?id=")[1];
-            previewUrl = `https://drive.google.com/file/d/${id}/preview`;
-          }
-
-          const nonPreviewable = ["pptx","xlsx","zip","rar","mp3","mp4","avi","exe"];
-          if (nonPreviewable.includes(ext)) {
-            card.innerHTML = `
-              <div style="font-size:48px; color:#0b74da;">📁</div>
-              <a href="${file.url}" target="_blank">${file.name}</a>
-            `;
-          } else {
-            card.innerHTML = `
-              <iframe src="${previewUrl}" loading="lazy"></iframe>
-              <a href="${file.url}" target="_blank">${file.name}</a>
-            `;
-          }
-
-          container.appendChild(card);
+        if (!files.length) {
+          container.innerHTML = `<div class="no-files">No files uploaded yet.</div>`;
+          if (showMoreBtn) showMoreBtn.style.display = "none";
+          return;
         }
-      });
-    }
 
-    renderFiles(visibleCount);
+        let visibleCount = 4;
 
-    if (showMoreBtn && files.length > 4) {
-      showMoreBtn.style.display = "block";
-      showMoreBtn.onclick = () => {
-        const showingAll = visibleCount !== 4;
-        visibleCount = showingAll ? 4 : files.length;
+        function renderFiles(limit) {
+          container.innerHTML = "";
+          files.slice(0, limit).forEach(file => {
+            if (file.url) {
+              const card = document.createElement("div");
+              card.className = "file-card";
+
+              const ext = file.name.split('.').pop().toLowerCase();
+              let previewUrl = "";
+
+              if (file.url.includes("view")) {
+                previewUrl = file.url.replace("/view", "/preview");
+              } else if (file.url.includes("open?id=")) {
+                const id = file.url.split("open?id=")[1];
+                previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+              }
+
+              const nonPreviewable = ["pptx","xlsx","zip","rar","mp3","mp4","avi","exe"];
+              if (nonPreviewable.includes(ext)) {
+                card.innerHTML = `
+                  <div style="font-size:48px; color:#0b74da;">📁</div>
+                  <a href="${file.url}" target="_blank">${file.name}</a>
+                `;
+              } else {
+                card.innerHTML = `
+                  <iframe src="${previewUrl}" loading="lazy"></iframe>
+                  <a href="${file.url}" target="_blank">${file.name}</a>
+                `;
+              }
+
+              container.appendChild(card);
+            }
+          });
+        }
+
         renderFiles(visibleCount);
-        showMoreBtn.textContent = showingAll ? "Show All" : "Show Less";
-        showMoreBtn.innerHTML = showingAll ? 
-          '<i class="fas fa-chevron-down"></i> Show All' : 
-          '<i class="fas fa-chevron-up"></i> Show Less';
-      };
-    } else if (showMoreBtn) {
-      showMoreBtn.style.display = "none";
+
+        if (showMoreBtn && files.length > 4) {
+          showMoreBtn.style.display = "block";
+          showMoreBtn.onclick = () => {
+            const showingAll = visibleCount !== 4;
+            visibleCount = showingAll ? 4 : files.length;
+            renderFiles(visibleCount);
+            showMoreBtn.textContent = showingAll ? "Show All" : "Show Less";
+            showMoreBtn.innerHTML = showingAll ? 
+              '<i class="fas fa-chevron-down"></i> Show All' : 
+              '<i class="fas fa-chevron-up"></i> Show Less';
+          };
+        } else if (showMoreBtn) {
+          showMoreBtn.style.display = "none";
+        }
+
+      } catch (err) {
+        container.innerHTML = `<div class="no-files">⚠️ Unable to load files.</div>`;
+        console.error(err);
+      }
     }
 
-  } catch (err) {
-    container.innerHTML = `<div class="no-files">⚠️ Unable to load files.</div>`;
-    console.error(err);
-  }
-}
-    
+    // Load credentials files
+    async function loadCredentialsFiles() {
+      await loadFiles(certsUrl, "certificates", "showMoreCerts");
+      await loadFiles(honorsUrl, "honors", "showMoreHonors");
+    }
+
+    // Modified loadFiles function for credentials
+    async function loadFiles(url, containerId, buttonId) {
+      const container = document.getElementById(containerId);
+      const showMoreBtn = document.getElementById(buttonId);
+
+      if (!container) return;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const files = data.files || data.children || [];
+
+        // Handle empty folder
+        if (!files.length) {
+          container.innerHTML = `<div class="no-files">No files uploaded yet. Please check back later.</div>`;
+          if (showMoreBtn) showMoreBtn.style.display = "none";
+          return;
+        }
+
+        let visibleCount = 4;
+        
+        function renderFiles(limit) {
+          container.innerHTML = "";
+          files.slice(0, limit).forEach(file => {
+            if (file.url) {
+              const card = document.createElement("div");
+              card.className = "file-card";
+
+              // Create Google Drive preview link
+              let previewUrl = file.url;
+              if (previewUrl.includes("view")) {
+                previewUrl = previewUrl.replace("/view", "/preview");
+              } else if (previewUrl.includes("open?id=")) {
+                const id = previewUrl.split("open?id=")[1];
+                previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+              }
+
+              card.innerHTML = `
+                <iframe src="${previewUrl}" loading="lazy"></iframe>
+                <a href="${file.url}" target="_blank">${file.name}</a>
+              `;
+              container.appendChild(card);
+            }
+          });
+        }
+
+        renderFiles(visibleCount);
+
+        // Show button if more than 4 files
+        if (showMoreBtn && files.length > 4) {
+          showMoreBtn.style.display = "block";
+          showMoreBtn.onclick = () => {
+            const showingAll = visibleCount !== 4;
+            visibleCount = showingAll ? 4 : files.length;
+            renderFiles(visibleCount);
+            showMoreBtn.textContent = showingAll ? "Show All" : "Show Less";
+          };
+        } else if (showMoreBtn) {
+          showMoreBtn.style.display = "none";
+        }
+
+      } catch (err) {
+        container.innerHTML = `<div class="no-files">⚠️ Unable to load files. Please try again later.</div>`;
+        console.error(err);
+      }
+    }
+
     // Load data from WebApp
     async function loadDataFromWebApp() {
       try {
@@ -2107,20 +2218,6 @@ async function loadAcademicSection(url, containerId, buttonId) {
       }
     }
 
-
-function handleImageError(img) {
-  img.onerror = null;
-  const skillName = img.alt;
-  const initials = skillName.substring(0, 3).toUpperCase();
-  img.src = `data:image/svg+xml;base64,${btoa(`
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="64" height="64" fill="#3a86ff" rx="8"/>
-      <text x="32" y="38" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">${initials}</text>
-    </svg>
-  `)}`;
-  return true;
-}
-    
     // Load data from localStorage
     function loadDataFromLocalStorage() {
       const savedContent = localStorage.getItem("contentData");
@@ -2136,238 +2233,34 @@ function handleImageError(img) {
       
       renderContent();
     }
-    
+
     // Render all content
     function renderContent() {
       // Render skills
       renderSkills();
       
-      // Render files for all sections
-      renderFiles();
-
-loadCredentialsFiles();
+      // Load credentials files
+      loadCredentialsFiles();
       
-// Load Academic files
-  loadAcademicFiles();
+      // Load Academic files
+      loadAcademicFiles();
 
       // Load YouTube videos
       fetchVideos();
       
       // Render writings
       renderWritings();
-    }
-    
-    // Render skills with logos and progress bars
-    function renderSkills() {
-      const skillsContainer = document.getElementById("skills-container");
-      if (!skillsContainer) return;
       
-      // Default skills data
-      // Default skills data with online images
-const skillsData = [
-  { 
-    name: "C", 
-    progress: 85, 
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" 
-  },
-  { 
-    name: "C++", 
-    progress: 80, 
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" 
-  },
-  { 
-    name: "Python", 
-    progress: 70, 
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" 
-  },
-  { 
-    name: "MATLAB", 
-    progress: 75, 
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" 
-  },
-  { 
-    name: "SolidWorks", 
-    progress: 75, 
-    logo: "https://static.wikia.nocookie.net/logopedia/images/8/8a/Solidworks.svg" 
-  },
-  { 
-    name: "MS Office", 
-    progress: 95, 
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Microsoft_Office_logo_%282019%E2%80%93present%29.svg" 
-  },
-  { 
-    name: "Machine Learning", 
-    progress: 65, 
-    logo: "https://cdn-icons-png.flaticon.com/512/2103/2103795.png" 
-  },
-  { 
-    name: "HTML5", 
-    progress: 20, 
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" 
-  },
-   { 
-    name: "JavaScript", 
-    progress: 20, 
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" 
-  }
-];
+      // Initialize resume writings functionality
+      initResumeWritings();
       
-      skillsContainer.innerHTML = "";
-      
-      skillsData.forEach(skill => {
-        const skillCard = document.createElement("div");
-        skillCard.className = "skill-card";
-        
-        skillCard.innerHTML = `
-  <img src="${skill.logo}" alt="${skill.name}" class="skill-icon" 
-       onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiMzYTg2ZmYiIHJ4PSI4Ii8+PHRleHQgeD0iMzIiIHk9IjM4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4ke3NraWxsLm5hbWUuc3Vic3RyaW5nKDAsIDMpfTwvdGV4dD48L3N2Zz4='">
-  <div class="skill-name">${skill.name}</div>
-  <div class="progress-bar">
-    <div class="progress" style="width: ${skill.progress}%"></div>
-  </div>
-  <div class="progress-percent">${skill.progress}%</div>
-`;
-        
-        skillsContainer.appendChild(skillCard);
-      });
-    }
-    
-    // Render files for all sections
-    function renderFiles() {
-      // Render certifications and awards continuously
-renderSubsectionFiles("certifications", uploadedFiles.certifications || []);
-renderSubsectionFiles("awards", uploadedFiles.awards || []);
-
-      
-      // Render academic projects
-      // Render all academic subsections continuously
-renderSubsectionFiles("projects", uploadedFiles.projects || []);
-renderSubsectionFiles("posters", uploadedFiles.posters || []);
-renderSubsectionFiles("presentations", uploadedFiles.presentations || []);
-renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
-
-      
-      // Render publications
-      renderSectionFiles("publications", uploadedFiles.publications || []);
-      
-      // Render research
-      renderSectionFiles("research", uploadedFiles.research || []);
-      
-      // Render work experience
-      renderSectionFiles("work", uploadedFiles.work || []);
-      
-      // Render education and experience for resume
+      // Render education and experience in resume
       renderEducationAndExperience();
     }
-    
-    // Render files for subsections (with preview and full view)
-    function renderSubsectionFiles(subsectionId, files) {
-      const previewContainer = document.getElementById(`${subsectionId}-preview`);
-      const fullContainer = document.getElementById(`${subsectionId}-full`);
-      
-      if (!previewContainer || !fullContainer) return;
-      
-      // Clear containers
-      previewContainer.innerHTML = "";
-      fullContainer.innerHTML = "";
-      
-      if (files.length === 0) {
-        previewContainer.innerHTML = "<p>No files available.</p>";
-        return;
-      }
-      
-      // Render preview (max 4 files)
-      const previewFiles = files.slice(0, 4);
-      previewFiles.forEach(file => {
-        const fileCard = createFileCard(file);
-        previewContainer.appendChild(fileCard);
-      });
-      
-      // Render all files in full container
-      files.forEach(file => {
-        const fileCard = createFileCard(file);
-        fullContainer.appendChild(fileCard);
-      });
-      
-      // Show "Show All" button if there are more than 4 files
-      const showDetailsBtn = document.querySelector(`[data-subsection="${subsectionId}"]`);
-      if (showDetailsBtn && files.length > 4) {
-        showDetailsBtn.style.display = "flex";
-      }
-    }
-    
-    // Render files for sections (with preview and show all button)
-    function renderSectionFiles(sectionId, files) {
-      const previewContainer = document.getElementById(`${sectionId}-preview`);
-      const showAllBtn = document.getElementById(`show-all-${sectionId}`);
-      
-      if (!previewContainer || !showAllBtn) return;
-      
-      // Clear container
-      previewContainer.innerHTML = "";
-      
-      if (files.length === 0) {
-        previewContainer.innerHTML = "<p>No files available.</p>";
-        showAllBtn.style.display = "none";
-        return;
-      }
-      
-      // Render preview (max 4 files)
-      const previewFiles = files.slice(0, 4);
-      previewFiles.forEach(file => {
-        const fileCard = createFileCard(file);
-        previewContainer.appendChild(fileCard);
-      });
-      
-      // Show "Show All" button if there are more than 4 files
-      if (files.length > 4) {
-        showAllBtn.style.display = "block";
-        showAllBtn.onclick = () => {
-          previewContainer.innerHTML = "";
-          files.forEach(file => {
-            const fileCard = createFileCard(file);
-            previewContainer.appendChild(fileCard);
-          });
-          showAllBtn.style.display = "none";
-        };
-      } else {
-        showAllBtn.style.display = "none";
-      }
-    }
-    
-    // Create a file card element
-    function createFileCard(file) {
-      const fileCard = document.createElement("div");
-      fileCard.className = "file-card";
-      
-      // Determine file type icon
-      let fileIcon = "fa-file";
-      if (file.name.toLowerCase().includes(".pdf")) fileIcon = "fa-file-pdf";
-      else if (file.name.toLowerCase().includes(".doc") || file.name.toLowerCase().includes(".docx")) fileIcon = "fa-file-word";
-      else if (file.name.toLowerCase().includes(".xls") || file.name.toLowerCase().includes(".xlsx")) fileIcon = "fa-file-excel";
-      else if (file.name.toLowerCase().includes(".ppt") || file.name.toLowerCase().includes(".pptx")) fileIcon = "fa-file-powerpoint";
-      else if (file.name.toLowerCase().includes(".jpg") || file.name.toLowerCase().includes(".jpeg") || file.name.toLowerCase().includes(".png") || file.name.toLowerCase().includes(".gif")) fileIcon = "fa-file-image";
-      
-      fileCard.innerHTML = `
-        <div class="file-preview">
-          <i class="fas ${fileIcon}"></i>
-        </div>
-        <div class="file-info">
-          <div class="file-name">${file.name}</div>
-          <div class="file-size">${formatFileSize(file.size || 0)}</div>
-          <div class="file-actions">
-            <button class="view-btn" onclick="viewFile('${file.dataUrl}')"><i class="fas fa-eye"></i> View</button>
-            <button class="download-btn" onclick="downloadFile('${file.dataUrl}', '${file.name}')"><i class="fas fa-download"></i> Download</button>
-          </div>
-        </div>
-      `;
-      
-      return fileCard;
-    }
-    
-    // Render education and experience for resume section
+
+    // Render education and experience for resume section - FIXED: Now shows actual content
     function renderEducationAndExperience() {
-      // Default education data
+      // Education data
       const educationData = [
         {
           title: "Bangladesh University of Engineering and Technology (BUET)",
@@ -2386,47 +2279,38 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
         }
       ];
       
-      // Default experience data
+      // Experience data
       const experienceData = [
         {
-          title: "AGS of BUET Robotic society",
+          title: "AGS in BUET Robotic Society",
           date: "Present",
+          description: "Active member contributing to robotics projects and events"
         },
         {
-          title: "Ex-Term Representative of SAMME (Student Association of MME)",
-          date: "2022 - 2023"
+          title: "Ex-Term Representative of SAMME",
+          date: "2022 - 2023",
+          description: "Represented student interests in the Student Association of MME"
         },
-	{
-    title: "Executive in Help Buetian",
-    date: "2022 - 2023",
-    description: "Contributed to social and academic welfare initiatives under Help Buetian organization."
-  },
-  {
-    title: "Host (English) – International Program 'Soul of BUET x Mufti Tarique Masood'",
-    date: "23/7/2023",
-  }
+        {
+          title: "Executive in Help Buetian",
+          date: "2022 - 2023",
+          description: "Contributed to social and academic welfare initiatives"
+        },
+        {
+          title: "Host (English) – International Program 'Soul of BUET x Mufti Tarique Masood'",
+          date: "July 23, 2023",
+          description: "Hosted an international program in English, facilitating cross-cultural communication"
+        }
       ];
       
       // Render education preview
       const educationPreview = document.getElementById("education-preview");
       if (educationPreview) {
         educationPreview.innerHTML = "";
-        const previewItems = educationData.slice(0, 4);
-        
-        previewItems.forEach((item, index) => {
-          const timelineItem = createTimelineItem(item, index % 2 === 0);
-          educationPreview.appendChild(timelineItem);
-        });
-      }
-      
-      // Render education full
-      const educationFull = document.getElementById("education-full");
-      if (educationFull) {
-        educationFull.innerHTML = "";
         
         educationData.forEach((item, index) => {
           const timelineItem = createTimelineItem(item, index % 2 === 0);
-          educationFull.appendChild(timelineItem);
+          educationPreview.appendChild(timelineItem);
         });
       }
       
@@ -2434,26 +2318,14 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
       const experiencePreview = document.getElementById("experience-preview");
       if (experiencePreview) {
         experiencePreview.innerHTML = "";
-        const previewItems = experienceData.slice(0, 4);
         
-        previewItems.forEach((item, index) => {
+        experienceData.forEach((item, index) => {
           const timelineItem = createTimelineItem(item, index % 2 === 0);
           experiencePreview.appendChild(timelineItem);
         });
       }
-      
-      // Render experience full
-      const experienceFull = document.getElementById("experience-full");
-      if (experienceFull) {
-        experienceFull.innerHTML = "";
-        
-        experienceData.forEach((item, index) => {
-          const timelineItem = createTimelineItem(item, index % 2 === 0);
-          experienceFull.appendChild(timelineItem);
-        });
-      }
     }
-    
+
     // Create a timeline item for education/experience
     function createTimelineItem(item, isLeft) {
       const timelineItem = document.createElement("div");
@@ -2469,7 +2341,104 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
       
       return timelineItem;
     }
-    
+
+    // Initialize resume writings section
+    function initResumeWritings() {
+      const showDetailsBtn = document.querySelector('[data-subsection="writings"]');
+      if (showDetailsBtn) {
+        showDetailsBtn.addEventListener('click', function() {
+          const preview = document.getElementById('writings-preview-resume');
+          const full = document.getElementById('writings-full-resume');
+          
+          if (preview && full) {
+            if (preview.style.display !== 'none') {
+              preview.style.display = 'none';
+              full.style.display = 'block';
+              this.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+            } else {
+              preview.style.display = 'block';
+              full.style.display = 'none';
+              this.innerHTML = '<i class="fas fa-chevron-down"></i> Show Details';
+            }
+          }
+        });
+      }
+    }
+
+    // Render skills with logos and progress bars
+    function renderSkills() {
+      const skillsContainer = document.getElementById("skills-container");
+      if (!skillsContainer) return;
+      
+      // Default skills data with online images
+      const skillsData = [
+        { 
+          name: "C", 
+          progress: 85, 
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" 
+        },
+        { 
+          name: "C++", 
+          progress: 80, 
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" 
+        },
+        { 
+          name: "Python", 
+          progress: 70, 
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" 
+        },
+        { 
+          name: "MATLAB", 
+          progress: 75, 
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" 
+        },
+        { 
+          name: "SolidWorks", 
+          progress: 75, 
+          logo: "https://static.wikia.nocookie.net/logopedia/images/8/8a/Solidworks.svg" 
+        },
+        { 
+          name: "MS Office", 
+          progress: 95, 
+          logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Microsoft_Office_logo_%282019%E2%80%93present%29.svg" 
+        },
+        { 
+          name: "Machine Learning", 
+          progress: 65, 
+          logo: "https://cdn-icons-png.flaticon.com/512/2103/2103795.png" 
+        },
+        { 
+          name: "HTML5", 
+          progress: 20, 
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" 
+        },
+        { 
+          name: "JavaScript", 
+          progress: 20, 
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" 
+        }
+      ];
+      
+      skillsContainer.innerHTML = "";
+      
+      skillsData.forEach(skill => {
+        const skillCard = document.createElement("div");
+        skillCard.className = "skill-card";
+        
+        skillCard.innerHTML = `
+          <img src="${skill.logo}" alt="${skill.name}" class="skill-icon" 
+               onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiMzYTg2ZmYiIHJ4PSI4Ii8+PHRleHQgeD0iMzIiIHk9IjM4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4ke3NraWxsLm5hbWUuc3Vic3RyaW5nKDAsIDMpfTwvdGV4dD48L3N2Zz4='">
+          <div class="skill-name">${skill.name}</div>
+          <div class="progress-bar">
+            <div class="progress" style="width: ${skill.progress}%"></div>
+          </div>
+          <div class="progress-percent">${skill.progress}%</div>
+        `;
+        
+        skillsContainer.appendChild(skillCard);
+      });
+    }
+
     // Render writings section
     function renderWritings() {
       const writings = uploadedFiles.blog || [];
@@ -2488,7 +2457,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
         });
       });
     }
-    
+
     // Update category counts
     function updateCategoryCounts(writings) {
       const categories = {
@@ -2527,7 +2496,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
         }
       });
     }
-    
+
     // Render writings preview
     function renderWritingsPreview(writings) {
       const previewContainer = document.getElementById("writings-preview");
@@ -2566,7 +2535,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
         showAllBtn.style.display = "none";
       }
     }
-    
+
     // Create a writing card element
     function createWritingCard(writing) {
       const writingCard = document.createElement("div");
@@ -2617,7 +2586,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
       
       return writingCard;
     }
-    
+
     // Filter writings by category
     function filterWritingsByCategory(category, writings) {
       const previewContainer = document.getElementById("writings-preview");
@@ -2667,7 +2636,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
         renderWritingsPreview(writings);
       };
     }
-    
+
     // Format file size
     function formatFileSize(bytes) {
       if (bytes === 0) return '0 Bytes';
@@ -2678,12 +2647,12 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
       
       return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
-    
+
     // View file
     function viewFile(url) {
       window.open(url, '_blank');
     }
-    
+
     // Download file
     function downloadFile(url, filename) {
       const a = document.createElement('a');
@@ -2693,7 +2662,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
       a.click();
       document.body.removeChild(a);
     }
-    
+
     // Fetch YouTube videos
     function fetchVideos(showAll = false) {
       const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
@@ -2740,57 +2709,7 @@ renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
           document.getElementById('youtube-videos').textContent = 'Failed to load videos. Please try again later.';
         });
     }
-    
-    // Check author login
-    function checkAuthorLogin() {
-  const id = document.getElementById("author-id").value.trim();
-  const password = document.getElementById("author-password").value.trim();
 
-  if (id === AUTHOR_ID && password === AUTHOR_PASSWORD) {
-    isAuthorLoggedIn = true;
-    localStorage.setItem("isAuthorLoggedIn", "true");
-
-    // Toggle views
-    document.getElementById("login-container").style.display = "none";
-    document.getElementById("welcome-container").style.display = "block";
-
-    // Show Manage button only after login
-    const manageBtnActive = document.getElementById("manage-btn-active");
-    if (manageBtnActive) {
-      manageBtnActive.href = MANAGE_URL;
-      manageBtnActive.style.display = "inline-block";
-    }
-  } else {
-    alert("❌ Invalid Author ID or Password");
-  }
-}
-
-function logoutAuthor() {
-  isAuthorLoggedIn = false;
-  localStorage.removeItem("isAuthorLoggedIn");
-
-  // Reset views
-  document.getElementById("login-container").style.display = "block";
-  document.getElementById("welcome-container").style.display = "none";
-
-  // Hide Manage button again
-  const manageBtnActive = document.getElementById("manage-btn-active");
-  if (manageBtnActive) manageBtnActive.style.display = "none";
-}
-
-
-    
-    // Reset logout timer
-    function resetLogoutTimer() {
-      clearTimeout(logoutTimer);
-      logoutTimer = setTimeout(() => {
-        isAuthorLoggedIn = false;
-        localStorage.removeItem("isAuthorLoggedIn");
-        document.getElementById("manage-btn").style.display = "none";
-        alert("You have been automatically logged out due to inactivity.");
-      }, 10 * 60 * 1000); // 10 minutes
-    }
-    
     // Send message (contact form)
     function sendMessage() {
       const name = document.getElementById("contact-name").value;
@@ -2816,47 +2735,50 @@ function logoutAuthor() {
       // Hide form
       document.getElementById("contact-form").style.display = "none";
     }
-    
+
     // Navigation functionality
-    document.querySelectorAll('.sidebar a').forEach(link => {
-      link.addEventListener('click', function(e) {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        // Update active link
-        document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+        // Update active nav button
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         
-        // Show corresponding section
-        const sectionId = this.getAttribute('data-section');
-        document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
+        // Get target section
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
         
-        // Scroll to top of section
-        document.getElementById(sectionId).scrollIntoView({behavior: 'smooth', block: 'start'});
-      });
-    });
-    
-    // Show details buttons
-    document.querySelectorAll('.show-details-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const subsection = this.getAttribute('data-subsection');
-        const preview = document.getElementById(`${subsection}-preview`);
-        const full = document.getElementById(`${subsection}-full`);
-        
-        if (preview && full) {
-          if (preview.style.display !== 'none') {
-            preview.style.display = 'none';
-            full.style.display = 'block';
-            this.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
-          } else {
-            preview.style.display = 'grid';
-            full.style.display = 'none';
-            this.innerHTML = '<i class="fas fa-chevron-down"></i> Show Details';
-          }
+        if (targetSection) {
+          // Scroll to section
+          targetSection.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
-    
+
+    // Show details buttons
+    document.querySelectorAll('.show-details-btn').forEach(btn => {
+      if (btn.getAttribute('data-subsection') !== 'writings') {
+        btn.addEventListener('click', function() {
+          const subsection = this.getAttribute('data-subsection');
+          const preview = document.getElementById(`${subsection}-preview`);
+          const full = document.getElementById(`${subsection}-full`);
+          
+          if (preview && full) {
+            if (preview.style.display !== 'none') {
+              preview.style.display = 'none';
+              full.style.display = 'block';
+              this.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+            } else {
+              preview.style.display = 'grid';
+              full.style.display = 'none';
+              this.innerHTML = '<i class="fas fa-chevron-down"></i> Show Details';
+            }
+          }
+        });
+      }
+    });
+
     // Show contact form
     document.getElementById('show-contact-form').addEventListener('click', function() {
       const form = document.getElementById('contact-form');
@@ -2866,100 +2788,47 @@ function logoutAuthor() {
         form.style.display = 'none';
       }
     });
-    
+
+    // Back to top button
+    document.querySelector('.floating-action').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
     // On page load
     window.onload = () => {
-      // Check if user is already logged in
-      const savedLoginState = localStorage.getItem("isAuthorLoggedIn");
-      if (savedLoginState === "true") {
-        isAuthorLoggedIn = true;
-        document.getElementById("manage-btn").style.display = "block";
-        resetLogoutTimer();
-      }
-      
       // Load data
       loadDataFromWebApp();
       
       // Set up manage button
       document.getElementById("manage-btn").href = MANAGE_URL;
+      
+      // Set current year in footer
+      document.getElementById('copyright-year').textContent = new Date().getFullYear();
     };
 
-// Credentials Section Functions - ADD THIS TO MAIN SCRIPT
-const certsUrl = "https://script.google.com/macros/s/AKfycbxSCOGTaAThoJVZJVVrKjvSswX_VZxNY1ju-fkb9BCl3Pv-xI20w6ZiIBqi89PU2BAT/exec";
-const honorsUrl = "https://script.google.com/macros/s/AKfycbyQJGkZewrcNn9aCFypFcVY0bqflOtfBxoGyWremB8nHquF4W1VAO43d0MAqjlsee6S/exec";
-
-// Load credentials files
-async function loadCredentialsFiles() {
-  await loadFiles(certsUrl, "certificates", "showMoreCerts");
-  await loadFiles(honorsUrl, "honors", "showMoreHonors");
-}
-
-// Modified loadFiles function for credentials
-async function loadFiles(url, containerId, buttonId) {
-  const container = document.getElementById(containerId);
-  const showMoreBtn = document.getElementById(buttonId);
-
-  if (!container) return;
-
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const files = data.files || data.children || [];
-
-    // Handle empty folder
-    if (!files.length) {
-      container.innerHTML = `<div class="no-files">No files uploaded yet. Please check back later.</div>`;
-      if (showMoreBtn) showMoreBtn.style.display = "none";
-      return;
-    }
-
-    let visibleCount = 4;
-    
-    function renderFiles(limit) {
-      container.innerHTML = "";
-      files.slice(0, limit).forEach(file => {
-        if (file.url) {
-          const card = document.createElement("div");
-          card.className = "file-card";
-
-          // Create Google Drive preview link
-          let previewUrl = file.url;
-          if (previewUrl.includes("view")) {
-            previewUrl = previewUrl.replace("/view", "/preview");
-          } else if (previewUrl.includes("open?id=")) {
-            const id = previewUrl.split("open?id=")[1];
-            previewUrl = `https://drive.google.com/file/d/${id}/preview`;
-          }
-
-          card.innerHTML = `
-            <iframe src="${previewUrl}" loading="lazy"></iframe>
-            <a href="${file.url}" target="_blank">${file.name}</a>
-          `;
-          container.appendChild(card);
+    // Update active nav on scroll
+    window.addEventListener('scroll', function() {
+      const sections = document.querySelectorAll('.section');
+      const navButtons = document.querySelectorAll('.nav-btn');
+      
+      let currentSection = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+          currentSection = section.getAttribute('id');
         }
       });
-    }
-
-    renderFiles(visibleCount);
-
-    // Show button if more than 4 files
-    if (showMoreBtn && files.length > 4) {
-      showMoreBtn.style.display = "block";
-      showMoreBtn.onclick = () => {
-        const showingAll = visibleCount !== 4;
-        visibleCount = showingAll ? 4 : files.length;
-        renderFiles(visibleCount);
-        showMoreBtn.textContent = showingAll ? "Show All" : "Show Less";
-      };
-    } else if (showMoreBtn) {
-      showMoreBtn.style.display = "none";
-    }
-
-  } catch (err) {
-    container.innerHTML = `<div class="no-files">⚠️ Unable to load files. Please try again later.</div>`;
-    console.error(err);
-  }
-}
+      
+      navButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('href') === `#${currentSection}`) {
+          btn.classList.add('active');
+        }
+      });
+    });
 
   </script>
 </body>
