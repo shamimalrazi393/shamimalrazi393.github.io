@@ -91,7 +91,7 @@
       color: var(--primary);
     }
     
-    /* Header Styles - Fixed Scrolling Issue */
+    /* Header Styles */
     header {
       background: linear-gradient(to right, var(--primary), #152238);
       padding: 15px 20px;
@@ -100,7 +100,7 @@
       justify-content: space-between;
       flex-wrap: wrap;
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      position: relative; /* Changed from sticky to relative */
+      position: relative;
       z-index: 1000;
       border-bottom: 2px solid rgba(255,255,255,0.1);
     }
@@ -180,7 +180,7 @@
       color: white;
       height: calc(100vh - var(--header-height));
       position: sticky;
-      top: 0; /* Changed to 0 since header is not sticky anymore */
+      top: 0;
       overflow-y: auto;
       padding: 20px 0;
       box-shadow: 3px 0 12px rgba(0,0,0,0.15);
@@ -292,29 +292,6 @@
       margin-bottom: 30px;
     }
     
-    .edit-btn {
-      background: var(--warning);
-      color: white;
-      border: none;
-      padding: 12px 22px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-      box-shadow: var(--shadow-sm);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    
-    .edit-btn:hover {
-      background: #e67e22;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-    
     /* Home Section */
     .home-content {
       display: flex;
@@ -351,6 +328,82 @@
       padding-left: 12px;
       border-left: 3px solid var(--accent);
       line-height: 1.7;
+    }
+    
+    .contact-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+      margin-top: 20px;
+    }
+    
+    .contact-btn:hover {
+      background: #2980b9;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Contact Form */
+    .contact-form {
+      display: none;
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: var(--radius-md);
+      margin-top: 25px;
+      border-left: 4px solid var(--accent);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+      font-size: 16px;
+      padding: 14px 18px;
+      margin: 15px 0;
+      width: 100%;
+      border-radius: var(--radius-md);
+      border: 1px solid #e1e5eb;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .contact-form button {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+    
+    .contact-form button:hover {
+      background: #c0392b;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     
     /* About Section */
@@ -427,124 +480,228 @@
       font-size: 20px;
     }
     
-    /* Form Elements */
-    input, textarea, button, select {
-      font-size: 16px;
-      padding: 14px 18px;
-      margin: 15px 0;
-      width: 100%;
-      border-radius: var(--radius-md);
-      border: 1px solid #e1e5eb;
-      transition: var(--transition);
-      font-family: inherit;
+    /* Skill Section */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
     }
     
-    input:focus, textarea:focus {
-      border-color: var(--accent);
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-    }
-    
-    button {
-      background: var(--secondary);
-      color: white;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: var(--transition);
-      letter-spacing: 0.5px;
-      font-size: 16px;
-    }
-    
-    button:hover {
-      background: #c0392b;
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .btn-success {
-      background: var(--success);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .btn-success:hover {
-      background: #27ae60;
-      box-shadow: var(--shadow-md);
-    }
-    
-    /* Upload Sections */
-    .upload-area {
-      margin-bottom: 30px;
-      padding: 25px;
-      background: #f8f9fa;
-      border-radius: var(--radius-md);
-      border-left: 4px solid var(--accent);
-      display: none;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-      transition: var(--transition);
-    }
-    
-    .upload-area:hover {
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.08);
-    }
-    
-    /* File Items */
-    .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      padding: 18px;
+    .skill-card {
       background: white;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
+      padding: 25px;
+      transition: var(--transition);
+      border: 1px solid #eef2f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .skill-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 15px;
+  padding: 8px;
+  border-radius: 12px;
+  background: #f5f7fa;
+  object-fit: contain;
+  display: block;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.skill-icon:hover {
+  transform: scale(1.1);
+}
+
+    }
+    
+    .skill-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, var(--accent), #2980b9);
+      width: 0%;
+      transition: width 1s ease;
+    }
+    
+    .progress-percent {
+      font-size: 14px;
+      color: var(--dark);
+      font-weight: 600;
+    }
+    
+    /* Subsection Styles */
+    .subsection {
+      margin-bottom: 40px;
+    }
+    
+    .subsection-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .subsection h3 {
+      font-size: 22px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .show-details-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .show-details-btn:hover {
+      background: #2980b9;
+    }
+    
+    .subsection-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .file-card {
+      background: white;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
       transition: var(--transition);
       border: 1px solid #eef2f7;
     }
     
-    .file-item:hover {
-      transform: translateY(-3px);
+    .file-card:hover {
+      transform: translateY(-5px);
       box-shadow: var(--shadow-md);
-      border-color: var(--accent);
     }
     
-    .file-item a {
-      word-break: break-all;
-      color: var(--primary);
-      text-decoration: none;
-      transition: color 0.3s ease;
-      flex: 1;
-      font-weight: 500;
+    .file-preview {
+      height: 150px;
+      background: #f8f9fa;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 16px;
+      justify-content: center;
+      border-bottom: 1px solid #eef2f7;
     }
     
-    .file-item a:hover {
+    .file-preview i {
+      font-size: 48px;
       color: var(--accent);
-      text-decoration: underline;
     }
     
-    .file-item .file-actions {
-      display: flex;
-      gap: 12px;
+    .file-info {
+      padding: 15px;
     }
     
-    .file-item button {
-      width: auto;
-      padding: 10px 18px;
+    .file-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--primary);
+    }
+    
+    .file-size {
       font-size: 14px;
-      margin: 0;
-      border-radius: var(--radius-sm);
+      color: #777;
+      margin-bottom: 10px;
     }
     
-    /* YouTube Videos */
+    .file-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .file-actions button {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .view-btn {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .view-btn:hover {
+      background: #2980b9;
+    }
+    
+    .download-btn {
+      background: var(--success);
+      color: white;
+    }
+    
+    .download-btn:hover {
+      background: #27ae60;
+    }
+    
+    .show-all-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 25px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .show-all-btn:hover {
+      background: #152238;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Fusion Section */
     .youtube-videos {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -564,70 +721,7 @@
       transform: scale(1.03);
     }
     
-    /* Contact Section */
-    .contact-info {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 30px;
-    }
-    
-    .contact-card {
-      background: linear-gradient(to bottom right, #f8f9fa, #eef2f7);
-      padding: 30px;
-      border-radius: var(--radius-md);
-      border-left: 4px solid var(--accent);
-      box-shadow: var(--shadow-md);
-      transition: var(--transition);
-    }
-    
-    .contact-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .contact-card h3 {
-      margin-bottom: 25px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      font-size: 24px;
-      font-weight: 600;
-    }
-    
-    .contact-card h3 i {
-      margin-right: 18px;
-      color: var(--accent);
-      font-size: 32px;
-    }
-    
-    .contact-card p {
-      margin: 18px 0;
-      display: flex;
-      align-items: center;
-      font-size: 18px;
-      gap: 12px;
-    }
-    
-    .contact-card a {
-      color: var(--secondary);
-      text-decoration: none;
-      transition: color 0.3s ease;
-      font-weight: 500;
-    }
-    
-    .contact-card a:hover {
-      color: #c0392b;
-      text-decoration: underline;
-    }
-    
-    .contact-card i {
-      width: 30px;
-      color: var(--primary);
-      font-size: 22px;
-      flex-shrink: 0;
-    }
-    
-    /* Experience & Education */
+    /* Resume Section */
     .timeline {
       position: relative;
       max-width: 900px;
@@ -710,38 +804,70 @@
       border: 1px solid #eef2f7;
     }
     
-    .login-message {
-      text-align: center;
-      padding: 30px;
-      background: linear-gradient(to right, #e8f5e9, #d0efd5);
+    .login-container input {
+      font-size: 16px;
+      padding: 14px 18px;
+      margin: 15px 0;
+      width: 100%;
       border-radius: var(--radius-md);
-      margin-bottom: 35px;
-      display: none;
-      border: 1px solid #c8e6c9;
+      border: 1px solid #e1e5eb;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    
+    .login-container input:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .login-container button {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
       box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
     }
     
-    .login-message h3 {
-      color: var(--primary);
-      margin-bottom: 18px;
-      font-size: 26px;
+    .login-container button:hover {
+      background: #c0392b;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     
-    .login-message p {
-      color: #2e7d32;
-      font-size: 19px;
-    }
-    
-    /* Password Change Section */
-    .change-pass-section {
-      max-width: 500px;
-      margin: 45px auto;
-      background: white;
-      padding: 40px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
+    .manage-btn {
       display: none;
-      border: 1px solid #eef2f7;
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+      margin: 20px auto 0;
+      text-decoration: none;
+      text-align: center;
+      max-width: 200px;
+    }
+    
+    .manage-btn:hover {
+      background: #27ae60;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     
     /* Footer */
@@ -882,7 +1008,7 @@
         padding: 25px;
       }
       
-      .youtube-videos, .contact-info {
+      .youtube-videos, .subsection-content {
         grid-template-columns: 1fr;
       }
       
@@ -891,150 +1017,31 @@
         height: 200px;
       }
       
-      .login-container, .change-pass-section {
-        padding: 30px;
+      .skills-grid {
+        grid-template-columns: 1fr;
       }
     }
     
-    /* Edit Mode Styles */
-    .editable-field {
-      padding: 12px;
-      border: 1px dashed #e1e5eb;
-      border-radius: var(--radius-sm);
-      margin: 8px 0;
-      cursor: text;
-      min-height: 35px;
-      background: #fcfdfe;
-      font-size: 16px;
-    }
-    
-    .editable-field:focus {
-      outline: none;
-      border-color: var(--accent);
-      background-color: #f8f9fa;
-    }
-    
-    .editable-list {
-      padding-left: 25px;
-    }
-    
-    .editable-list li {
-      margin-bottom: 8px;
-      padding: 10px;
-      border: 1px dashed #e1e5eb;
-      border-radius: var(--radius-sm);
-      cursor: text;
-      background: #fcfdfe;
-    }
-    
-    .editable-list li:focus {
-      outline: none;
-      border-color: var(--accent);
-      background-color: #f8f9fa;
-    }
-    
-    .edit-form {
-      display: none;
-      background: #f8f9fa;
-      padding: 25px;
-      border-radius: var(--radius-md);
-      margin-bottom: 25px;
-      border-left: 4px solid var(--warning);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .edit-controls {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    
-    .edit-controls button {
-      flex: 1;
-      padding: 12px;
-    }
-    
-    /* Profile Image Section */
-    .profile-image-section {
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .image-controls {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    
-    /* Loading spinner */
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-left-color: var(--accent);
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      animation: spin 1s linear infinite;
-      margin: 25px auto;
-      display: none;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Error message */
-    .error-message {
-      background-color: #ffebee;
-      color: #c62828;
-      padding: 18px;
-      border-radius: var(--radius-sm);
-      margin: 18px 0;
-      display: none;
-      font-weight: 500;
-    }
-    
-    /* Upload Progress */
-    .progress-bar {
-      width: 100%;
-      height: 10px;
-      background-color: #f0f0f0;
-      border-radius: 5px;
-      margin: 10px 0;
+    /* Animated Text */
+    .animated-text {
       overflow: hidden;
-      display: none;
+      border-right: 3px solid var(--accent);
+      white-space: nowrap;
+      margin: 0 auto;
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
     }
     
-    .progress {
-      height: 100%;
-      background-color: var(--accent);
-      width: 0%;
-      transition: width 0.3s ease;
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
     }
     
-    /* New Professional Elements */
-    .section-divider {
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--accent), transparent);
-      margin: 30px 0;
-      border: none;
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: var(--accent) }
     }
     
-    .card-badge {
-      position: absolute;
-      top: -12px;
-      right: 20px;
-      background: var(--accent);
-      color: white;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 14px;
-      box-shadow: var(--shadow-sm);
-    }
-    
+    /* Floating action button */
     .floating-action {
       position: fixed;
       bottom: 30px;
@@ -1052,6 +1059,7 @@
       font-size: 24px;
       transition: var(--transition);
       cursor: pointer;
+      text-decoration: none;
     }
     
     .floating-action:hover {
@@ -1063,6 +1071,422 @@
     html {
       scroll-behavior: smooth;
     }
+    
+    /* Updated Writings Section Styles */
+    .writings-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .category-card {
+      background: white;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 25px;
+      transition: var(--transition);
+      border: 1px solid #eef2f7;
+      text-align: center;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .category-icon {
+      font-size: 48px;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    
+    .category-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .category-count {
+      background: var(--accent);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    
+    .category-description {
+      color: #666;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .category-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    
+    .category-btn:hover {
+      background: #152238;
+      transform: translateY(-2px);
+    }
+    
+    .writings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .writing-card {
+      background: white;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid #eef2f7;
+    }
+    
+    .writing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .writing-preview {
+      height: 160px;
+      background: linear-gradient(135deg, var(--accent), #2980b9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 48px;
+    }
+    
+    .writing-info {
+      padding: 20px;
+    }
+    
+    .writing-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-size: 18px;
+    }
+    
+    .writing-meta {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .writing-type {
+      background: #f0f7ff;
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .writing-excerpt {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    
+    .writing-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .writing-actions button {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .read-btn {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .read-btn:hover {
+      background: #2980b9;
+    }
+    
+    .save-btn {
+      background: var(--success);
+      color: white;
+    }
+    
+    .save-btn:hover {
+      background: #27ae60;
+    }
+
+	/* Credentials Section Styles */
+.file-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.file-card {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.file-card iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 8px;
+}
+
+.file-card a {
+  display: block;
+  margin-top: 8px;
+  color: #0b74da;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.file-card a:hover {
+  text-decoration: underline;
+}
+
+.show-more {
+  display: block;
+  background: #0b74da;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 15px auto 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.no-files {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 15px;
+  font-size: 1.05em;
+}
+
+/* Credentials Section Specific Styles */
+#credentials .subsection {
+  background: #f9fafb;
+  padding: 25px;
+  border-radius: var(--radius-md);
+  margin-bottom: 25px;
+  border-left: 4px solid var(--accent);
+}
+
+#credentials .subsection-header h3 {
+  color: var(--primary);
+  margin-bottom: 15px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#credentials .file-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+#credentials .file-card {
+  background: white;
+  border: 1px solid #e1e5eb;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+#credentials .file-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+#credentials .file-card iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+#credentials .file-card a {
+  display: block;
+  margin-top: 10px;
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#credentials .file-card a:hover {
+  text-decoration: underline;
+}
+
+#credentials .show-all-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#credentials .show-all-btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+#credentials .no-files {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 15px;
+  font-size: 16px;
+  padding: 20px;
+}
+
+/* Academic Section Specific Styles */
+#academic .file-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+#academic .file-card {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: var(--transition);
+}
+
+#academic .file-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+#academic .file-card iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+#academic .file-card a {
+  display: block;
+  margin-top: 8px;
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#academic .file-card a:hover {
+  text-decoration: underline;
+}
+
+#academic .show-all-btn {
+  display: block;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 15px auto 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+#academic .show-all-btn:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+#academic .no-files {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 15px;
+  font-size: 1.05em;
+  padding: 20px;
+}
+
+/* Academic subsection headers */
+#academic .subsection-header h3 {
+  color: var(--primary);
+  margin-bottom: 15px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#academic .subsection-header h3 i {
+  color: var(--accent);
+  font-size: 20px;
+}
+
+/* File icon styles for non-previewable files */
+.file-icon {
+  font-size: 48px;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
   </style>
 </head>
 <body>
@@ -1079,225 +1503,236 @@
     <aside class="sidebar">
       <h3>Navigation</h3>
       <ul>
-        <li><a href="#home" class="active" data-section="home"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#about" data-section="about"><i class="fas fa-user"></i> About Myself</a></li>
-        <li><a href="#projects" data-section="projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
-        <li><a href="#fusion" data-section="fusion"><i class="fas fa-music"></i> Fusion ShilpiGosti</a></li>
-        <li><a href="#publications" data-section="publications"><i class="fas fa-book"></i> Publications</a></li>
-        <li><a href="#research" data-section="research"><i class="fas fa-flask"></i> Research Experience</a></li>
-        <li><a href="#work" data-section="work"><i class="fas fa-briefcase"></i> Work Experience</a></li>
-        <li><a href="#blog" data-section="blog"><i class="fas fa-blog"></i> Blog/Writings</a></li>
-        <li><a href="#certifications" data-section="certifications"><i class="fas fa-certificate"></i> Certifications</a></li>
-        <li><a href="#contact" data-section="contact"><i class="fas fa-envelope"></i> Contact</a></li>
-        <li><a href="#login" data-section="login"><i class="fas fa-lock"></i> Author Login</a></li>
+        <li><a href="#home" class="active" data-section="home"><i class="fas fa-home"></i> Home Tab</a></li>
+        <li><a href="#about" data-section="about"><i class="fas fa-user"></i> About Tab</a></li>
+        <li><a href="#credentials" data-section="credentials"><i class="fas fa-certificate"></i> Credentials Tab</a></li>
+        <li><a href="#academic" data-section="academic"><i class="fas fa-graduation-cap"></i> Academic Tab</a></li>
+        <li><a href="#skill" data-section="skill"><i class="fas fa-tools"></i> Skill Tab</a></li>
+        <li><a href="#writings" data-section="writings"><i class="fas fa-pen"></i> Writings Tab</a></li>
+        <li><a href="#fusion" data-section="fusion"><i class="fas fa-music"></i> Fusion ShilpiGosti Tab</a></li>
+        <li><a href="#resume" data-section="resume"><i class="fas fa-file-alt"></i> Resume Tab</a></li>
+        <li><a href="#publications" data-section="publications"><i class="fas fa-book"></i> Publications Tab</a></li>
+        <li><a href="#research" data-section="research"><i class="fas fa-flask"></i> Research Experience Tab</a></li>
+        <li><a href="#work" data-section="work"><i class="fas fa-briefcase"></i> Work Experience Tab</a></li>
+        <li><a href="#login" data-section="login"><i class="fas fa-lock"></i> Author Login Tab</a></li>
       </ul>
     </aside>
 
     <main class="main-content">
-    <!-- Home Section -->
-    <section id="home" class="section active">
-      <div class="section-header">
+      <!-- Home Tab -->
+      <section id="home" class="section active">
         <h2><i class="fas fa-home"></i> Home</h2>
-        <button class="edit-btn" id="edit-home-btn"><i class="fas fa-edit"></i> Edit</button>
-      </div>
-      
-      <div class="spinner" id="home-spinner"></div>
-      <div class="error-message" id="home-error"></div>
-    
-      <!-- Image upload & preview -->
-      <div class="profile-image-section">
-        <img id="home-profile-img" src="profile.jpg" alt="Profile Image" class="home-img" />
-        <div class="image-controls" id="image-controls">
-          <input type="file" id="home-image-upload" accept="image/*" style="display:none" />
-          <button id="upload-home-img-btn" class="btn-success"><i class="fas fa-upload"></i> Upload/Change Image</button>
-          <button id="delete-home-img-btn" class="btn-danger"><i class="fas fa-trash"></i> Delete Image</button>
-        </div>
-      </div>
-    
-      <div class="edit-form" id="home-edit-form" style="display:none;">
-        <h3>Edit Home Information</h3>
-        <label>Full Name:</label>
-        <input type="text" id="edit-home-name" class="editable-field" />
-    
-        <label>Current School:</label>
-        <input type="text" id="edit-home-school" class="editable-field" />
-    
-        <label>Department:</label>
-        <input type="text" id="edit-home-dept" class="editable-field" />
-    
-        <label>Student ID:</label>
-        <input type="text" id="edit-home-id" class="editable-field" />
-    
-        <label>Level:</label>
-        <input type="text" id="edit-home-level" class="editable-field" />
-    
-        <label>Term:</label>
-        <input type="text" id="edit-home-term" class="editable-field" />
-    
-        <label>Session:</label>
-        <input type="text" id="edit-home-session" class="editable-field" />
-    
-        <label>Hall:</label>
-        <input type="text" id="edit-home-hall" class="editable-field" />
-    
-        <label>Current Address:</label>
-        <input type="text" id="edit-home-address" class="editable-field" />
-    
-        <div class="edit-controls">
-          <button onclick="saveHomeInfo()" class="btn-success"><i class="fas fa-save"></i> Save</button>
-          <button onclick="cancelEdit('home-edit-form')"><i class="fas fa-times"></i> Cancel</button>
-        </div>
-      </div>
-    
-      <div class="home-content" id="home-display">
-        <div class="home-text">
-          <h3 id="home-name">Md. Shamim Al Razi</h3>
-          <p><strong>Current School:</strong> <span id="home-school">Bangladesh University of Engineering and Technology (BUET)</span></p>
-          <p><strong>Department:</strong> <span id="home-dept">Materials and Metallurgical Engineering</span></p>
-          <p><strong>Student ID:</strong> <span id="home-id">2111056</span></p>
-          <p><strong>Level:</strong> <span id="home-level">3</span> / Term: <span id="home-term">1</span></p>
-          <p><strong>Session:</strong> <span id="home-session">2023-24</span></p>
-          <p><strong>Hall:</strong> <span id="home-hall">Ahsan Ullah Hall (Resident)</span></p>
-          <p><strong>Current Address:</strong> <span id="home-address">Ahsan Ullah Hall, BUET, Dhaka</span></p>
-        </div>
-      </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about" class="section">
-      <div class="section-header">
-        <h2><i class="fas fa-user"></i> About Myself</h2>
-        <button class="edit-btn" id="edit-about-btn"><i class="fas fa-edit"></i> Edit</button>
-      </div>
-      
-      <div class="spinner" id="about-spinner"></div>
-      <div class="error-message" id="about-error"></div>
-    
-      <!-- Show same image as home -->
-      <div class="profile-image-section">
-        <img id="about-profile-img" src="profile.jpg" alt="Profile Image" class="about-img" />
-      </div>
-    
-      <div class="edit-form" id="about-edit-form" style="display:none;">
-        <h3>Edit About Information</h3>
-        <label>Full Name:</label>
-        <input type="text" id="edit-about-name" class="editable-field" />
-    
-        <label>Date of Birth:</label>
-        <input type="text" id="edit-about-dob" class="editable-field" />
-    
-        <label>Nationality:</label>
-        <input type="text" id="edit-about-nationality" class="editable-field" />
-    
-        <label>Permanent Address:</label>
-        <input type="text" id="edit-about-address" class="editable-field" />
-    
-        <label>University:</label>
-        <input type="text" id="edit-about-university" class="editable-field" />
-    
-        <label>College:</label>
-        <input type="text" id="edit-about-college" class="editable-field" />
-    
-        <label>School:</label>
-        <input type="text" id="edit-about-school" class="editable-field" />
-    
-        <label>Skills (comma separated):</label>
-        <textarea id="edit-about-skills" class="editable-field" rows="3"></textarea>
-    
-        <label>Bio:</label>
-        <textarea id="edit-about-bio" class="editable-field" rows="4"></textarea>
-    
-        <label>Hobbies (comma separated):</label>
-        <textarea id="edit-about-hobbies" class="editable-field" rows="3"></textarea>
-    
-        <div class="edit-controls">
-          <button onclick="saveAboutInfo()" class="btn-success"><i class="fas fa-save"></i> Save</button>
-          <button onclick="cancelEdit('about-edit-form')"><i class="fas fa-times"></i> Cancel</button>
-        </div>
-      </div>
-    
-      <div class="about-content" id="about-display">
-        <div class="about-info">
-          <div class="info-group">
-            <h4><i class="fas fa-info-circle"></i> Personal Information</h4>
-            <p><strong>Full Name:</strong> <span id="about-name">Md. Shamim Al Razi</span></p>
-            <p><strong>Date of Birth:</strong> <span id="about-dob">October 30, 2003</span></p>
-            <p><strong>Nationality:</strong> <span id="about-nationality">Bangladeshi</span></p>
-            <p><strong>Permanent Address:</strong> <span id="about-address">Pochabahala, Islampur, Jamalpur, Mymensingh, Bangladesh</span></p>
-          </div>
-    
-          <div class="info-group">
-            <h4><i class="fas fa-graduation-cap"></i> Education</h4>
-            <p><strong>University:</strong> <span id="about-university">Bangladesh University of Engineering and Technology (BUET)</span></p>
-            <p><strong>College:</strong> <span id="about-college">Shahid Syed Nazrul Islam College, Mymensingh</span></p>
-            <p><strong>School:</strong> <span id="about-school">Govt Islampur Nekjahan Pilot Model High School</span></p>
-          </div>
-    
-          <div class="info-group">
-            <h4><i class="fas fa-tools"></i> Skills</h4>
-            <ul id="about-skills">
-              <li>C</li>
-              <li>C++</li>
-              <li>Python</li>
-              <li>Matlab</li>
-              <li>SolidWorks</li>
-              <li>Ms Office</li>
-              <li>Supervised Machine Learning</li>
-            </ul>
-          </div>
-    
-          <div class="info-group">
-            <h4><i class="fas fa-book-open"></i> Bio</h4>
-            <p id="about-bio">I am a dedicated and passionate Materials and Metallurgical Engineering student at BUET. My research interests include advanced materials, nanotechnology, and sustainable materials development. I aim to bridge material science and computer science.</p>
-          </div>
-    
-          <div class="info-group">
-            <h4><i class="fas fa-heart"></i> Hobbies</h4>
-            <ul id="about-hobbies">
-              <li>Music composition and performance</li>
-              <li>Technical writing and blogging</li>
-              <li>Photography</li>
-              <li>Traveling and exploring nature</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-      <!-- Projects Section -->
-      <section id="projects" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-project-diagram"></i> Projects</h2>
-          <button class="edit-btn" id="edit-projects-btn"><i class="fas fa-edit"></i> Edit</button>
-        </div>
         
-        <div class="spinner" id="projects-spinner"></div>
-        <div class="error-message" id="projects-error"></div>
-        
-        <div class="upload-area upload-author-only">
-          <h3>Upload Project File</h3>
-          <input type="file" id="projectUpload" />
-          <div class="progress-bar" id="project-progress-bar">
-            <div class="progress" id="project-progress"></div>
+        <div class="home-content">
+          <img id="home-profile-img" src="profile.jpg" alt="Profile Image" class="home-img" />
+          <div class="home-text">
+            <h3 class="animated-text">Hello! I am Shamim,<br> A visionary bridging Materials Science, <br>Artificial Intelligence, and Human Creativity.</h3>
+            <p><strong>Email:</strong> shamim393393@gmail.com</p>
+            <p><strong>Contact:</strong> +8801628912047</p>
+            
+            <button class="contact-btn" id="show-contact-form"><i class="fas fa-envelope"></i> Send Message</button>
+            
+            <div class="contact-form" id="contact-form">
+              <h3>Send Me a Message</h3>
+              <input type="text" id="contact-name" placeholder="Your Name" />
+              <input type="email" id="contact-email" placeholder="Your Email" />
+              <input type="text" id="contact-subject" placeholder="Subject" />
+              <textarea id="contact-message" placeholder="Your Message" rows="5"></textarea>
+              <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </div>
           </div>
-          <button onclick="uploadFile('projectUpload', 'projects')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
-        </div>
-        
-        <h3>Project List</h3>
-        <div class="project-list" id="project-files">
-          <!-- Project files will be loaded here -->
         </div>
       </section>
 
-      <!-- Fusion ShilpiGosti Section -->
-      <section id="fusion" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-music"></i> Fusion ShilpiGosti</h2>
-          <button class="edit-btn" id="edit-fusion-btn"><i class="fas fa-edit"></i> Edit</button>
+      <!-- About Tab -->
+      <section id="about" class="section">
+        <h2><i class="fas fa-user"></i> About</h2>
+        
+        <div class="about-content">
+          <img id="about-profile-img" src="profile.jpg" alt="Profile Image" class="about-img" />
+          <div class="about-info">
+            <div class="info-group">
+              <h4><i class="fas fa-info-circle"></i> About Me</h4>
+              <p><b>My objective as a Materials and Metallurgical Engineering (MME) student is to harness the unique properties of materials and the transformative potential of artificial intelligence to develop smarter, more efficient, and sustainable technologies. By integrating technical expertise with intellectual curiosity, I actively explore the intersection of science, intelligence, and creativity. Beyond my scientific endeavors, I express my passion for human insight and innovation through writing — including poems, songs, articles, travelogues, and short stories — reflecting a balanced harmony between analytical reasoning and creative thought.</b></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+<!-- Credentials Tab -->
+<section id="credentials" class="section">
+  <h2><i class="fas fa-certificate"></i> Credentials</h2>
+
+  <!-- Certificates Subsection -->
+  <div class="subsection">
+    <div class="subsection-header">
+      <h3><i class="fas fa-scroll"></i> Certificates</h3>
+    </div>
+    <div id="certificates" class="file-container">Loading...</div>
+    <button id="showMoreCerts" class="show-all-btn" style="display:none; margin-top: 20px;">
+      <i class="fas fa-chevron-down"></i> Show All Certificates
+    </button>
+  </div>
+
+  <!-- Honors & Awards Subsection -->
+  <div class="subsection">
+    <div class="subsection-header">
+      <h3><i class="fas fa-award"></i> Honors & Awards</h3>
+    </div>
+    <div id="honors" class="file-container">Loading...</div>
+    <button id="showMoreHonors" class="show-all-btn" style="display:none; margin-top: 20px;">
+      <i class="fas fa-chevron-down"></i> Show All Honors & Awards
+    </button>
+  </div>
+</section>
+
+
+      <!-- Academic Tab -->
+<section id="academic" class="section">
+  <h2><i class="fas fa-graduation-cap"></i> Academic Works</h2>
+
+  <!-- Post Section -->
+  <div class="subsection">
+    <div class="subsection-header">
+      <h3><i class="fa-solid fa-pen-nib"></i> Post</h3>
+    </div>
+    <div id="poster" class="file-container">Loading...</div>
+    <button id="showMorePoster" class="show-all-btn" style="display:none;">
+      <i class="fas fa-chevron-down"></i> Show All
+    </button>
+  </div>
+
+  <!-- Project Section -->
+  <div class="subsection">
+    <div class="subsection-header">
+      <h3><i class="fa-solid fa-diagram-project"></i> Project</h3>
+    </div>
+    <div id="project" class="file-container">Loading...</div>
+    <button id="showMoreProject" class="show-all-btn" style="display:none;">
+      <i class="fas fa-chevron-down"></i> Show All
+    </button>
+  </div>
+
+  <!-- Presentation Section -->
+  <div class="subsection">
+    <div class="subsection-header">
+      <h3><i class="fa-solid fa-chalkboard-user"></i> Presentation</h3>
+    </div>
+    <div id="presentation" class="file-container">Loading...</div>
+    <button id="showMorePresentation" class="show-all-btn" style="display:none;">
+      <i class="fas fa-chevron-down"></i> Show All
+    </button>
+  </div>
+
+  <!-- Lab Section -->
+  <div class="subsection">
+    <div class="subsection-header">
+      <h3><i class="fa-solid fa-flask-vial"></i> Lab</h3>
+    </div>
+    <div id="seasonal" class="file-container">Loading...</div>
+    <button id="showMoreSeasonal" class="show-all-btn" style="display:none;">
+      <i class="fas fa-chevron-down"></i> Show All
+    </button>
+  </div>
+</section>
+
+
+      <!-- Skill Tab -->
+      <section id="skill" class="section">
+        <h2><i class="fas fa-tools"></i> Skills</h2>
+        
+        <div class="skills-grid" id="skills-container">
+          <!-- Skills with logos and progress bars will be loaded here -->
+        </div>
+      </section>
+
+      <!-- Writings Tab - UPDATED -->
+      <section id="writings" class="section">
+        <h2><i class="fas fa-pen"></i> Writings</h2>
+        
+        <div class="writings-intro">
+          <p>Explore my creative works including poems, songs, travelogues, articles, and short stories that reflect my perspective on life, science, and human experience.</p>
         </div>
         
-        <div class="spinner" id="fusion-spinner"></div>
-        <div class="error-message" id="fusion-error"></div>
+        <div class="writings-categories">
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-feather-alt"></i>
+            </div>
+            <div class="category-title">Poems</div>
+            <div class="category-count" id="poems-count">12 pieces</div>
+            <div class="category-description">Expressions of emotion, thought, and observation through verse</div>
+            <button class="category-btn" data-category="poems">
+              <i class="fas fa-book-open"></i> Browse Poems
+            </button>
+          </div>
+          
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-music"></i>
+            </div>
+            <div class="category-title">Songs</div>
+            <div class="category-count" id="songs-count">8 pieces</div>
+            <div class="category-description">Lyrics and compositions blending melody with meaningful messages</div>
+            <button class="category-btn" data-category="songs">
+              <i class="fas fa-play-circle"></i> Browse Songs
+            </button>
+          </div>
+          
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <div class="category-title">Travelogues</div>
+            <div class="category-count" id="travelogues-count">5 pieces</div>
+            <div class="category-description">Journeys and experiences from different places and cultures</div>
+            <button class="category-btn" data-category="travelogues">
+              <i class="fas fa-road"></i> Browse Travelogues
+            </button>
+          </div>
+          
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="category-title">Articles</div>
+            <div class="category-count" id="articles-count">15 pieces</div>
+            <div class="category-description">Insights on technology, society, and personal development</div>
+            <button class="category-btn" data-category="articles">
+              <i class="fas fa-file-alt"></i> Browse Articles
+            </button>
+          </div>
+          
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <div class="category-title">Short Stories</div>
+            <div class="category-count" id="stories-count">7 pieces</div>
+            <div class="category-description">Narratives exploring human nature and imaginative scenarios</div>
+            <button class="category-btn" data-category="stories">
+              <i class="fas fa-scroll"></i> Browse Stories
+            </button>
+          </div>
+        </div>
+        
+        <div class="writings-grid" id="writings-preview">
+          <!-- Writings preview will be loaded here -->
+        </div>
+        
+        <div id="writings-full" style="display: none;">
+          <!-- All writings will be loaded here -->
+        </div>
+        
+        <button class="show-all-btn" id="show-all-writings" style="display: none;">
+          <i class="fas fa-book-open"></i> Show All Writings
+        </button>
+      </section>
+
+      <!-- Fusion ShilpiGosti Tab -->
+      <section id="fusion" class="section">
+        <h2><i class="fas fa-music"></i> Fusion ShilpiGosti</h2>
         
         <p>Explore music and videos under Fusion Shilpigosti.</p>
         
@@ -1316,290 +1751,126 @@
           </a>
         </div>
 
-        <div class="upload-area upload-author-only">
-          <h3>Upload Your Music or Video</h3>
-          <input type="file" id="fusionUpload" accept="video/*,audio/*" />
-          <div class="progress-bar" id="fusion-progress-bar">
-            <div class="progress" id="fusion-progress"></div>
-          </div>
-          <button onclick="uploadFile('fusionUpload', 'fusion')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
-        </div>
-
-        <h3>Public Downloads</h3>
-        <div class="download-list" id="fusion-files">
-          <!-- Fusion files will be loaded here -->
-        </div>
-
         <h3>Latest Videos</h3>
         <div id="youtube-videos" class="youtube-videos"></div>
         <button id="show-all-videos" style="margin-top:20px; padding:10px 20px; display:none;">
           Show All Videos
         </button>
-
       </section>
 
-      <!-- Publications Section -->
+      <!-- Resume Tab -->
+      <section id="resume" class="section">
+        <h2><i class="fas fa-file-alt"></i> Resume</h2>
+        
+        <div class="subsection">
+          <div class="subsection-header">
+            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+            <button class="show-details-btn" data-subsection="education"><i class="fas fa-chevron-down"></i> Show Details</button>
+          </div>
+          
+          <div class="timeline" id="education-preview">
+            <!-- Education preview (max 4) will be loaded here -->
+          </div>
+          
+          <div id="education-full" style="display: none;">
+            <!-- All education items will be loaded here -->
+          </div>
+        </div>
+        
+        <div class="subsection">
+          <div class="subsection-header">
+            <h3><i class="fas fa-briefcase"></i> Experience</h3>
+            <button class="show-details-btn" data-subsection="experience"><i class="fas fa-chevron-down"></i> Show Details</button>
+          </div>
+          
+          <div class="timeline" id="experience-preview">
+            <!-- Experience preview (max 4) will be loaded here -->
+          </div>
+          
+          <div id="experience-full" style="display: none;">
+            <!-- All experience items will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Publications Tab -->
       <section id="publications" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-book"></i> Publications</h2>
-          <button class="edit-btn" id="edit-publications-btn"><i class="fas fa-edit"></i> Edit</button>
+        <h2><i class="fas fa-book"></i> Publications</h2>
+        
+        <div class="subsection-content" id="publications-preview">
+          <!-- Publications preview (max 4) will be loaded here -->
         </div>
         
-        <div class="spinner" id="publications-spinner"></div>
-        <div class="error-message" id="publications-error"></div>
-        
-        <div class="upload-area upload-author-only">
-          <input type="file" id="pubUpload" accept="application/pdf" />
-          <div class="progress-bar" id="pub-progress-bar">
-            <div class="progress" id="pub-progress"></div>
-          </div>
-          <button onclick="uploadFile('pubUpload', 'publications')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
+        <div id="publications-full" style="display: none;">
+          <!-- All publications will be loaded here -->
         </div>
         
-        <div class="download-list" id="publication-files">
-          <!-- Publication files will be loaded here -->
-        </div>
+        <button class="show-all-btn" id="show-all-publications" style="display: none;">Show All Publications</button>
       </section>
 
-      <!-- Research Experience Section -->
+      <!-- Research Experience Tab -->
       <section id="research" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-flask"></i> Research Experience</h2>
-          <button class="edit-btn" id="edit-research-btn"><i class="fas fa-edit"></i> Edit</button>
+        <h2><i class="fas fa-flask"></i> Research Experience</h2>
+        
+        <div class="subsection-content" id="research-preview">
+          <!-- Research preview (max 4) will be loaded here -->
         </div>
         
-        <div class="spinner" id="research-spinner"></div>
-        <div class="error-message" id="research-error"></div>
-        
-        <div class="edit-form" id="research-edit-form" style="display:none;">
-          <h3>Edit Research Information</h3>
-          <label>Research Area:</label>
-          <input type="text" id="edit-research-area" class="editable-field" />
-          
-          <label>Duration:</label>
-          <input type="text" id="edit-research-duration" class="editable-field" />
-          
-          <label>Supervisor:</label>
-          <input type="text" id="edit-research-supervisor" class="editable-field" />
-          
-          <label>Description:</label>
-          <textarea id="edit-research-description" class="editable-field" rows="4"></textarea>
-          
-          <div class="edit-controls">
-            <button onclick="saveResearchInfo()" class="btn-success"><i class="fas fa-save"></i> Save</button>
-            <button onclick="cancelEdit('research-edit-form')"><i class="fas fa-times"></i> Cancel</button>
-          </div>
+        <div id="research-full" style="display: none;">
+          <!-- All research items will be loaded here -->
         </div>
         
-        <div class="upload-area upload-author-only">
-          <h3>Upload Research File</h3>
-          <input type="file" id="researchUpload" />
-          <div class="progress-bar" id="research-progress-bar">
-            <div class="progress" id="research-progress"></div>
-          </div>
-          <button onclick="uploadFile('researchUpload', 'research')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
-        </div>
-        
-        <h3>Research Projects</h3>
-        <div class="research-list" id="research-files">
-          <!-- Research files will be loaded here -->
-        </div>
-        
-        <h3>Research Information</h3>
-        <div class="research-info" id="research-display">
-          <p><strong>Research Area:</strong> <span id="research-area">Advanced Materials, Metallurgy, Nanotechnology</span></p>
-          <p><strong>Duration:</strong> <span id="research-duration">______________</span></p>
-          <p><strong>Supervisor:</strong> <span id="research-supervisor">Professor, MME Department, BUET</span></p>
-          <p><strong>Description:</strong> <span id="research-description">Conducting research on nanomaterials characterization techniques and their applications in sustainable material development. Focused on improving material properties for industrial applications.</span></p>
-        </div>
+        <button class="show-all-btn" id="show-all-research" style="display: none;">Show All Research</button>
       </section>
 
-      <!-- Work Experience Section -->
-<section id="work" class="section">
-  <div class="section-header">
-    <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
-    <button class="edit-btn" id="edit-work-btn"><i class="fas fa-edit"></i> Edit</button>
+      <!-- Work Experience Tab -->
+      <section id="work" class="section">
+        <h2><i class="fas fa-briefcase"></i> Work Experience</h2>
+        
+        <div class="subsection-content" id="work-preview">
+          <!-- Work experience preview (max 4) will be loaded here -->
+        </div>
+        
+        <div id="work-full" style="display: none;">
+          <!-- All work experience items will be loaded here -->
+        </div>
+        
+        <button class="show-all-btn" id="show-all-work" style="display: none;">Show All Work Experience</button>
+      </section>
+
+      <!-- Author Login Tab -->
+      <section id="login" class="section">
+  <h2><i class="fas fa-lock"></i> Author Login</h2>
+
+  <!-- BEFORE LOGIN -->
+  <div class="login-container" id="login-container">
+    <h3>Login to Author Account</h3>
+    <input type="text" id="author-id" placeholder="Author ID" autocomplete="username" />
+    <input type="password" id="author-password" placeholder="Password" autocomplete="current-password" />
+    <button onclick="checkAuthorLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
   </div>
 
-  <div class="spinner" id="work-spinner"></div>
-  <div class="error-message" id="work-error"></div>
+  <!-- AFTER LOGIN -->
+  <div class="login-container" id="welcome-container" style="display: none;">
+    <h3 id="welcome-message"><i class="fas fa-user-shield"></i> Welcome, Author!</h3>
+    <p>You are successfully logged in as <strong>Administrator</strong>.</p>
 
-  <!-- Add Work Experience Form -->
-  <div class="upload-author-only">
-    <h3>Add Work Experience</h3>
-    
-    <label>Position Title:</label>
-    <input type="text" id="work-title" class="editable-field" placeholder="e.g. Research Intern" />
+    <a href="https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec" 
+       class="manage-btn" 
+       id="manage-btn" 
+       target="_blank">
+      <i class="fas fa-cog"></i> Manage Content
+    </a>
 
-    <label>Company/Institute:</label>
-    <input type="text" id="work-org" class="editable-field" placeholder="e.g. BUET" />
-
-    <label>Duration:</label>
-    <input type="text" id="work-duration" class="editable-field" placeholder="e.g. Jan 2023 - May 2023" />
-
-    <label>Description:</label>
-    <textarea id="work-description" class="editable-field" rows="3" placeholder="e.g. Worked on nanomaterials..."></textarea>
-
-    <button onclick="addWorkExperience()" class="btn-success"><i class="fas fa-plus"></i> Add Experience</button>
-  </div>
-
-  <!-- Timeline Container -->
-  <div class="timeline" id="work-experience">
-    <!-- Work experience items will be loaded here -->
+    <button onclick="logoutAuthor()" 
+            style="margin-top:20px;background:#c0392b;color:white;border:none;
+                   padding:12px 25px;border-radius:6px;cursor:pointer;font-weight:600;">
+      <i class="fas fa-sign-out-alt"></i> Sign Out
+    </button>
   </div>
 </section>
-      <!-- Blog/Writings Section -->
-      <section id="blog" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-blog"></i> Blog/Writings</h2>
-          <button class="edit-btn" id="edit-blog-btn"><i class="fas fa-edit"></i> Edit</button>
-        </div>
-        
-        <div class="spinner" id="blog-spinner"></div>
-        <div class="error-message" id="blog-error"></div>
-        
-        <div class="upload-area upload-author-only">
-          <input type="file" id="blogUpload" accept=".txt,.pdf,.docx" />
-          <div class="progress-bar" id="blog-progress-bar">
-            <div class="progress" id="blog-progress"></div>
-          </div>
-          <button onclick="uploadFile('blogUpload', 'blog')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
-        </div>
-        
-        <div class="download-list" id="blog-files">
-          <!-- Blog files will be loaded here -->
-        </div>
-      </section>
 
-      <!-- Certifications Section -->
-      <section id="certifications" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-certificate"></i> Certifications</h2>
-          <button class="edit-btn" id="edit-certifications-btn"><i class="fas fa-edit"></i> Edit</button>
-        </div>
-        
-        <div class="spinner" id="certifications-spinner"></div>
-        <div class="error-message" id="certifications-error"></div>
-        
-        <div class="upload-area upload-author-only">
-          <input type="file" id="certUpload" />
-          <div class="progress-bar" id="cert-progress-bar">
-            <div class="progress" id="cert-progress"></div>
-          </div>
-          <button onclick="uploadFile('certUpload', 'certifications')" class="btn-success"><i class="fas fa-upload"></i> Upload</button>
-        </div>
-        
-        <div class="download-list" id="certification-files">
-          <!-- Certification files will be loaded here -->
-        </div>
-      </section>
 
-      <!-- Contact Section -->
-      <section id="contact" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-envelope"></i> Contact</h2>
-          <button class="edit-btn" id="edit-contact-btn"><i class="fas fa-edit"></i> Edit</button>
-        </div>
-        
-        <div class="spinner" id="contact-spinner"></div>
-        <div class="error-message" id="contact-error"></div>
-        
-        <div class="edit-form" id="contact-edit-form" style="display:none;">
-          <h3>Edit Contact Information</h3>
-          <label>Email:</label>
-          <input type="email" id="edit-contact-email" class="editable-field" />
-          
-          <label>Phone:</label>
-          <input type="tel" id="edit-contact-phone" class="editable-field" />
-          
-          <label>LinkedIn:</label>
-          <input type="url" id="edit-contact-linkedin" class="editable-field" />
-          
-          <label>Facebook:</label>
-          <input type="url" id="edit-contact-facebook" class="editable-field" />
-          
-          <label>Twitter:</label>
-          <input type="url" id="edit-contact-twitter" class="editable-field" />
-          
-          <div class="edit-controls">
-            <button onclick="saveContactInfo()" class="btn-success"><i class="fas fa-save"></i> Save</button>
-            <button onclick="cancelEdit('contact-edit-form')"><i class="fas fa-times"></i> Cancel</button>
-          </div>
-        </div>
-        
-        <div class="contact-info" id="contact-display">
-          <div class="contact-card">
-            <h3><i class="fas fa-envelope"></i> Email</h3>
-            <p><i class="fas fa-envelope"></i> <a href="mailto:shamim393393@gmail.com" id="contact-email">shamim393393@gmail.com</a></p>
-          </div>
-          
-          <div class="contact-card">
-            <h3><i class="fas fa-phone"></i> Phone</h3>
-            <p><i class="fas fa-phone"></i> <a href="tel:+8801628912047" id="contact-phone">+8801628912047</a></p>
-          </div>
-          
-          <div class="contact-card">
-            <h3><i class="fab fa-linkedin"></i> LinkedIn</h3>
-            <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/shamim393/" target="_blank" id="contact-linkedin">linkedin.com/in/shamim393</a></p>
-          </div>
-          
-          <div class="contact-card">
-            <h3><i class="fab fa-facebook"></i> Facebook</h3>
-            <p><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/md.shamimalrazi.393/" target="_blank" id="contact-facebook">md.shamimalrazi.393</a></p>
-          </div>
-          
-          <div class="contact-card">
-            <h3><i class="fab fa-twitter"></i> Twitter</h3>
-            <p><i class="fab fa-twitter"></i> <a href="https://x.com/Shamim393" target="_blank" id="contact-twitter">@Shamim393</a></p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Author Login Section -->
-      <section id="login" class="section">
-        <div class="section-header">
-          <h2><i class="fas fa-lock"></i> Author Login</h2>
-        </div>
-        
-        <div class="spinner" id="login-spinner"></div>
-        <div class="error-message" id="login-error"></div>
-        
-        <div class="login-container">
-          <div class="login-message">
-            <h3>Welcome, Author!</h3>
-            <p>You have access to manage content</p>
-          </div>
-          
-          <h3>Login to Author Account</h3>
-          <input type="text" 
-                 id="author-id" 
-                 placeholder="Author ID" 
-                 autocomplete="username" />
-          <input type="password" 
-                 id="author-password" 
-                 placeholder="Password" 
-                 autocomplete="current-password" />
-          <button onclick="checkAuthorLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
-          
-          <div class="author-logout" style="display:none; text-align:center; margin-top: 30px;">
-            <button onclick="signOutAuthor()" style="max-width: 200px; margin: 0 auto;"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- Change Password Section -->
-      <div id="change-pass-section" class="change-pass-section">
-        <h2><i class="fas fa-key"></i> Change Author ID & Password</h2>
-        <input type="text" 
-               id="new-author-id" 
-               placeholder="New Author ID" 
-               autocomplete="username" />
-        <input type="password" 
-               id="new-author-pass" 
-               placeholder="New Password" 
-               autocomplete="new-password" />
-        <button onclick="changeAuthorCredentials()"><i class="fas fa-save"></i> Save Changes</button>
-      </div>
     </main>
   </div>
 
@@ -1639,147 +1910,172 @@
   </a>
 
   <script>
-    // Initialize data storage
-    let contentData = {
-      home: {
-        name: "Md. Shamim Al Razi",
-        school: "Bangladesh University of Engineering and Technology (BUET)",
-        dept: "Materials and Metallurgical Engineering",
-        id: "2111056",
-        level: "3",
-        term: "1",
-        session: "2023-24",
-        hall: "Ahsan Ullah Hall (Resident)",
-        address: "Ahsan Ullah Hall, BUET, Dhaka"
-      },
-      about: {
-        name: "Md. Shamim Al Razi",
-        dob: "October 30, 2003",
-        nationality: "Bangladeshi",
-        address: "Pochabahala, Islampur, Jamalpur, Mymensingh, Bangladesh",
-        university: "Bangladesh University of Engineering and Technology (BUET)",
-        college: "Shahid Syed Nazrul Islam College, Mymensingh",
-        school: "Govt Islampur Nekjahan Pilot Model High School",
-        skills: ["C", "C++", "Python", "Matlab", "SolidWorks","Ms Office", "Supervised Machine Learning"],
-        bio: "I am a dedicated and passionate Materials and Metallurgical Engineering student at BUET. My research interests include advanced materials, nanotechnology, and sustainable materials development. I aim to bridge material science and computer science.",
-        hobbies: ["Travelling", "Swimming", "Reading Liturature"]
-      },
-      contact: {
-        email: "shamim393393@gmail.com",
-        phone: "+8801628912047",
-        linkedin: "https://www.linkedin.com/in/shamim393/",
-        facebook: "https://www.facebook.com/md.shamimalrazi.393/",
-        twitter: "https://x.com/Shamim393"
-      },
-      research: {
-        area: "Advanced Materials, Metallurgy, Nanotechnology",
-        duration: "______________",
-        supervisor: "Professor, MME Department, BUET",
-        description: "Conducting research on nanomaterials characterization techniques and their applications in sustainable material development. Focused on improving material properties for industrial applications."
-      },
-      footer: {
-        name: "Md. Shamim Al Razi",
-        email: "shamim393393@gmail.com",
-        phone: "+8801628912047",
-        address: "Ahsan Ullah Hall, BUET, Dhaka",
-        copyrightName: "Md. Shamim Al Razi",
-        copyrightYear: "2025"
-      }
-    };
-    
-    // Initialize author credentials
-    let AUTHOR_ID = "admin";
-    let AUTHOR_PASSWORD = "123456";
-    let isAuthorLoggedIn = false;
-    
-    // File storage
-    let uploadedFiles = {
-      projects: [],
-      fusion: [],
-      publications: [],
-      research: [],
-      blog: [],
-      certifications: [
-        {
-          name: "Supervised_ML_coursera.pdf",
-          dataUrl: "https://drive.google.com/file/d/1hWZfKbFwhwb8piU9wNDvUgtEMyWs8dHY/view?usp=drivesdk"
-        },
-        {
-          name: "Excel.pdf",
-          dataUrl: "https://drive.google.com/file/d/1-jJ8b8voE6g892udrQqjNCOs2BFTr1i_/view?usp=drivesdk"
-        },
-        {
-          name: "MsWord.pdf",
-          dataUrl: "https://drive.google.com/file/d/1-gAjPb0aMy0xqLxQ_B_f4q5Mvzzl9SZv/view?usp=drivesdk"
-        },
-        {
-          name: "PowerPoint.pdf",
-          dataUrl: "https://drive.google.com/file/d/1-gs923QFnAEUFnb-GlUq_6RfUJg3In6D/view?usp=drivesdk"
-        }
-      ]
-    };
-
     // Google Apps Script URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw4bbXbpM0jfVXeTFT1q64WG0uZQ9ztcaGWY730mmoFDtWg2PZ-RiSVwYvYUknHFPSkfQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrXyzvv26EZ1mIhg8oBO9BuWJY-pOrEeFpiFCKjfOUMm6xd0XjWupuNaHaHkbEK0-r/exec';
+    const MANAGE_URL = 'https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec';
 
-    // Show spinner and hide error
-    function showSpinner(section) {
-      const spinner = document.getElementById(`${section}-spinner`);
-      const error = document.getElementById(`${section}-error`);
-      if (spinner) spinner.style.display = "block";
-      if (error) error.style.display = "none";
-    }
+// Academic Works URLs
+const ACADEMIC_URLS = {
+  poster: "https://script.google.com/macros/s/AKfycbwN-iHAVgOv1ET2ychLgfkKCuSL30Q_rybcDsUOET3PAI-Be0pJN403I3gxScaac9rQ/exec",
+  project: "https://script.google.com/macros/s/AKfycbz-Czs9Q6ky-rZFMy8BQr2flY_Z8v4DrNTDOCzMVaWw81k-rC28FYiZq0P2fggmgIXr/exec",
+  presentation: "https://script.google.com/macros/s/AKfycbyWjWY0Fz_KlGbo5dwMiGyazkRg7TKFd_L8ou9AxSFfwBFN0DvAY6dt1HSkh_iSyN0/exec",
+  seasonal: "https://script.google.com/macros/s/AKfycbwhRJNO9gJFt72D8Lnr6dNxbcizNBc0ITP9KsHZB7NRdWMNnETBv5ZnoFXeJNnNRUBM/exec"
+};
     
-    // Hide spinner
-    function hideSpinner(section) {
-      const spinner = document.getElementById(`${section}-spinner`);
-      if (spinner) spinner.style.display = "none";
-    }
+    // --------------------- AUTHOR LOGIN SYSTEM ---------------------
+
+// Credentials
+const AUTHOR_ID = "admin";
+const AUTHOR_PASSWORD = "123456";
+
+// Login function
+function checkAuthorLogin() {
+  const id = document.getElementById('author-id').value.trim();
+  const pass = document.getElementById('author-password').value.trim();
+
+  if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
+    // Save login state
+    localStorage.setItem('authorLoggedIn', 'true');
+    showAfterLogin();
+  } else {
+    alert('Invalid ID or Password!');
+  }
+}
+
+// Logout function
+function logoutAuthor() {
+  localStorage.removeItem('authorLoggedIn');
+  showBeforeLogin();
+}
+
+// Show after login (Manage + Logout)
+function showAfterLogin() {
+  document.getElementById('login-container').style.display = 'none';
+  document.getElementById('welcome-container').style.display = 'block';
+  document.getElementById('manage-btn').style.display = 'inline-block';
+}
+
+// Show before login (Login form only)
+function showBeforeLogin() {
+  document.getElementById('login-container').style.display = 'block';
+  document.getElementById('welcome-container').style.display = 'none';
+  document.getElementById('manage-btn').style.display = 'none';
+}
+
+// Maintain state after page reload
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('authorLoggedIn') === 'true') {
+    showAfterLogin();
+  } else {
+    showBeforeLogin();
+  }
+});
     
-    // Show error message
-    function showError(section, message) {
-      const error = document.getElementById(`${section}-error`);
-      if (error) {
-        error.textContent = message;
-        error.style.display = "block";
-      }
+    // Data storage
+    let contentData = {};
+    let uploadedFiles = {};
+
+// Academic Works Loader
+async function loadAcademicFiles() {
+  await loadAcademicSection(ACADEMIC_URLS.poster, "poster", "showMorePoster");
+  await loadAcademicSection(ACADEMIC_URLS.project, "project", "showMoreProject");
+  await loadAcademicSection(ACADEMIC_URLS.presentation, "presentation", "showMorePresentation");
+  await loadAcademicSection(ACADEMIC_URLS.seasonal, "seasonal", "showMoreSeasonal");
+}
+
+// Common academic file loader
+async function loadAcademicSection(url, containerId, buttonId) {
+  const container = document.getElementById(containerId);
+  const showMoreBtn = document.getElementById(buttonId);
+
+  if (!container) return;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const files = data.files || data.children || [];
+
+    if (!files.length) {
+      container.innerHTML = `<div class="no-files">No files uploaded yet.</div>`;
+      if (showMoreBtn) showMoreBtn.style.display = "none";
+      return;
     }
-    
-    // Show upload progress
-    function showUploadProgress(section, percent) {
-      const progressBar = document.getElementById(`${section}-progress-bar`);
-      const progress = document.getElementById(`${section}-progress`);
-      if (progressBar && progress) {
-        progressBar.style.display = "block";
-        progress.style.width = `${percent}%`;
-      }
+
+    let visibleCount = 4;
+
+    function renderFiles(limit) {
+      container.innerHTML = "";
+      files.slice(0, limit).forEach(file => {
+        if (file.url) {
+          const card = document.createElement("div");
+          card.className = "file-card";
+
+          const ext = file.name.split('.').pop().toLowerCase();
+          let previewUrl = "";
+
+          if (file.url.includes("view")) {
+            previewUrl = file.url.replace("/view", "/preview");
+          } else if (file.url.includes("open?id=")) {
+            const id = file.url.split("open?id=")[1];
+            previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+          }
+
+          const nonPreviewable = ["pptx","xlsx","zip","rar","mp3","mp4","avi","exe"];
+          if (nonPreviewable.includes(ext)) {
+            card.innerHTML = `
+              <div style="font-size:48px; color:#0b74da;">📁</div>
+              <a href="${file.url}" target="_blank">${file.name}</a>
+            `;
+          } else {
+            card.innerHTML = `
+              <iframe src="${previewUrl}" loading="lazy"></iframe>
+              <a href="${file.url}" target="_blank">${file.name}</a>
+            `;
+          }
+
+          container.appendChild(card);
+        }
+      });
     }
-    
-    // Hide upload progress
-    function hideUploadProgress(section) {
-      const progressBar = document.getElementById(`${section}-progress-bar`);
-      if (progressBar) {
-        progressBar.style.display = "none";
-      }
+
+    renderFiles(visibleCount);
+
+    if (showMoreBtn && files.length > 4) {
+      showMoreBtn.style.display = "block";
+      showMoreBtn.onclick = () => {
+        const showingAll = visibleCount !== 4;
+        visibleCount = showingAll ? 4 : files.length;
+        renderFiles(visibleCount);
+        showMoreBtn.textContent = showingAll ? "Show All" : "Show Less";
+        showMoreBtn.innerHTML = showingAll ? 
+          '<i class="fas fa-chevron-down"></i> Show All' : 
+          '<i class="fas fa-chevron-up"></i> Show Less';
+      };
+    } else if (showMoreBtn) {
+      showMoreBtn.style.display = "none";
     }
+
+  } catch (err) {
+    container.innerHTML = `<div class="no-files">⚠️ Unable to load files.</div>`;
+    console.error(err);
+  }
+}
     
-    // Load data from WebApp (Google Apps Script)
+    // Load data from WebApp
     async function loadDataFromWebApp() {
       try {
-        showSpinner('home');
-    
         const url = `${SCRIPT_URL}?action=getData&_=${Date.now()}`;
-    
+        
         const response = await fetch(url, {
           method: 'GET',
           redirect: 'follow',
           credentials: 'omit'
         });
-    
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-    
+        
         const responseText = await response.text();
         let data;
         try {
@@ -1792,297 +2088,733 @@
             throw new Error("Invalid JSON response");
           }
         }
-    
+        
         if (data && data.status === "success") {
-          const newTime = data.lastUpdated || new Date().toISOString();
-          const oldTime = localStorage.getItem("lastUpdated") || "1970-01-01T00:00:00Z";
-    
-          // Update localStorage only if newer
-          if (new Date(newTime) > new Date(oldTime)) {
-            localStorage.setItem("lastUpdated", newTime);
-            if (data.contentData) {
-              contentData = data.contentData;
-              localStorage.setItem("contentData", JSON.stringify(contentData));
-            }
-            if (data.uploadedFiles) {
-              uploadedFiles = data.uploadedFiles;
-              localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
-            }
-            if (data.author) {
-              AUTHOR_ID = data.author.id;
-              AUTHOR_PASSWORD = data.author.pass;
-              localStorage.setItem("author_id", AUTHOR_ID);
-              localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-            }
-          } else {
-            // Load from localStorage if server data not newer
-            loadData();
-          }
-    
+          contentData = data.contentData || {};
+          uploadedFiles = data.uploadedFiles || {};
+          
+          // Save to localStorage
+          localStorage.setItem("contentData", JSON.stringify(contentData));
+          localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
+          
           renderContent();
-          return;
         } else {
           throw new Error(data?.error || "Invalid response format");
         }
       } catch (e) {
         console.error("Error loading data:", e);
-        loadData();
-        renderContent();
-        showError('home', "Could not load latest data. Showing cached content.");
-      } finally {
-        hideSpinner('home');
+        loadDataFromLocalStorage();
       }
     }
 
+
+function handleImageError(img) {
+  img.onerror = null;
+  const skillName = img.alt;
+  const initials = skillName.substring(0, 3).toUpperCase();
+  img.src = `data:image/svg+xml;base64,${btoa(`
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="64" height="64" fill="#3a86ff" rx="8"/>
+      <text x="32" y="38" font-family="Arial, sans-serif" font-size="14" fill="white" text-anchor="middle">${initials}</text>
+    </svg>
+  `)}`;
+  return true;
+}
     
     // Load data from localStorage
-    function loadData() {
+    function loadDataFromLocalStorage() {
       const savedContent = localStorage.getItem("contentData");
+      const savedFiles = localStorage.getItem("uploadedFiles");
+      
       if (savedContent) {
         contentData = JSON.parse(savedContent);
       }
       
-      const savedAuthorId = localStorage.getItem("author_id");
-      const savedAuthorPass = localStorage.getItem("author_pass");
-      if (savedAuthorId && savedAuthorPass) {
-        AUTHOR_ID = savedAuthorId;
-        AUTHOR_PASSWORD = savedAuthorPass;
-      }
-      
-      const savedFiles = localStorage.getItem("uploadedFiles");
       if (savedFiles) {
         uploadedFiles = JSON.parse(savedFiles);
       }
-
-      // Load login state
-      const savedLoginState = localStorage.getItem("isAuthorLoggedIn");
-      if (savedLoginState) {
-        isAuthorLoggedIn = savedLoginState === "true";
-      }
-    }
-    
-    // Save data to localStorage
-    function saveData() {
-      localStorage.setItem("contentData", JSON.stringify(contentData));
-      localStorage.setItem("author_id", AUTHOR_ID);
-      localStorage.setItem("author_pass", AUTHOR_PASSWORD);
-      localStorage.setItem("uploadedFiles", JSON.stringify(uploadedFiles));
-      localStorage.setItem("isAuthorLoggedIn", isAuthorLoggedIn.toString());
-    }
-    
-    // Save data to WebApp
-    async function saveDataToWebApp() {
-      try {
-        const url = `${SCRIPT_URL}?action=saveData`;
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contentData,
-            uploadedFiles,
-            author: { id: AUTHOR_ID, pass: AUTHOR_PASSWORD }
-          })
-        });
-
-        
-        const result = await response.json();
-        if (result.status !== "success") {
-          console.error("Failed to save data to server");
-        }
-      } catch (e) {
-        console.error("Error saving data to WebApp:", e);
-      }
+      
+      renderContent();
     }
     
     // Render all content
     function renderContent() {
-      // Render home section
-      document.getElementById("home-name").textContent = contentData.home.name;
-      document.getElementById("home-school").textContent = contentData.home.school;
-      document.getElementById("home-dept").textContent = contentData.home.dept;
-      document.getElementById("home-id").textContent = contentData.home.id;
-      document.getElementById("home-level").textContent = contentData.home.level;
-      document.getElementById("home-term").textContent = contentData.home.term;
-      document.getElementById("home-session").textContent = contentData.home.session;
-      document.getElementById("home-hall").textContent = contentData.home.hall;
-      document.getElementById("home-address").textContent = contentData.home.address;
-      
-      // Render header
-      document.getElementById("header-name").textContent = contentData.home.name;
-      
-      // Render about section
-      document.getElementById("about-name").textContent = contentData.about.name;
-      document.getElementById("about-dob").textContent = contentData.about.dob;
-      document.getElementById("about-nationality").textContent = contentData.about.nationality;
-      document.getElementById("about-address").textContent = contentData.about.address;
-      document.getElementById("about-university").textContent = contentData.about.university;
-      document.getElementById("about-college").textContent = contentData.about.college;
-      document.getElementById("about-school").textContent = contentData.about.school;
-      document.getElementById("about-bio").textContent = contentData.about.bio;
-      
       // Render skills
-      const skillsList = document.getElementById("about-skills");
-      skillsList.innerHTML = "";
-      contentData.about.skills.forEach(skill => {
-        const li = document.createElement("li");
-        li.textContent = skill;
-        skillsList.appendChild(li);
-      });
+      renderSkills();
       
-      // Render hobbies
-      const hobbiesList = document.getElementById("about-hobbies");
-      hobbiesList.innerHTML = "";
-      contentData.about.hobbies.forEach(hobby => {
-        const li = document.createElement("li");
-        li.textContent = hobby;
-        hobbiesList.appendChild(li);
-      });
-      
-      // Render contact section
-      document.getElementById("contact-email").textContent = contentData.contact.email;
-      document.getElementById("contact-email").href = `mailto:${contentData.contact.email}`;
-      document.getElementById("contact-phone").textContent = contentData.contact.phone;
-      document.getElementById("contact-phone").href = `tel:${contentData.contact.phone}`;
-      document.getElementById("contact-linkedin").textContent = "linkedin.com/in/shamim393";
-      document.getElementById("contact-linkedin").href = contentData.contact.linkedin;
-      document.getElementById("contact-facebook").textContent = "md.shamimalrazi.393";
-      document.getElementById("contact-facebook").href = contentData.contact.facebook;
-      document.getElementById("contact-twitter").textContent = "@Shamim393";
-      document.getElementById("contact-twitter").href = contentData.contact.twitter;
-      
-      // Render research section
-      document.getElementById("research-area").textContent = contentData.research.area;
-      document.getElementById("research-duration").textContent = contentData.research.duration;
-      document.getElementById("research-supervisor").textContent = contentData.research.supervisor;
-      document.getElementById("research-description").textContent = contentData.research.description;
-      
-      // Render footer
-      document.getElementById("footer-name").textContent = contentData.footer.name;
-      document.getElementById("footer-email").textContent = contentData.footer.email;
-      document.getElementById("footer-phone").textContent = contentData.footer.phone;
-      document.getElementById("footer-address").textContent = contentData.footer.address;
-      document.getElementById("copyright-name").textContent = contentData.footer.copyrightName;
-      document.getElementById("copyright-year").textContent = contentData.footer.copyrightYear;
-      
-      // Render files
+      // Render files for all sections
       renderFiles();
+
+loadCredentialsFiles();
+      
+// Load Academic files
+  loadAcademicFiles();
+
+      // Load YouTube videos
+      fetchVideos();
+      
+      // Render writings
+      renderWritings();
+    }
+    
+    // Render skills with logos and progress bars
+    function renderSkills() {
+      const skillsContainer = document.getElementById("skills-container");
+      if (!skillsContainer) return;
+      
+      // Default skills data
+      // Default skills data with online images
+const skillsData = [
+  { 
+    name: "C", 
+    progress: 85, 
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" 
+  },
+  { 
+    name: "C++", 
+    progress: 80, 
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" 
+  },
+  { 
+    name: "Python", 
+    progress: 70, 
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" 
+  },
+  { 
+    name: "MATLAB", 
+    progress: 75, 
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg" 
+  },
+  { 
+    name: "SolidWorks", 
+    progress: 75, 
+    logo: "https://static.wikia.nocookie.net/logopedia/images/8/8a/Solidworks.svg" 
+  },
+  { 
+    name: "MS Office", 
+    progress: 95, 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Microsoft_Office_logo_%282019%E2%80%93present%29.svg" 
+  },
+  { 
+    name: "Machine Learning", 
+    progress: 65, 
+    logo: "https://cdn-icons-png.flaticon.com/512/2103/2103795.png" 
+  },
+  { 
+    name: "HTML5", 
+    progress: 20, 
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" 
+  },
+   { 
+    name: "JavaScript", 
+    progress: 20, 
+    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" 
+  }
+];
+      
+      skillsContainer.innerHTML = "";
+      
+      skillsData.forEach(skill => {
+        const skillCard = document.createElement("div");
+        skillCard.className = "skill-card";
+        
+        skillCard.innerHTML = `
+  <img src="${skill.logo}" alt="${skill.name}" class="skill-icon" 
+       onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiMzYTg2ZmYiIHJ4PSI4Ii8+PHRleHQgeD0iMzIiIHk9IjM4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4ke3NraWxsLm5hbWUuc3Vic3RyaW5nKDAsIDMpfTwvdGV4dD48L3N2Zz4='">
+  <div class="skill-name">${skill.name}</div>
+  <div class="progress-bar">
+    <div class="progress" style="width: ${skill.progress}%"></div>
+  </div>
+  <div class="progress-percent">${skill.progress}%</div>
+`;
+        
+        skillsContainer.appendChild(skillCard);
+      });
     }
     
     // Render files for all sections
     function renderFiles() {
-      // Render project files
-      const projectFilesDiv = document.getElementById("project-files");
-      projectFilesDiv.innerHTML = "";
-      if (uploadedFiles.projects.length === 0) {
-        projectFilesDiv.innerHTML = "<p>No project files uploaded.</p>";
+      // Render certifications and awards continuously
+renderSubsectionFiles("certifications", uploadedFiles.certifications || []);
+renderSubsectionFiles("awards", uploadedFiles.awards || []);
+
+      
+      // Render academic projects
+      // Render all academic subsections continuously
+renderSubsectionFiles("projects", uploadedFiles.projects || []);
+renderSubsectionFiles("posters", uploadedFiles.posters || []);
+renderSubsectionFiles("presentations", uploadedFiles.presentations || []);
+renderSubsectionFiles("seasonal", uploadedFiles.seasonal || []);
+
+      
+      // Render publications
+      renderSectionFiles("publications", uploadedFiles.publications || []);
+      
+      // Render research
+      renderSectionFiles("research", uploadedFiles.research || []);
+      
+      // Render work experience
+      renderSectionFiles("work", uploadedFiles.work || []);
+      
+      // Render education and experience for resume
+      renderEducationAndExperience();
+    }
+    
+    // Render files for subsections (with preview and full view)
+    function renderSubsectionFiles(subsectionId, files) {
+      const previewContainer = document.getElementById(`${subsectionId}-preview`);
+      const fullContainer = document.getElementById(`${subsectionId}-full`);
+      
+      if (!previewContainer || !fullContainer) return;
+      
+      // Clear containers
+      previewContainer.innerHTML = "";
+      fullContainer.innerHTML = "";
+      
+      if (files.length === 0) {
+        previewContainer.innerHTML = "<p>No files available.</p>";
+        return;
+      }
+      
+      // Render preview (max 4 files)
+      const previewFiles = files.slice(0, 4);
+      previewFiles.forEach(file => {
+        const fileCard = createFileCard(file);
+        previewContainer.appendChild(fileCard);
+      });
+      
+      // Render all files in full container
+      files.forEach(file => {
+        const fileCard = createFileCard(file);
+        fullContainer.appendChild(fileCard);
+      });
+      
+      // Show "Show All" button if there are more than 4 files
+      const showDetailsBtn = document.querySelector(`[data-subsection="${subsectionId}"]`);
+      if (showDetailsBtn && files.length > 4) {
+        showDetailsBtn.style.display = "flex";
+      }
+    }
+    
+    // Render files for sections (with preview and show all button)
+    function renderSectionFiles(sectionId, files) {
+      const previewContainer = document.getElementById(`${sectionId}-preview`);
+      const showAllBtn = document.getElementById(`show-all-${sectionId}`);
+      
+      if (!previewContainer || !showAllBtn) return;
+      
+      // Clear container
+      previewContainer.innerHTML = "";
+      
+      if (files.length === 0) {
+        previewContainer.innerHTML = "<p>No files available.</p>";
+        showAllBtn.style.display = "none";
+        return;
+      }
+      
+      // Render preview (max 4 files)
+      const previewFiles = files.slice(0, 4);
+      previewFiles.forEach(file => {
+        const fileCard = createFileCard(file);
+        previewContainer.appendChild(fileCard);
+      });
+      
+      // Show "Show All" button if there are more than 4 files
+      if (files.length > 4) {
+        showAllBtn.style.display = "block";
+        showAllBtn.onclick = () => {
+          previewContainer.innerHTML = "";
+          files.forEach(file => {
+            const fileCard = createFileCard(file);
+            previewContainer.appendChild(fileCard);
+          });
+          showAllBtn.style.display = "none";
+        };
       } else {
-        uploadedFiles.projects.forEach((file, index) => {
-          const fileItem = document.createElement("div");
-          fileItem.className = "file-item";
-          fileItem.innerHTML = `
-            <a href="${file.dataUrl}" target="_blank"><i class="fas fa-file"></i> ${file.name}</a>
-            <div class="file-actions">
-              <button onclick="deleteFile('projects', ${index})"><i class="fas fa-trash"></i> Delete</button>
-            </div>
-          `;
-          projectFilesDiv.appendChild(fileItem);
+        showAllBtn.style.display = "none";
+      }
+    }
+    
+    // Create a file card element
+    function createFileCard(file) {
+      const fileCard = document.createElement("div");
+      fileCard.className = "file-card";
+      
+      // Determine file type icon
+      let fileIcon = "fa-file";
+      if (file.name.toLowerCase().includes(".pdf")) fileIcon = "fa-file-pdf";
+      else if (file.name.toLowerCase().includes(".doc") || file.name.toLowerCase().includes(".docx")) fileIcon = "fa-file-word";
+      else if (file.name.toLowerCase().includes(".xls") || file.name.toLowerCase().includes(".xlsx")) fileIcon = "fa-file-excel";
+      else if (file.name.toLowerCase().includes(".ppt") || file.name.toLowerCase().includes(".pptx")) fileIcon = "fa-file-powerpoint";
+      else if (file.name.toLowerCase().includes(".jpg") || file.name.toLowerCase().includes(".jpeg") || file.name.toLowerCase().includes(".png") || file.name.toLowerCase().includes(".gif")) fileIcon = "fa-file-image";
+      
+      fileCard.innerHTML = `
+        <div class="file-preview">
+          <i class="fas ${fileIcon}"></i>
+        </div>
+        <div class="file-info">
+          <div class="file-name">${file.name}</div>
+          <div class="file-size">${formatFileSize(file.size || 0)}</div>
+          <div class="file-actions">
+            <button class="view-btn" onclick="viewFile('${file.dataUrl}')"><i class="fas fa-eye"></i> View</button>
+            <button class="download-btn" onclick="downloadFile('${file.dataUrl}', '${file.name}')"><i class="fas fa-download"></i> Download</button>
+          </div>
+        </div>
+      `;
+      
+      return fileCard;
+    }
+    
+    // Render education and experience for resume section
+    function renderEducationAndExperience() {
+      // Default education data
+      const educationData = [
+        {
+          title: "Bangladesh University of Engineering and Technology (BUET)",
+          date: "2021 - Present",
+          description: "Materials and Metallurgical Engineering"
+        },
+        {
+          title: "Shahid Syed Nazrul Islam College, Mymensingh",
+          date: "2018 - 2020",
+          description: "Higher Secondary Certificate (HSC)"
+        },
+        {
+          title: "Govt Islampur Nekjahan Pilot Model High School",
+          date: "2013 - 2018",
+          description: "Secondary School Certificate (SSC)"
+        }
+      ];
+      
+      // Default experience data
+      const experienceData = [
+        {
+          title: "AGS of BUET Robotic society",
+          date: "Present",
+        },
+        {
+          title: "Ex-Term Representative of SAMME (Student Association of MME)",
+          date: "2022 - 2023"
+        },
+	{
+    title: "Executive in Help Buetian",
+    date: "2022 - 2023",
+    description: "Contributed to social and academic welfare initiatives under Help Buetian organization."
+  },
+  {
+    title: "Host (English) – International Program 'Soul of BUET x Mufti Tarique Masood'",
+    date: "23/7/2023",
+  }
+      ];
+      
+      // Render education preview
+      const educationPreview = document.getElementById("education-preview");
+      if (educationPreview) {
+        educationPreview.innerHTML = "";
+        const previewItems = educationData.slice(0, 4);
+        
+        previewItems.forEach((item, index) => {
+          const timelineItem = createTimelineItem(item, index % 2 === 0);
+          educationPreview.appendChild(timelineItem);
         });
       }
       
-      // Render fusion files
-      const fusionFilesDiv = document.getElementById("fusion-files");
-      fusionFilesDiv.innerHTML = "";
-      if (uploadedFiles.fusion.length === 0) {
-        fusionFilesDiv.innerHTML = "<p>No fusion files uploaded.</p>";
-      } else {
-        uploadedFiles.fusion.forEach((file, index) => {
-          const fileItem = document.createElement("div");
-          fileItem.className = "file-item";
-          fileItem.innerHTML = `
-            <a href="${file.dataUrl}" target="_blank"><i class="fas fa-file"></i> ${file.name}</a>
-            <div class="file-actions">
-              <button onclick="deleteFile('fusion', ${index})"><i class="fas fa-trash"></i> Delete</button>
-            </div>
-          `;
-          fusionFilesDiv.appendChild(fileItem);
+      // Render education full
+      const educationFull = document.getElementById("education-full");
+      if (educationFull) {
+        educationFull.innerHTML = "";
+        
+        educationData.forEach((item, index) => {
+          const timelineItem = createTimelineItem(item, index % 2 === 0);
+          educationFull.appendChild(timelineItem);
         });
       }
       
-      // Render publication files
-      const pubFilesDiv = document.getElementById("publication-files");
-      pubFilesDiv.innerHTML = "";
-      if (uploadedFiles.publications.length === 0) {
-        pubFilesDiv.innerHTML = "<p>No publications uploaded.</p>";
-      } else {
-        uploadedFiles.publications.forEach((file, index) => {
-          const fileItem = document.createElement("div");
-          fileItem.className = "file-item";
-          fileItem.innerHTML = `
-            <a href="${file.dataUrl}" target="_blank"><i class="fas fa-file"></i> ${file.name}</a>
-            <div class="file-actions">
-              <button onclick="deleteFile('publications', ${index})"><i class="fas fa-trash"></i> Delete</button>
-            </div>
-          `;
-          pubFilesDiv.appendChild(fileItem);
+      // Render experience preview
+      const experiencePreview = document.getElementById("experience-preview");
+      if (experiencePreview) {
+        experiencePreview.innerHTML = "";
+        const previewItems = experienceData.slice(0, 4);
+        
+        previewItems.forEach((item, index) => {
+          const timelineItem = createTimelineItem(item, index % 2 === 0);
+          experiencePreview.appendChild(timelineItem);
         });
       }
       
-      // Render research files
-      const researchFilesDiv = document.getElementById("research-files");
-      researchFilesDiv.innerHTML = "";
-      if (uploadedFiles.research.length === 0) {
-        researchFilesDiv.innerHTML = "<p>No research files uploaded.</p>";
-      } else {
-        uploadedFiles.research.forEach((file, index) => {
-          const fileItem = document.createElement("div");
-          fileItem.className = "file-item";
-          fileItem.innerHTML = `
-            <a href="${file.dataUrl}" target="_blank"><i class="fas fa-file"></i> ${file.name}</a>
-            <div class="file-actions">
-              <button onclick="deleteFile('research', ${index})"><i class="fas fa-trash"></i> Delete</button>
-            </div>
-          `;
-          researchFilesDiv.appendChild(fileItem);
+      // Render experience full
+      const experienceFull = document.getElementById("experience-full");
+      if (experienceFull) {
+        experienceFull.innerHTML = "";
+        
+        experienceData.forEach((item, index) => {
+          const timelineItem = createTimelineItem(item, index % 2 === 0);
+          experienceFull.appendChild(timelineItem);
         });
+      }
+    }
+    
+    // Create a timeline item for education/experience
+    function createTimelineItem(item, isLeft) {
+      const timelineItem = document.createElement("div");
+      timelineItem.className = `timeline-item ${isLeft ? '' : 'right'}`;
+      
+      timelineItem.innerHTML = `
+        <div class="timeline-content">
+          <h4>${item.title}</h4>
+          <div class="date"><i class="fas fa-calendar"></i> ${item.date}</div>
+          <p>${item.description}</p>
+        </div>
+      `;
+      
+      return timelineItem;
+    }
+    
+    // Render writings section
+    function renderWritings() {
+      const writings = uploadedFiles.blog || [];
+      
+      // Update category counts
+      updateCategoryCounts(writings);
+      
+      // Render writings preview
+      renderWritingsPreview(writings);
+      
+      // Add event listeners to category buttons
+      document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const category = this.getAttribute('data-category');
+          filterWritingsByCategory(category, writings);
+        });
+      });
+    }
+    
+    // Update category counts
+    function updateCategoryCounts(writings) {
+      const categories = {
+        'poems': { count: 0, display: 'Poems' },
+        'songs': { count: 0, display: 'Songs' },
+        'travelogues': { count: 0, display: 'Travelogues' },
+        'articles': { count: 0, display: 'Articles' },
+        'stories': { count: 0, display: 'Short Stories' }
+      };
+      
+      // Count writings by category (you would need to add category data to your files)
+      writings.forEach(writing => {
+        // This is a simple implementation - you would need to add category metadata to your files
+        const name = writing.name.toLowerCase();
+        if (name.includes('poem') || name.includes('poetry')) {
+          categories.poems.count++;
+        } else if (name.includes('song') || name.includes('lyric')) {
+          categories.songs.count++;
+        } else if (name.includes('travel') || name.includes('journey')) {
+          categories.travelogues.count++;
+        } else if (name.includes('article') || name.includes('blog')) {
+          categories.articles.count++;
+        } else if (name.includes('story') || name.includes('tale')) {
+          categories.stories.count++;
+        } else {
+          // Default to articles if no category detected
+          categories.articles.count++;
+        }
+      });
+      
+      // Update UI
+      Object.keys(categories).forEach(category => {
+        const countElement = document.getElementById(`${category}-count`);
+        if (countElement) {
+          countElement.textContent = `${categories[category].count} ${categories[category].count === 1 ? 'piece' : 'pieces'}`;
+        }
+      });
+    }
+    
+    // Render writings preview
+    function renderWritingsPreview(writings) {
+      const previewContainer = document.getElementById("writings-preview");
+      const showAllBtn = document.getElementById("show-all-writings");
+      
+      if (!previewContainer || !showAllBtn) return;
+      
+      // Clear container
+      previewContainer.innerHTML = "";
+      
+      if (writings.length === 0) {
+        previewContainer.innerHTML = "<p>No writings available.</p>";
+        showAllBtn.style.display = "none";
+        return;
       }
       
-      // Render blog files
-      const blogFilesDiv = document.getElementById("blog-files");
-      blogFilesDiv.innerHTML = "";
-      if (uploadedFiles.blog.length === 0) {
-        blogFilesDiv.innerHTML = "<p>No blog files uploaded.</p>";
+      // Render preview (max 6 writings)
+      const previewWritings = writings.slice(0, 6);
+      previewWritings.forEach(writing => {
+        const writingCard = createWritingCard(writing);
+        previewContainer.appendChild(writingCard);
+      });
+      
+      // Show "Show All" button if there are more than 6 writings
+      if (writings.length > 6) {
+        showAllBtn.style.display = "block";
+        showAllBtn.onclick = () => {
+          previewContainer.innerHTML = "";
+          writings.forEach(writing => {
+            const writingCard = createWritingCard(writing);
+            previewContainer.appendChild(writingCard);
+          });
+          showAllBtn.style.display = "none";
+        };
       } else {
-        uploadedFiles.blog.forEach((file, index) => {
-          const fileItem = document.createElement("div");
-          fileItem.className = "file-item";
-          fileItem.innerHTML = `
-            <a href="${file.dataUrl}" target="_blank"><i class="fas fa-file"></i> ${file.name}</a>
-            <div class="file-actions">
-              <button onclick="deleteFile('blog', ${index})"><i class="fas fa-trash"></i> Delete</button>
-            </div>
-          `;
-          blogFilesDiv.appendChild(fileItem);
-        });
+        showAllBtn.style.display = "none";
+      }
+    }
+    
+    // Create a writing card element
+    function createWritingCard(writing) {
+      const writingCard = document.createElement("div");
+      writingCard.className = "writing-card";
+      
+      // Determine writing type and icon
+      let writingType = "Article";
+      let writingIcon = "fa-newspaper";
+      const name = writing.name.toLowerCase();
+      
+      if (name.includes('poem') || name.includes('poetry')) {
+        writingType = "Poem";
+        writingIcon = "fa-feather-alt";
+      } else if (name.includes('song') || name.includes('lyric')) {
+        writingType = "Song";
+        writingIcon = "fa-music";
+      } else if (name.includes('travel') || name.includes('journey')) {
+        writingType = "Travelogue";
+        writingIcon = "fa-map-marked-alt";
+      } else if (name.includes('story') || name.includes('tale')) {
+        writingType = "Short Story";
+        writingIcon = "fa-book";
       }
       
-      // Render certification files
-      const certFilesDiv = document.getElementById("certification-files");
-      certFilesDiv.innerHTML = "";
-      if (uploadedFiles.certifications.length === 0) {
-        certFilesDiv.innerHTML = "<p>No certifications uploaded.</p>";
-      } else {
-        uploadedFiles.certifications.forEach((file, index) => {
-          const fileItem = document.createElement("div");
-          fileItem.className = "file-item";
-          fileItem.innerHTML = `
-            <a href="${file.dataUrl}" target="_blank"><i class="fas fa-file"></i> ${file.name}</a>
-            <div class="file-actions">
-              <button onclick="deleteFile('certifications', ${index})"><i class="fas fa-trash"></i> Delete</button>
-            </div>
-          `;
-          certFilesDiv.appendChild(fileItem);
-        });
+      writingCard.innerHTML = `
+        <div class="writing-preview">
+          <i class="fas ${writingIcon}"></i>
+        </div>
+        <div class="writing-info">
+          <div class="writing-title">${writing.name}</div>
+          <div class="writing-meta">
+            <span class="writing-type">${writingType}</span>
+            <span>${formatFileSize(writing.size || 0)}</span>
+          </div>
+          <div class="writing-excerpt">
+            ${writing.description || 'A creative piece exploring themes of life, science, and human experience.'}
+          </div>
+          <div class="writing-actions">
+            <button class="read-btn" onclick="viewFile('${writing.dataUrl}')">
+              <i class="fas fa-book-open"></i> Read
+            </button>
+            <button class="save-btn" onclick="downloadFile('${writing.dataUrl}', '${writing.name}')">
+              <i class="fas fa-download"></i> Save
+            </button>
+          </div>
+        </div>
+      `;
+      
+      return writingCard;
+    }
+    
+    // Filter writings by category
+    function filterWritingsByCategory(category, writings) {
+      const previewContainer = document.getElementById("writings-preview");
+      const showAllBtn = document.getElementById("show-all-writings");
+      
+      if (!previewContainer || !showAllBtn) return;
+      
+      // Clear container
+      previewContainer.innerHTML = "";
+      
+      // Filter writings by category
+      const filteredWritings = writings.filter(writing => {
+        const name = writing.name.toLowerCase();
+        switch(category) {
+          case 'poems':
+            return name.includes('poem') || name.includes('poetry');
+          case 'songs':
+            return name.includes('song') || name.includes('lyric');
+          case 'travelogues':
+            return name.includes('travel') || name.includes('journey');
+          case 'articles':
+            return name.includes('article') || name.includes('blog') || 
+                   (!name.includes('poem') && !name.includes('song') && 
+                    !name.includes('travel') && !name.includes('story'));
+          case 'stories':
+            return name.includes('story') || name.includes('tale');
+          default:
+            return true;
+        }
+      });
+      
+      if (filteredWritings.length === 0) {
+        previewContainer.innerHTML = `<p>No ${category} available.</p>`;
+        showAllBtn.style.display = "none";
+        return;
       }
+      
+      // Render filtered writings
+      filteredWritings.forEach(writing => {
+        const writingCard = createWritingCard(writing);
+        previewContainer.appendChild(writingCard);
+      });
+      
+      // Update show all button
+      showAllBtn.style.display = "block";
+      showAllBtn.onclick = () => {
+        renderWritingsPreview(writings);
+      };
+    }
+    
+    // Format file size
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    // View file
+    function viewFile(url) {
+      window.open(url, '_blank');
+    }
+    
+    // Download file
+    function downloadFile(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    
+    // Fetch YouTube videos
+    function fetchVideos(showAll = false) {
+      const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
+      const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
+      const maxResults = showAll ? 20 : 4;
+      
+      fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`YouTube API error: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then(data => {
+          const videosDiv = document.getElementById('youtube-videos');
+          videosDiv.innerHTML = '';
+          if (!data.items || data.items.length === 0) {
+            videosDiv.textContent = 'No videos found.';
+            return;
+          }
+          data.items.forEach(item => {
+            if (item.id.kind === "youtube#video") {
+              const iframe = document.createElement('iframe');
+              iframe.width = "320";
+              iframe.height = "180";
+              iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
+              iframe.allowFullscreen = true;
+              iframe.loading = "lazy";
+              videosDiv.appendChild(iframe);
+            }
+          });
+          
+          // Show button only if not showing all
+          const btn = document.getElementById("show-all-videos");
+          if (!showAll && data.items.length > 0) {
+            btn.style.display = "block";
+            btn.onclick = () => fetchVideos(true);
+          } else {
+            btn.style.display = "none";
+          }
+        })
+        .catch((error) => {
+          console.error("YouTube API error:", error);
+          document.getElementById('youtube-videos').textContent = 'Failed to load videos. Please try again later.';
+        });
+    }
+    
+    // Check author login
+    function checkAuthorLogin() {
+  const id = document.getElementById("author-id").value.trim();
+  const password = document.getElementById("author-password").value.trim();
+
+  if (id === AUTHOR_ID && password === AUTHOR_PASSWORD) {
+    isAuthorLoggedIn = true;
+    localStorage.setItem("isAuthorLoggedIn", "true");
+
+    // Toggle views
+    document.getElementById("login-container").style.display = "none";
+    document.getElementById("welcome-container").style.display = "block";
+
+    // Show Manage button only after login
+    const manageBtnActive = document.getElementById("manage-btn-active");
+    if (manageBtnActive) {
+      manageBtnActive.href = MANAGE_URL;
+      manageBtnActive.style.display = "inline-block";
+    }
+  } else {
+    alert("❌ Invalid Author ID or Password");
+  }
+}
+
+function logoutAuthor() {
+  isAuthorLoggedIn = false;
+  localStorage.removeItem("isAuthorLoggedIn");
+
+  // Reset views
+  document.getElementById("login-container").style.display = "block";
+  document.getElementById("welcome-container").style.display = "none";
+
+  // Hide Manage button again
+  const manageBtnActive = document.getElementById("manage-btn-active");
+  if (manageBtnActive) manageBtnActive.style.display = "none";
+}
+
+
+    
+    // Reset logout timer
+    function resetLogoutTimer() {
+      clearTimeout(logoutTimer);
+      logoutTimer = setTimeout(() => {
+        isAuthorLoggedIn = false;
+        localStorage.removeItem("isAuthorLoggedIn");
+        document.getElementById("manage-btn").style.display = "none";
+        alert("You have been automatically logged out due to inactivity.");
+      }, 10 * 60 * 1000); // 10 minutes
+    }
+    
+    // Send message (contact form)
+    function sendMessage() {
+      const name = document.getElementById("contact-name").value;
+      const email = document.getElementById("contact-email").value;
+      const subject = document.getElementById("contact-subject").value;
+      const message = document.getElementById("contact-message").value;
+      
+      if (!name || !email || !subject || !message) {
+        alert("Please fill in all fields.");
+        return;
+      }
+      
+      // Here you would typically send the message to a server
+      // For now, we'll just show a success message
+      alert("Message sent successfully! I'll get back to you soon.");
+      
+      // Clear form
+      document.getElementById("contact-name").value = "";
+      document.getElementById("contact-email").value = "";
+      document.getElementById("contact-subject").value = "";
+      document.getElementById("contact-message").value = "";
+      
+      // Hide form
+      document.getElementById("contact-form").style.display = "none";
     }
     
     // Navigation functionality
@@ -2103,478 +2835,132 @@
         document.getElementById(sectionId).scrollIntoView({behavior: 'smooth', block: 'start'});
       });
     });
-
-    // Check login credentials and toggle UI accordingly
-    function checkAuthorLogin() {
-      const id = document.getElementById("author-id").value.trim();
-      const pass = document.getElementById("author-password").value.trim();
-      if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
-        isAuthorLoggedIn = true;
-        saveData();
-        toggleLoginUI();
+    
+    // Show details buttons
+    document.querySelectorAll('.show-details-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const subsection = this.getAttribute('data-subsection');
+        const preview = document.getElementById(`${subsection}-preview`);
+        const full = document.getElementById(`${subsection}-full`);
+        
+        if (preview && full) {
+          if (preview.style.display !== 'none') {
+            preview.style.display = 'none';
+            full.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+          } else {
+            preview.style.display = 'grid';
+            full.style.display = 'none';
+            this.innerHTML = '<i class="fas fa-chevron-down"></i> Show Details';
+          }
+        }
+      });
+    });
+    
+    // Show contact form
+    document.getElementById('show-contact-form').addEventListener('click', function() {
+      const form = document.getElementById('contact-form');
+      if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
       } else {
-        alert("Invalid credentials.");
+        form.style.display = 'none';
       }
-    }
-
-    // Sign out author and reset UI
-    function signOutAuthor() {
-      isAuthorLoggedIn = false;
-      saveData();
-      toggleLoginUI();
-    }
-
-    // Show/hide upload controls, login/logout UI and password change form
-    function toggleLoginUI() {
-      // Toggle edit buttons
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.style.display = isAuthorLoggedIn ? "block" : "none";
-      });
-      
-      // Toggle upload areas
-      document.querySelectorAll('.upload-area').forEach(el => {
-        el.style.display = isAuthorLoggedIn ? "block" : "none";
-      });
-      
-      // Toggle file actions
-      document.querySelectorAll('.file-actions').forEach(el => {
-        el.style.display = isAuthorLoggedIn ? "flex" : "none";
-      });
-      
-      // Toggle login/logout UI
-      if (isAuthorLoggedIn) {
-        document.querySelector('.login-message').style.display = "block";
-        document.querySelector('.author-logout').style.display = "block";
-        document.getElementById('change-pass-section').style.display = "block";
-        document.getElementById('author-id').value = "";
-        document.getElementById('author-password').value = "";
-        alert("Welcome Author! You can now edit content.");
-      } else {
-        document.querySelector('.login-message').style.display = "none";
-        document.querySelector('.author-logout').style.display = "none";
-        document.getElementById('change-pass-section').style.display = "none";
-      }
-      
-      // Toggle image controls
-      const uploadBtn = document.getElementById('upload-home-img-btn');
-      const deleteBtn = document.getElementById('delete-home-img-btn');
-      if (uploadBtn && deleteBtn) {
-        uploadBtn.style.display = isAuthorLoggedIn ? "inline-block" : "none";
-        deleteBtn.style.display = isAuthorLoggedIn ? "inline-block" : "none";
-      }
-    }
-
-    // Upload a file to Google Drive
-    async function uploadFile(inputId, section) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to upload.");
-        return;
-      }
-      const input = document.getElementById(inputId);
-      const file = input.files[0];
-      if (!file) return alert("Please select a file first.");
-    
-      try {
-        showUploadProgress(section, 10);
-        
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        showUploadProgress(section, 50);
-        
-        const response = await fetch(`${SCRIPT_URL}?action=uploadFile&section=${section}`, {
-          method: 'POST',
-          body: formData
-        });
-        
-        showUploadProgress(section, 90);
-        
-        if (!response.ok) {
-          throw new Error(`Upload failed: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        
-        if (result.status === "success") {
-          uploadedFiles[section] = result.uploadedFiles[section];
-          saveData();
-          saveDataToWebApp();
-          renderFiles();
-          alert(`Uploaded '${file.name}' to ${section}.`);
-        } else {
-          throw new Error(result.error || "Upload failed");
-        }
-      } catch (error) {
-        console.error("Upload error:", error);
-        alert("Upload failed. Please try again.");
-      } finally {
-        hideUploadProgress(section);
-        input.value = "";
-      }
-    }
-
-    // Delete a file from Google Drive
-    async function deleteFile(section, index) {
-      if (!isAuthorLoggedIn) {
-        alert("Please login as author to delete files.");
-        return;
-      }
-      if (!confirm("Are you sure you want to delete this file?")) return;
-      
-      try {
-        const response = await fetch(`${SCRIPT_URL}?action=deleteFile`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ section, index })
-        });
-        
-        if (!response.ok) {
-          throw new Error(`Delete failed: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        
-        if (result.success) {
-          uploadedFiles[section] = result.uploadedFiles[section];
-          saveData();
-          saveDataToWebApp();
-          renderFiles();
-          alert("File deleted successfully.");
-        } else {
-          throw new Error(result.error || "Delete failed");
-        }
-      } catch (error) {
-        console.error("Delete error:", error);
-        alert("Delete failed. Please try again.");
-      }
-    }
-
-    // Change author credentials
-    function changeAuthorCredentials() {
-      if (!isAuthorLoggedIn) {
-        alert("Please login first.");
-        return;
-      }
-      const newId = document.getElementById("new-author-id").value.trim();
-      const newPass = document.getElementById("new-author-pass").value.trim();
-      if(newId.length < 3 || newPass.length < 3) {
-        alert("Author ID and Password must be at least 3 characters.");
-        return;
-      }
-      if(!confirm("Change Author ID and Password? You will be logged out after this.")) return;
-
-      AUTHOR_ID = newId;
-      AUTHOR_PASSWORD = newPass;
-      saveData();
-      saveDataToWebApp();
-
-      alert("Author credentials changed. Please log in again.");
-      signOutAuthor();
-
-      // Clear inputs
-      document.getElementById("new-author-id").value = "";
-      document.getElementById("new-author-pass").value = "";
-    }
-    
-    // Home info functions
-    document.getElementById("edit-home-btn").addEventListener("click", function() {
-      if (!isAuthorLoggedIn) return;
-      document.getElementById("edit-home-name").value = contentData.home.name;
-      document.getElementById("edit-home-school").value = contentData.home.school;
-      document.getElementById("edit-home-dept").value = contentData.home.dept;
-      document.getElementById("edit-home-id").value = contentData.home.id;
-      document.getElementById("edit-home-level").value = contentData.home.level;
-      document.getElementById("edit-home-term").value = contentData.home.term;
-      document.getElementById("edit-home-session").value = contentData.home.session;
-      document.getElementById("edit-home-hall").value = contentData.home.hall;
-      document.getElementById("edit-home-address").value = contentData.home.address;
-      
-      document.getElementById("home-edit-form").style.display = "block";
-      document.getElementById("home-display").style.display = "none";
     });
-    
-    // Save Home Information
-    function saveHomeInfo() {
-      contentData.home.name = document.getElementById("edit-home-name").value.trim();
-      contentData.home.school = document.getElementById("edit-home-school").value.trim();
-      contentData.home.dept = document.getElementById("edit-home-dept").value.trim();
-      contentData.home.id = document.getElementById("edit-home-id").value.trim();
-      contentData.home.level = document.getElementById("edit-home-level").value.trim();
-      contentData.home.term = document.getElementById("edit-home-term").value.trim();
-      contentData.home.session = document.getElementById("edit-home-session").value.trim();
-      contentData.home.hall = document.getElementById("edit-home-hall").value.trim();
-      contentData.home.address = document.getElementById("edit-home-address").value.trim();
-    
-      saveData();
-      saveDataToWebApp();
-      renderContent();
-    
-      // Hide edit form, show display section
-      document.getElementById("home-edit-form").style.display = "none";
-      document.getElementById("home-display").style.display = "flex";
-    }
-    
-    // About info functions
-    document.getElementById("edit-about-btn").addEventListener("click", function() {
-      if (!isAuthorLoggedIn) return;
-      document.getElementById("edit-about-name").value = contentData.about.name;
-      document.getElementById("edit-about-dob").value = contentData.about.dob;
-      document.getElementById("edit-about-nationality").value = contentData.about.nationality;
-      document.getElementById("edit-about-address").value = contentData.about.address;
-      document.getElementById("edit-about-university").value = contentData.about.university;
-      document.getElementById("edit-about-college").value = contentData.about.college;
-      document.getElementById("edit-about-school").value = contentData.about.school;
-      document.getElementById("edit-about-skills").value = contentData.about.skills.join(", ");
-      document.getElementById("edit-about-bio").value = contentData.about.bio;
-      document.getElementById("edit-about-hobbies").value = contentData.about.hobbies.join(", ");
-      
-      document.getElementById("about-edit-form").style.display = "block";
-      document.getElementById("about-display").style.display = "none";
-    });
-    
-    // Save About Information
-    function saveAboutInfo() {
-      contentData.about.name = document.getElementById("edit-about-name").value.trim();
-      contentData.about.dob = document.getElementById("edit-about-dob").value.trim();
-      contentData.about.nationality = document.getElementById("edit-about-nationality").value.trim();
-      contentData.about.address = document.getElementById("edit-about-address").value.trim();
-      contentData.about.university = document.getElementById("edit-about-university").value.trim();
-      contentData.about.college = document.getElementById("edit-about-college").value.trim();
-      contentData.about.school = document.getElementById("edit-about-school").value.trim();
-    
-      // Convert comma-separated strings to arrays and trim each item
-      contentData.about.skills = document.getElementById("edit-about-skills").value
-        .split(",")
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
-    
-      contentData.about.bio = document.getElementById("edit-about-bio").value.trim();
-    
-      contentData.about.hobbies = document.getElementById("edit-about-hobbies").value
-        .split(",")
-        .map(s => s.trim())
-        .filter(s => s.length > 0);
-    
-      saveData();
-      saveDataToWebApp();
-      renderContent();
-    
-      document.getElementById("about-edit-form").style.display = "none";
-      document.getElementById("about-display").style.display = "flex";
-    }
-    
-    // Research info functions
-    document.getElementById("edit-research-btn").addEventListener("click", function() {
-      if (!isAuthorLoggedIn) return;
-      document.getElementById("edit-research-area").value = contentData.research.area;
-      document.getElementById("edit-research-duration").value = contentData.research.duration;
-      document.getElementById("edit-research-supervisor").value = contentData.research.supervisor;
-      document.getElementById("edit-research-description").value = contentData.research.description;
-      
-      document.getElementById("research-edit-form").style.display = "block";
-      document.getElementById("research-display").style.display = "none";
-    });
-    
-    // Save Research Information
-    function saveResearchInfo() {
-      contentData.research.area = document.getElementById("edit-research-area").value.trim();
-      contentData.research.duration = document.getElementById("edit-research-duration").value.trim();
-      contentData.research.supervisor = document.getElementById("edit-research-supervisor").value.trim();
-      contentData.research.description = document.getElementById("edit-research-description").value.trim();
-    
-      saveData();
-      saveDataToWebApp();
-      renderContent();
-    
-      document.getElementById("research-edit-form").style.display = "none";
-      document.getElementById("research-display").style.display = "block";
-    }
-    
-    // Contact info functions
-    document.getElementById("edit-contact-btn").addEventListener("click", function() {
-      if (!isAuthorLoggedIn) return;
-      document.getElementById("edit-contact-email").value = contentData.contact.email;
-      document.getElementById("edit-contact-phone").value = contentData.contact.phone;
-      document.getElementById("edit-contact-linkedin").value = contentData.contact.linkedin;
-      document.getElementById("edit-contact-facebook").value = contentData.contact.facebook;
-      document.getElementById("edit-contact-twitter").value = contentData.contact.twitter;
-      
-      document.getElementById("contact-edit-form").style.display = "block";
-      document.getElementById("contact-display").style.display = "none";
-    });
-    
-    // Save Contact Information
-    function saveContactInfo() {
-      contentData.contact.email = document.getElementById("edit-contact-email").value.trim();
-      contentData.contact.phone = document.getElementById("edit-contact-phone").value.trim();
-      contentData.contact.linkedin = document.getElementById("edit-contact-linkedin").value.trim();
-      contentData.contact.facebook = document.getElementById("edit-contact-facebook").value.trim();
-      contentData.contact.twitter = document.getElementById("edit-contact-twitter").value.trim();
-    
-      saveData();
-      saveDataToWebApp();
-      renderContent();
-    
-      document.getElementById("contact-edit-form").style.display = "none";
-      document.getElementById("contact-display").style.display = "grid";
-    }
-    
-    // Cancel edit function
-    function cancelEdit(formId) {
-      document.getElementById(formId).style.display = "none";
-      if (formId === "home-edit-form") {
-        document.getElementById("home-display").style.display = "flex";
-      } else if (formId === "about-edit-form") {
-        document.getElementById("about-display").style.display = "flex";
-      } else if (formId === "research-edit-form") {
-        document.getElementById("research-display").style.display = "block";
-      } else if (formId === "contact-edit-form") {
-        document.getElementById("contact-display").style.display = "grid";
-      }
-    }
-  
-    // Fetch YouTube videos and show
-    function fetchVideos(showAll = false) {
-        const channelId = "UCZpabp4C9ttk68-G1_SOsJQ";
-        const apiKey = "AIzaSyC0Z9fSpsm-GUipCRgG0XJTeKTvRza0pFU";
-        const maxResults = showAll ? 20 : 4;
-      
-        fetch(`https://www.googleapis.com/youtube/v3/search?key=${apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${maxResults}`)
-          .then(res => {
-            if (!res.ok) {
-              throw new Error(`YouTube API error: ${res.status}`);
-            }
-            return res.json();
-          })
-          .then(data => {
-            const videosDiv = document.getElementById('youtube-videos');
-            videosDiv.innerHTML = '';
-            if (!data.items || data.items.length === 0) {
-              videosDiv.textContent = 'No videos found.';
-              return;
-            }
-            data.items.forEach(item => {
-              if (item.id.kind === "youtube#video") {
-                const iframe = document.createElement('iframe');
-                iframe.width = "320";
-                iframe.height = "180";
-                iframe.src = `https://www.youtube.com/embed/${item.id.videoId}`;
-                iframe.allowFullscreen = true;
-                iframe.loading = "lazy";
-                videosDiv.appendChild(iframe);
-              }
-            });
-      
-            // show button only if not showing all
-            const btn = document.getElementById("show-all-videos");
-            if (!showAll && data.items.length > 0) {
-              btn.style.display = "block";
-              btn.onclick = () => fetchVideos(true);
-            } else {
-              btn.style.display = "none";
-            }
-          })
-          .catch((error) => {
-            console.error("YouTube API error:", error);
-            document.getElementById('youtube-videos').textContent = 'Failed to load videos. Please try again later.';
-          });
-      }
-
-    // Initialize profile image from localStorage or default
-    function loadProfileImage() {
-      const imgData = localStorage.getItem('profileImageData');
-      if (imgData) {
-        setProfileImage(imgData);
-      }
-    }
-    
-    // Set profile image for both sections
-    function setProfileImage(dataUrl) {
-      document.getElementById('home-profile-img').src = dataUrl;
-      document.getElementById('about-profile-img').src = dataUrl;
-      document.getElementById('header-profile-img').src = dataUrl;
-      localStorage.setItem('profileImageData', dataUrl);
-    }
-    
-    // Delete profile image (revert to default)
-    function deleteProfileImage() {
-      const defaultImg = 'profile.jpg';
-      setProfileImage(defaultImg);
-      localStorage.removeItem('profileImageData');
-    }
     
     // On page load
     window.onload = () => {
-      // First load data from localStorage
-      loadData();
-      renderContent();
+      // Check if user is already logged in
+      const savedLoginState = localStorage.getItem("isAuthorLoggedIn");
+      if (savedLoginState === "true") {
+        isAuthorLoggedIn = true;
+        document.getElementById("manage-btn").style.display = "block";
+        resetLogoutTimer();
+      }
       
-      // Then try to load from WebApp
+      // Load data
       loadDataFromWebApp();
       
-      fetchVideos();
-      toggleLoginUI();
-      loadProfileImage();
-
-      // Set up image controls
-      const uploadBtn = document.getElementById('upload-home-img-btn');
-      const deleteBtn = document.getElementById('delete-home-img-btn');
-      
-      // Upload button triggers file input click
-      uploadBtn.addEventListener('click', function() {
-        if (!isAuthorLoggedIn) {
-          alert('Please login as author to upload image.');
-          return;
-        }
-        document.getElementById('home-image-upload').click();
-      });
-      
-      // Delete button click
-      deleteBtn.addEventListener('click', function() {
-        if (!isAuthorLoggedIn) {
-          alert('Please login as author to delete image.');
-          return;
-        }
-        if (confirm('Are you sure you want to delete the profile image?')) {
-          deleteProfileImage();
-        }
-      });
-      
-      // Handle image file input change
-      document.getElementById('home-image-upload').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        if (!file.type.startsWith('image/')) {
-          alert('Please select a valid image file.');
-          return;
-        }
-      
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          setProfileImage(e.target.result);
-        };
-        reader.readAsDataURL(file);
-      });
-
-      // Attach edit button handlers for all sections
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          if (!isAuthorLoggedIn) {
-            alert('Please login as author to edit content.');
-            return;
-          }
-          
-          const section = this.closest('.section');
-          const form = section.querySelector('.edit-form');
-          const display = section.querySelector('[id$="display"]');
-          
-          if (form && display) {
-            form.style.display = 'block';
-            display.style.display = 'none';
-          }
-        });
-      });
+      // Set up manage button
+      document.getElementById("manage-btn").href = MANAGE_URL;
     };
+
+// Credentials Section Functions - ADD THIS TO MAIN SCRIPT
+const certsUrl = "https://script.google.com/macros/s/AKfycbxSCOGTaAThoJVZJVVrKjvSswX_VZxNY1ju-fkb9BCl3Pv-xI20w6ZiIBqi89PU2BAT/exec";
+const honorsUrl = "https://script.google.com/macros/s/AKfycbyQJGkZewrcNn9aCFypFcVY0bqflOtfBxoGyWremB8nHquF4W1VAO43d0MAqjlsee6S/exec";
+
+// Load credentials files
+async function loadCredentialsFiles() {
+  await loadFiles(certsUrl, "certificates", "showMoreCerts");
+  await loadFiles(honorsUrl, "honors", "showMoreHonors");
+}
+
+// Modified loadFiles function for credentials
+async function loadFiles(url, containerId, buttonId) {
+  const container = document.getElementById(containerId);
+  const showMoreBtn = document.getElementById(buttonId);
+
+  if (!container) return;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const files = data.files || data.children || [];
+
+    // Handle empty folder
+    if (!files.length) {
+      container.innerHTML = `<div class="no-files">No files uploaded yet. Please check back later.</div>`;
+      if (showMoreBtn) showMoreBtn.style.display = "none";
+      return;
+    }
+
+    let visibleCount = 4;
+    
+    function renderFiles(limit) {
+      container.innerHTML = "";
+      files.slice(0, limit).forEach(file => {
+        if (file.url) {
+          const card = document.createElement("div");
+          card.className = "file-card";
+
+          // Create Google Drive preview link
+          let previewUrl = file.url;
+          if (previewUrl.includes("view")) {
+            previewUrl = previewUrl.replace("/view", "/preview");
+          } else if (previewUrl.includes("open?id=")) {
+            const id = previewUrl.split("open?id=")[1];
+            previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+          }
+
+          card.innerHTML = `
+            <iframe src="${previewUrl}" loading="lazy"></iframe>
+            <a href="${file.url}" target="_blank">${file.name}</a>
+          `;
+          container.appendChild(card);
+        }
+      });
+    }
+
+    renderFiles(visibleCount);
+
+    // Show button if more than 4 files
+    if (showMoreBtn && files.length > 4) {
+      showMoreBtn.style.display = "block";
+      showMoreBtn.onclick = () => {
+        const showingAll = visibleCount !== 4;
+        visibleCount = showingAll ? 4 : files.length;
+        renderFiles(visibleCount);
+        showMoreBtn.textContent = showingAll ? "Show All" : "Show Less";
+      };
+    } else if (showMoreBtn) {
+      showMoreBtn.style.display = "none";
+    }
+
+  } catch (err) {
+    container.innerHTML = `<div class="no-files">⚠️ Unable to load files. Please try again later.</div>`;
+    console.error(err);
+  }
+}
+
   </script>
 </body>
 </html>
