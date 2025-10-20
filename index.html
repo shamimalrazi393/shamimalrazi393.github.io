@@ -1526,6 +1526,27 @@
       margin-bottom: 10px;
     }
 
+body { font-family: Arial, sans-serif; background:#f4f6f9; margin:0; padding:20px; }
+  h1 { text-align:center; color:#0b74da; margin-bottom:40px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:25px; max-width:1000px; margin:0 auto; }
+  .card { background:#fff; border-radius:15px; padding:25px; text-align:center; box-shadow:0 3px 6px rgba(0,0,0,0.1); transition:transform .2s; }
+  .card:hover{ transform:translateY(-5px); }
+  .card i{ font-size:40px; color:#0b74da; margin-bottom:10px; }
+  .card h2{ margin:10px 0; color:#333; }
+  .pieces{ background:#eaf2ff; color:#0b74da; display:inline-block; padding:5px 12px; border-radius:20px; font-weight:bold; font-size:14px; }
+  .desc{ margin:10px 0 20px; color:#666; font-size:14px; min-height:50px; }
+  .browse-btn{ background:#0b74da; color:#fff; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; font-weight:bold; }
+  .browse-btn:hover{ background:#095ab5; }
+  #fileView{ display:none; max-width:1000px; margin:0 auto; }
+  #fileContainer{ display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:15px; }
+  .file-card{ background:#fff; border-radius:10px; padding:10px; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
+  .file-card iframe{ width:100%; height:230px; border:none; border-radius:8px; }
+  .file-card a{ display:block; margin-top:8px; color:#0b74da; font-weight:bold; text-decoration:none; }
+  .back-btn{ display:inline-block; background:#0b74da; color:#fff; border:none; padding:8px 18px; border-radius:6px; margin-bottom:20px; cursor:pointer; font-weight:bold; }
+  .no-files{ text-align:center; color:#666; font-style:italic; font-size:1.1em; margin-top:20px; }
+  .count-error { color: #b00020; background: #ffecec; padding: 3px 8px; border-radius: 12px; font-weight: bold; font-size: 13px; display:inline-block; }
+  @media (max-width:520px){ .grid{ grid-template-columns: 1fr; } }
+
   </style>
 </head>
 <body>
@@ -1628,10 +1649,10 @@
     <section id="academic" class="section">
       <h2><i class="fas fa-graduation-cap"></i> Academic Works</h2>
 
-      <!-- Post Section -->
+      <!-- Poster Section -->
       <div class="subsection">
         <div class="subsection-header">
-          <h3><i class="fa-solid fa-pen-nib"></i> Post</h3>
+          <h3><i class="fa-solid fa-pen-nib"></i> Poster Presentation</h3>
         </div>
         <div id="poster" class="file-container">Loading...</div>
         <button id="showMorePoster" class="show-all-btn" style="display:none;">
@@ -1684,85 +1705,56 @@
 
     <!-- Writings Section -->
     <section id="writings" class="section">
-      <h2><i class="fas fa-pen"></i> Writings</h2>
-      
-      <div class="writings-intro">
-        <p>Explore my creative works including poems, songs, travelogues, articles, and short stories that reflect my perspective on life, science, and human experience.</p>
-      </div>
-      
-      <div class="writings-categories">
-        <div class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-feather-alt"></i>
-          </div>
-          <div class="category-title">Poems</div>
-          <div class="category-count" id="poems-count">12 pieces</div>
-          <div class="category-description">Expressions of emotion, thought, and observation through verse</div>
-          <button class="category-btn" data-category="poems">
-            <i class="fas fa-book-open"></i> Browse Poems
-          </button>
-        </div>
-        
-        <div class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-music"></i>
-          </div>
-          <div class="category-title">Songs</div>
-          <div class="category-count" id="songs-count">8 pieces</div>
-          <div class="category-description">Lyrics and compositions blending melody with meaningful messages</div>
-          <button class="category-btn" data-category="songs">
-            <i class="fas fa-play-circle"></i> Browse Songs
-          </button>
-        </div>
-        
-        <div class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-map-marked-alt"></i>
-          </div>
-          <div class="category-title">Travelogues</div>
-          <div class="category-count" id="travelogues-count">5 pieces</div>
-          <div class="category-description">Journeys and experiences from different places and cultures</div>
-          <button class="category-btn" data-category="travelogues">
-            <i class="fas fa-road"></i> Browse Travelogues
-          </button>
-        </div>
-        
-        <div class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-newspaper"></i>
-          </div>
-          <div class="category-title">Articles</div>
-          <div class="category-count" id="articles-count">15 pieces</div>
-          <div class="category-description">Insights on technology, society, and personal development</div>
-          <button class="category-btn" data-category="articles">
-            <i class="fas fa-file-alt"></i> Browse Articles
-          </button>
-        </div>
-        
-        <div class="category-card">
-          <div class="category-icon">
-            <i class="fas fa-book"></i>
-          </div>
-          <div class="category-title">Short Stories</div>
-          <div class="category-count" id="stories-count">7 pieces</div>
-          <div class="category-description">Narratives exploring human nature and imaginative scenarios</div>
-          <button class="category-btn" data-category="stories">
-            <i class="fas fa-scroll"></i> Browse Stories
-          </button>
-        </div>
-      </div>
-      
-      <div class="writings-grid" id="writings-preview">
-        <!-- Writings preview will be loaded here -->
-      </div>
-      
-      <div id="writings-full" style="display: none;">
-        <!-- All writings will be loaded here -->
-      </div>
-      
-      <button class="show-all-btn" id="show-all-writings" style="display: none;">
-        <i class="fas fa-book-open"></i> Show All Writings
-      </button>
+      <h1>My Writings</h1>
+
+<div id="mainView" class="grid">
+  <div class="card">
+    <i class="fa-solid fa-feather"></i>
+    <h2>Poems</h2>
+    <div class="pieces" id="count-poem">0 pieces</div>
+    <p class="desc">Expressions of emotion, thought, and observation through verse.</p>
+    <button class="browse-btn" onclick="showFiles('poem')">Browse Poems</button>
+  </div>
+
+  <div class="card">
+    <i class="fa-solid fa-music"></i>
+    <h2>Songs</h2>
+    <div class="pieces" id="count-song">0 pieces</div>
+    <p class="desc">Lyrics and compositions blending melody with meaningful messages.</p>
+    <button class="browse-btn" onclick="showFiles('song')">Browse Songs</button>
+  </div>
+
+  <div class="card">
+    <i class="fa-solid fa-map-location-dot"></i>
+    <h2>Travelogues</h2>
+    <div class="pieces" id="count-travel">0 pieces</div>
+    <p class="desc">Journeys and experiences from different places and cultures.</p>
+    <button class="browse-btn" onclick="showFiles('travel')">Browse Travelogues</button>
+  </div>
+
+  <div class="card">
+    <i class="fa-solid fa-newspaper"></i>
+    <h2>Articles</h2>
+    <div class="pieces" id="count-article">0 pieces</div>
+    <p class="desc">Insights on technology, society, and personal development.</p>
+    <button class="browse-btn" onclick="showFiles('article')">Browse Articles</button>
+  </div>
+
+  <div class="card">
+    <i class="fa-solid fa-book"></i>
+    <h2>Short Stories</h2>
+    <div class="pieces" id="count-story">0 pieces</div>
+    <p class="desc">Narratives exploring human nature and imaginative scenarios.</p>
+    <button class="browse-btn" onclick="showFiles('story')">Browse Stories</button>
+  </div>
+</div>
+
+<div id="fileView">
+  <button class="back-btn" onclick="goBack()">← Back</button>
+  <h2 id="sectionTitle"></h2>
+  <div id="fileContainer"></div>
+</div>
+
     </section>
 
     <!-- Fusion Section -->
@@ -1945,6 +1937,7 @@
 
   <script>
     // Google Apps Script URL
+const EMAIL_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVveC2YVa4iq9xOs1l9WPaxwVK5KhgQ4axWAfTLmUAe6nrbi_M3dvgH6MgfaGCsx53/exec';
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrXyzvv26EZ1mIhg8oBO9BuWJY-pOrEeFpiFCKjfOUMm6xd0XjWupuNaHaHkbEK0-r/exec';
     const MANAGE_URL = 'https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec';
 
@@ -1963,8 +1956,8 @@
     // --------------------- AUTHOR LOGIN SYSTEM ---------------------
 
     // Credentials
-    const AUTHOR_ID = "admin";
-    const AUTHOR_PASSWORD = "123456";
+    const AUTHOR_ID = "ShamimPortfolio";
+    const AUTHOR_PASSWORD = "S_2111056";
 
     // Login function
     function checkAuthorLogin() {
@@ -1974,6 +1967,7 @@
       if (id === AUTHOR_ID && pass === AUTHOR_PASSWORD) {
         // Save login state
         localStorage.setItem('authorLoggedIn', 'true');
+	localStorage.setItem('loginTime', Date.now().toString());
         showAfterLogin();
       } else {
         alert('Invalid ID or Password!');
@@ -1983,6 +1977,7 @@
     // Logout function
     function logoutAuthor() {
       localStorage.removeItem('authorLoggedIn');
+      localStorage.removeItem('loginTime');
       showBeforeLogin();
     }
 
@@ -2002,12 +1997,45 @@
 
     // Maintain state after page reload
     window.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('authorLoggedIn') === 'true') {
+    // ========== AUTO LOGOUT CHECK ==========
+    const isLoggedIn = localStorage.getItem('authorLoggedIn') === 'true';
+    const loginTime = parseInt(localStorage.getItem('loginTime') || '0');
+    const currentTime = Date.now();
+    const timeSinceLogin = currentTime - loginTime;
+    
+    if (isLoggedIn && timeSinceLogin < (10 * 60 * 1000)) {
+        // Still within 10 minutes
         showAfterLogin();
-      } else {
+        
+        // Set timeout for remaining time
+        const remainingTime = (10 * 60 * 1000) - timeSinceLogin;
+        setTimeout(() => {
+            if (localStorage.getItem('authorLoggedIn') === 'true') {
+                alert('Your session has expired after 10 minutes. Please log in again.');
+                logoutAuthor();
+            }
+        }, remainingTime);
+        
+    } else if (isLoggedIn) {
+        // Session expired (more than 10 minutes)
+        alert('Your session has expired. Please log in again.');
+        logoutAuthor();
+    } else {
+        // Not logged in
         showBeforeLogin();
-      }
-    });
+    }
+    // ========== AUTO LOGOUT CHECK END ==========
+    
+    // ========== YOUR EXISTING CODE CONTINUES ==========
+    // Load data from WebApp
+    loadDataFromWebApp();
+    
+    // Set up manage button
+    document.getElementById("manage-btn").href = MANAGE_URL;
+    
+    // Set current year in footer
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+});
     
     // Data storage
     let contentData = {};
@@ -2711,20 +2739,82 @@
     }
 
     // Send message (contact form)
-    function sendMessage() {
-      const name = document.getElementById("contact-name").value;
-      const email = document.getElementById("contact-email").value;
-      const subject = document.getElementById("contact-subject").value;
-      const message = document.getElementById("contact-message").value;
+    // Send message (contact form) - IMPROVED VERSION
+async function sendMessage() {
+  const name = document.getElementById("contact-name").value.trim();
+  const email = document.getElementById("contact-email").value.trim();
+  const subject = document.getElementById("contact-subject").value.trim();
+  const message = document.getElementById("contact-message").value.trim();
+  
+  // Validation
+  if (!name || !email || !subject || !message) {
+    alert("Please fill in all fields.");
+    return;
+  }
+  
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+  
+  // Show loading state
+  const sendButton = document.querySelector('#contact-form button');
+  const originalText = sendButton.innerHTML;
+  sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  sendButton.disabled = true;
+  
+  try {
+    // Try the Google Apps Script method first
+    const response = await fetch(EMAIL_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors', // Important for Google Apps Script
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        subject: subject,
+        message: message,
+        timestamp: new Date().toISOString()
+      })
+    });
+    
+    // Since we're using no-cors, we can't read the response
+    // But we can assume it worked if we didn't get an error
+    console.log('Message sent via Google Apps Script');
+    
+    // Show success message
+    alert("Message sent successfully! I'll get back to you soon.");
+    
+    // Clear form
+    document.getElementById("contact-name").value = "";
+    document.getElementById("contact-email").value = "";
+    document.getElementById("contact-subject").value = "";
+    document.getElementById("contact-message").value = "";
+    
+    // Hide form
+    document.getElementById("contact-form").style.display = "none";
+    
+  } catch (error) {
+    console.error("Google Apps Script method failed:", error);
+    
+    // Fallback: Send email via mailto link
+    const fallbackSend = confirm(
+      "The contact form is temporarily unavailable. " +
+      "Would you like to send the message using your email client instead?"
+    );
+    
+    if (fallbackSend) {
+      const mailtoLink = `mailto:shamim393393@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+      )}`;
+      window.location.href = mailtoLink;
       
-      if (!name || !email || !subject || !message) {
-        alert("Please fill in all fields.");
-        return;
-      }
-      
-      // Here you would typically send the message to a server
-      // For now, we'll just show a success message
-      alert("Message sent successfully! I'll get back to you soon.");
+      // Still show success since user can send via email client
+      alert("Your email client will open. Please send the pre-filled message.");
       
       // Clear form
       document.getElementById("contact-name").value = "";
@@ -2735,6 +2825,12 @@
       // Hide form
       document.getElementById("contact-form").style.display = "none";
     }
+  } finally {
+    // Reset button
+    sendButton.innerHTML = originalText;
+    sendButton.disabled = false;
+  }
+}
 
     // Navigation functionality
     document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -2829,6 +2925,185 @@
         }
       });
     });
+
+// ======== My Writings Dynamic Script ========
+const urls = {
+  poem: "https://script.google.com/macros/s/AKfycbyken5UbbZZJDO31yYFm2NYms8tesH8TXvHwi8uBs7BxSHkEFIAS8EQ6ZTmsau6xMXU/exec",
+  song: "https://script.google.com/macros/s/AKfycbwNFknHCrErOtU5qliEC9pYWArOs2rvoO8SZWjGyvjHf8cqlGds7opk7D9FsdFKAb0P/exec",
+  story: "https://script.google.com/macros/s/AKfycbx3UJ46hogaKqmsHi7bQfjXxkdaIkddhRYwY1I-VlpceoUGG_cb0p2hFXj8x06LdeEa/exec",
+  travel: "https://script.google.com/macros/s/AKfycbxzbXVq4qbGPqMO1Xb21OFnBqAedZ_8_57cRoKO41E5d-U56p-JQ1c5QIQC0pTBP08a/exec",
+  article: "https://script.google.com/macros/s/AKfycbwgl12L1Dq-cB6l1oXT_RlFsLBXAiJ7ScRmMba_m3p0CE0hio1AUKiyTUkoW1dLCYOV/exec"
+};
+
+/**
+ * Robust count loader:
+ * - concurrently fetches each url
+ * - tries multiple JSON shapes to find an array of files
+ * - logs server response to console for debugging
+ */
+async function loadCounts() {
+  const entries = Object.entries(urls);
+  const results = await Promise.all(entries.map(([type, url]) => fetchCount(type, url)));
+  // results are processed inside fetchCount which updates DOM
+}
+
+async function fetchCount(type, url) {
+  const el = document.getElementById(`count-${type}`);
+  el.textContent = "…"; // spinner-like
+  el.title = url;
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
+
+    const res = await fetch(url, { cache: 'no-cache', signal: controller.signal });
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    // try parse JSON
+    let data;
+    try {
+      data = await res.json();
+    } catch (err) {
+      // maybe it's text (HTML) — show error
+      console.error(type, 'non-json response:', await res.text());
+      el.innerHTML = `<span class="count-error">Error</span>`;
+      return;
+    }
+
+    // DEBUG: always log the raw data shape so you can inspect in console
+    console.log(`${type} -> fetched JSON:`, data);
+
+    // potential places the file list may be:
+    const possibleArrays = [
+      data,
+      data.files,
+      data.children,
+      data.items,
+      data.value,
+      data.data,
+      data.filesList,
+      (data.result && data.result.files) || null
+    ];
+
+    // find the first Array
+    let filesArray = null;
+    for (const candidate of possibleArrays) {
+      if (Array.isArray(candidate)) {
+        filesArray = candidate;
+        break;
+      }
+    }
+
+    // If still not found, try to detect arrays nested one level deeper
+    if (!filesArray) {
+      for (const key in data) {
+        if (Array.isArray(data[key])) { filesArray = data[key]; break; }
+      }
+    }
+
+    // fallback: if response has a numeric count field
+    let count = 0;
+    if (Array.isArray(filesArray)) {
+      count = filesArray.length;
+    } else if (typeof data.totalItems === 'number') {
+      count = data.totalItems;
+    } else if (typeof data.count === 'number') {
+      count = data.count;
+    } else if (typeof data.length === 'number') {
+      count = data.length;
+    } else {
+      // unknown shape — set to 0 but keep console log for debugging
+      count = 0;
+    }
+
+    // update UI
+    el.textContent = `${count} piece${count !== 1 ? 's' : ''}`;
+    el.title = JSON.stringify(data).slice(0, 200); // short preview on hover
+
+  } catch (err) {
+    console.error('fetchCount error for', type, err);
+    // network or CORS or timeout
+    // show explicit error so you can see it on the page
+    const elErr = document.getElementById(`count-${type}`);
+    elErr.innerHTML = `<span class="count-error">Err</span>`;
+    elErr.title = String(err);
+  }
+}
+
+// ---------- file listing (same as before, with a "Coming soon." fallback) ----------
+async function showFiles(type) {
+  document.getElementById("mainView").style.display = "none";
+  document.getElementById("fileView").style.display = "block";
+
+  const titleMap = { poem: "Poems", song: "Songs", travel: "Travelogues", article: "Articles", story: "Short Stories" };
+  document.getElementById("sectionTitle").textContent = titleMap[type];
+  const container = document.getElementById("fileContainer");
+  container.innerHTML = "Loading...";
+
+  try {
+    const res = await fetch(urls[type], { cache: 'no-cache' });
+    const data = await res.json();
+    console.log('showFiles', type, data);
+
+    // detect files array (same logic as count)
+    const possibleArrays = [ data, data.files, data.children, data.items, data.value, data.data ];
+    let files = null;
+    for (const cand of possibleArrays) if (Array.isArray(cand)) { files = cand; break; }
+    if (!files) {
+      for (const k in data) if (Array.isArray(data[k])) { files = data[k]; break; }
+    }
+
+    if (!files || !files.length) {
+      container.innerHTML = `<div class="no-files">Coming soon.</div>`;
+      return;
+    }
+
+    container.innerHTML = "";
+    files.forEach(file => {
+      // normalize file objects that might be just strings or objects
+      const name = (file && (file.name || file.title)) || String(file);
+      const url = (file && (file.url || file.webViewLink || file.alternateLink || file.link)) || null;
+
+      const card = document.createElement("div");
+      card.className = "file-card";
+
+      if (!url) {
+        card.innerHTML = `<div style="font-size:48px;color:#0b74da;">📁</div><div>${name}</div>`;
+      } else {
+        const ext = name.split('.').pop().toLowerCase();
+        let previewUrl = url;
+        if (url.includes("/view")) previewUrl = url.replace("/view", "/preview");
+        else if (url.includes("open?id=")) {
+          const id = url.split("open?id=")[1];
+          previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+        }
+
+        const nonPreviewable = ["pptx","xlsx","zip","rar","mp3","mp4","avi","exe"];
+        if (nonPreviewable.includes(ext)) {
+          card.innerHTML = `<div style="font-size:48px;color:#0b74da;">📁</div><a href="${url}" target="_blank" rel="noopener">${name}</a>`;
+        } else {
+          card.innerHTML = `<iframe src="${previewUrl}" loading="lazy"></iframe><a href="${url}" target="_blank" rel="noopener">${name}</a>`;
+        }
+      }
+      container.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error('showFiles error', err);
+    container.innerHTML = `<div class="no-files">⚠️ Unable to load files.</div>`;
+  }
+}
+
+function goBack() {
+  document.getElementById("fileView").style.display = "none";
+  document.getElementById("mainView").style.display = "grid";
+}
+
+// start
+loadCounts();
+
 
   </script>
 </body>
