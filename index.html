@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     /* ═══════════════════════════════════════════
-       DESIGN TOKENS
+       DESIGN TOKENS (ALL ORIGINAL - UNCHANGED)
     ═══════════════════════════════════════════ */
     :root {
       --navy:      #0d1b2a;
@@ -1239,7 +1239,7 @@
     .floating-action:hover { transform: translateY(-3px) scale(1.1); background: var(--navy-lt); }
 
     /* ═══════════════════════════════════════════
-       SEND FILE MODAL
+       SEND FILE MODAL (UPDATED WITH SECURE UPLOAD)
     ═══════════════════════════════════════════ */
     .sf-overlay {
       display: none;
@@ -1746,7 +1746,7 @@
       </div>
       <h3 style="font-family:var(--font-display);font-size:18px;margin-bottom:16px;color:var(--navy);">Latest Videos</h3>
       <div id="youtube-videos" class="youtube-videos"></div>
-      <button id="show-all-videos" class="show-all-btn" style="display:none;margin-top:20px;">Show All Videos</button>
+      <button id="show-all-videos" class="show-all-btn" style="display:none;">Show All Videos</button>
     </section>
 
     <!-- ════ RESUME ════ -->
@@ -1863,17 +1863,31 @@
 
   <a href="#" class="floating-action" id="back-top" title="Back to top"><i class="fas fa-arrow-up"></i></a>
 
-  <!-- ════ SEND FILE MODAL ════ -->
+  <!-- ════ SEND FILE MODAL (UPDATED WITH SECURE UPLOAD) ════ -->
   <div class="sf-overlay" id="sf-overlay">
     <div class="sf-modal">
       <button class="sf-close" id="sf-close" title="Close">&#x2715;</button>
       <h3><i class="fas fa-file-upload" style="color:var(--warning);"></i> Send a File to Shamim</h3>
       <p class="sf-subtitle">Share a document, image, or any file. Your sender info is recorded for accountability.</p>
-      <div class="sf-info-box">
-        <i class="fas fa-shield-alt"></i>
-        <span>Your <strong>IP address</strong>, <strong>email</strong>, and <strong>timestamp</strong> will be logged in a receipt file attached to your submission.</span>
+      
+      <!-- Password Dialog Section -->
+      <div id="sf-password-area">
+        <div class="sf-field">
+          <label for="sf-password"><i class="fas fa-lock"></i> Enter Secure Password *</label>
+          <input type="password" id="sf-password" placeholder="Master password required" />
+        </div>
+        <button class="sf-submit-btn" onclick="verifyFilePassword()">
+          <i class="fas fa-key"></i> Verify & Continue
+        </button>
+        <p id="sf-pass-error" class="danger" style="text-align:center; margin-top:10px;"></p>
       </div>
-      <div id="sf-form-area">
+      
+      <!-- Upload Form Section (initially hidden) -->
+      <div id="sf-form-area" style="display:none;">
+        <div class="sf-info-box">
+          <i class="fas fa-shield-alt"></i>
+          <span>Your <strong>IP address</strong>, <strong>email</strong>, and <strong>timestamp</strong> will be logged in a receipt file attached to your submission.</span>
+        </div>
         <div class="sf-field">
           <label for="sf-sender-name"><i class="fas fa-user"></i> Your Name *</label>
           <input type="text" id="sf-sender-name" placeholder="Full name" required />
@@ -1891,7 +1905,7 @@
           <textarea id="sf-message" rows="3" placeholder="Any notes about this file…"></textarea>
         </div>
         <div class="sf-field">
-          <label><i class="fas fa-paperclip"></i> Attach File *</label>
+          <label><i class="fas fa-paperclip"></i> Attach File * (Max 100 MB)</label>
           <div class="sf-dropzone" id="sf-dropzone" onclick="document.getElementById('sf-file-input').click()">
             <i class="fas fa-cloud-upload-alt"></i>
             <p>Click to browse or drag &amp; drop a file here</p>
@@ -1899,10 +1913,11 @@
           </div>
           <input type="file" id="sf-file-input" />
         </div>
-        <button class="sf-submit-btn" id="sf-submit-btn" onclick="submitSendFile()">
+        <button class="sf-submit-btn" id="sf-submit-btn" onclick="submitSecureFile()">
           <i class="fas fa-paper-plane"></i> Send File
         </button>
       </div>
+      
       <div class="sf-success-box" id="sf-success-box">
         <i class="fas fa-check-circle"></i>
         <h4>File Sent Successfully!</h4>
@@ -1935,12 +1950,15 @@
   </div>
 
   <script>
-  /* ═══════════════════════════════════════════
-     CONFIGURATION (unchanged — all original URLs preserved)
+      /* ═══════════════════════════════════════════
+     CONFIGURATION (ALL ORIGINAL URLs PRESERVED)
   ═══════════════════════════════════════════ */
   const EMAIL_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVveC2YVa4iq9xOs1l9WPaxwVK5KhgQ4axWAfTLmUAe6nrbi_M3dvgH6MgfaGCsx53/exec';
   const SCRIPT_URL       = 'https://script.google.com/macros/s/AKfycbxrXyzvv26EZ1mIhg8oBO9BuWJY-pOrEeFpiFCKjfOUMm6xd0XjWupuNaHaHkbEK0-r/exec';
   const MANAGE_URL       = 'https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec';
+  
+  // SECURE FILE UPLOAD WEB APP URL - Opens directly in new tab
+  const SECURE_UPLOAD_URL = 'https://script.google.com/macros/s/AKfycbxNEmi4SoGFZORWG8nSExol4MWsbv4WP3_TB-c5Ang_vDAXvGuQBvU-YcABsTP8Obw6/exec';
 
   const ACADEMIC_URLS = {
     poster:       'https://script.google.com/macros/s/AKfycbwN-iHAVgOv1ET2ychLgfkKCuSL30Q_rybcDsUOET3PAI-Be0pJN403I3gxScaac9rQ/exec',
@@ -1969,8 +1987,6 @@
     const el  = document.getElementById('scroll-progress');
     const max = document.documentElement.scrollHeight - window.innerHeight;
     el.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
-
-    // Back-to-top visibility
     const btn = document.getElementById('back-top');
     btn.classList.toggle('visible', window.scrollY > 400);
   }, { passive: true });
@@ -1995,7 +2011,6 @@
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('visible');
-        // Animate progress bars when skills section enters view
         if (e.target.id === 'skill') animateProgressBars();
         revealObserver.unobserve(e.target);
       }
@@ -2008,7 +2023,7 @@
 
   function animateProgressBars() {
     document.querySelectorAll('.progress').forEach(bar => {
-      const target = bar.style.width; // already set by renderSkills
+      const target = bar.style.width;
       bar.style.width = '0%';
       requestAnimationFrame(() => {
         requestAnimationFrame(() => { bar.style.width = target; });
@@ -2114,120 +2129,13 @@
   }
 
   /* ═══════════════════════════════════════════
-     SEND FILE MODAL
+     OPEN SECURE FILE UPLOAD IN NEW TAB
+     (FIXED - opens the Google Apps Script web app directly)
   ═══════════════════════════════════════════ */
-  let sfSelectedFile = null;
-
   document.getElementById('open-send-file').addEventListener('click', () => {
-    document.getElementById('sf-overlay').classList.add('active');
-    document.getElementById('sf-success-box').style.display  = 'none';
-    document.getElementById('sf-form-area').style.display    = 'block';
+    // Open the secure file upload web app in a new tab/window
+    window.open(SECURE_UPLOAD_URL, '_blank');
   });
-  document.getElementById('sf-close').addEventListener('click', closeSendFileModal);
-  document.getElementById('sf-overlay').addEventListener('click', e => {
-    if (e.target === document.getElementById('sf-overlay')) closeSendFileModal();
-  });
-
-  function closeSendFileModal() {
-    document.getElementById('sf-overlay').classList.remove('active');
-    sfSelectedFile = null;
-    document.getElementById('sf-file-name-display').textContent = 'No file chosen';
-    ['sf-sender-name','sf-sender-email','sf-subject','sf-message'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('sf-success-box').style.display = 'none';
-    document.getElementById('sf-form-area').style.display   = 'block';
-  }
-
-  const sfFileInput = document.getElementById('sf-file-input');
-  const sfDropzone  = document.getElementById('sf-dropzone');
-
-  sfFileInput.addEventListener('change', () => {
-    if (sfFileInput.files[0]) {
-      sfSelectedFile = sfFileInput.files[0];
-      document.getElementById('sf-file-name-display').textContent =
-        sfSelectedFile.name + ' (' + formatFileSize(sfSelectedFile.size) + ')';
-    }
-  });
-  sfDropzone.addEventListener('dragover',  e => { e.preventDefault(); sfDropzone.classList.add('dragover'); });
-  sfDropzone.addEventListener('dragleave', ()  => sfDropzone.classList.remove('dragover'));
-  sfDropzone.addEventListener('drop', e => {
-    e.preventDefault(); sfDropzone.classList.remove('dragover');
-    if (e.dataTransfer.files[0]) {
-      sfSelectedFile = e.dataTransfer.files[0];
-      document.getElementById('sf-file-name-display').textContent =
-        sfSelectedFile.name + ' (' + formatFileSize(sfSelectedFile.size) + ')';
-    }
-  });
-
-  async function submitSendFile() {
-    const name    = document.getElementById('sf-sender-name').value.trim();
-    const email   = document.getElementById('sf-sender-email').value.trim();
-    const subject = document.getElementById('sf-subject').value.trim();
-    const message = document.getElementById('sf-message').value.trim();
-    if (!name || !email || !subject) { alert('Please fill in all required fields (Name, Email, Subject).'); return; }
-    if (!sfSelectedFile)             { alert('Please attach a file.'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
-
-    const btn = document.getElementById('sf-submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
-
-    let senderIP = 'Unknown';
-    try {
-      const r = await fetch('https://api.ipify.org?format=json');
-      senderIP = (await r.json()).ip || 'Unknown';
-    } catch {}
-
-    const timestamp = new Date().toLocaleString('en-BD', { timeZone: 'Asia/Dhaka' });
-    const userAgent = navigator.userAgent;
-
-    const receiptContent =
-      `SENDER INFORMATION RECEIPT\n` +
-      `═══════════════════════════════════════\n` +
-      `Name        : ${name}\nEmail       : ${email}\n` +
-      `Subject     : ${subject}\nMessage     : ${message || '(none)'}\n` +
-      `──────────────────────────────────────\n` +
-      `IP Address  : ${senderIP}\nUser-Agent  : ${userAgent}\n` +
-      `Timestamp   : ${timestamp} (BST)\nFilename    : ${sfSelectedFile.name}\n` +
-      `File Size   : ${formatFileSize(sfSelectedFile.size)}\n` +
-      `═══════════════════════════════════════\n` +
-      `Auto-generated by Shamim's Portfolio.`;
-
-    let fileBase64 = '';
-    try { fileBase64 = await readFileAsBase64(sfSelectedFile); }
-    catch { alert('Failed to read file. Please try again.'); btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send File'; return; }
-
-    const payload = {
-      senderName: name, senderEmail: email, subject, message,
-      senderIP, userAgent, timestamp,
-      fileName: sfSelectedFile.name, fileType: sfSelectedFile.type, fileBase64,
-      receiptBase64: btoa(unescape(encodeURIComponent(receiptContent))),
-      receiptName: `receipt_${name.replace(/\s+/g,'_')}_${Date.now()}.txt`
-    };
-
-    try {
-      await fetch(EMAIL_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      document.getElementById('sf-form-area').style.display    = 'none';
-      document.getElementById('sf-success-box').style.display  = 'block';
-      document.getElementById('sf-receipt-info').textContent   = `Logged: ${name} | ${email} | IP: ${senderIP} | ${timestamp}`;
-      sfSelectedFile = null;
-    } catch {
-      alert('Failed to send. Please try emailing directly at shamim393393@gmail.com');
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send File';
-    }
-  }
-
-  function readFileAsBase64(file) {
-    return new Promise((resolve, reject) => {
-      const r = new FileReader();
-      r.onload  = () => resolve(r.result.split(',')[1]);
-      r.onerror = reject;
-      r.readAsDataURL(file);
-    });
-  }
 
   /* ═══════════════════════════════════════════
      READER MODAL
@@ -2271,7 +2179,7 @@
     if (e.target === document.getElementById('reader-overlay')) closeReader();
   });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeReader(); closeSendFileModal(); }
+    if (e.key === 'Escape') { closeReader(); }
   });
 
   /* ═══════════════════════════════════════════
@@ -2537,7 +2445,7 @@
   }
 
   /* ═══════════════════════════════════════════
-     EDUCATION & EXPERIENCE (BUG FIX: new timeline structure)
+     EDUCATION & EXPERIENCE
   ═══════════════════════════════════════════ */
   function renderEducationAndExperience() {
     const educationData = [
@@ -2572,7 +2480,7 @@
   }
 
   /* ═══════════════════════════════════════════
-     SKILLS (progress bars animate via observer)
+     SKILLS
   ═══════════════════════════════════════════ */
   function renderSkills() {
     const container = document.getElementById('skills-container');
@@ -2727,11 +2635,9 @@
      INIT
   ═══════════════════════════════════════════ */
   window.addEventListener('DOMContentLoaded', () => {
-    // Theme
     const savedTheme = localStorage.getItem('theme');
     applyTheme(savedTheme === 'dark');
 
-    // Auth session check
     const isLoggedIn = localStorage.getItem('authorLoggedIn') === 'true';
     const loginTime  = parseInt(localStorage.getItem('loginTime') || '0');
     const timeSince  = Date.now() - loginTime;
@@ -2752,12 +2658,10 @@
       showBeforeLogin();
     }
 
-    // Apply visibility, update manage link, year
     applyVisibilitySettings();
     document.getElementById('manage-btn').href = MANAGE_URL;
     document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
-    // Start observers then load data
     observeSections();
     loadDataFromWebApp();
   });
