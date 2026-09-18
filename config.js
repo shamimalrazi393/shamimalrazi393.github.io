@@ -69,77 +69,94 @@ window.SITE = {
   },
 
 
-  /* ══════════ 2. DATA SOURCES (Google Drive via Apps Script) ══════════
+  /* ══════════ 2. DATA SOURCES (Google Drive) ══════════
 
      HOW IT WORKS
      ------------
-     Each section that lists files calls one Apps Script web-app URL that
-     returns JSON shaped like:
+     Each section that lists files reads one Google Drive folder.
 
-         { "files": [ { "name": "Report.pdf", "url": "https://..." }, ... ] }
+     THERE ARE THREE MODES:
 
-     THERE ARE TWO MODES:
+     (A) mode: 'driveApi'  ←  IN USE. No Apps Script at all.
+         The browser asks Google Drive directly, which answers in a few
+         hundred milliseconds instead of the several seconds Apps Script
+         took. Nothing to deploy, ever — change a folder ID here and it is
+         live on the next reload. Subfolders are fetched in parallel.
 
-     (A) mode: 'unified'   ←  RECOMMENDED. This is the permanent fix for
-         "presentation section is showing project files".
-         You deploy ONE script (apps-script/Code.gs in this repo) and give it
-         every folder ID. The site then requests a folder BY NAME
-         (?folder=presentation), so two sections can never silently point at
-         the same Drive folder again. Fill in `unifiedUrl` and `folders`.
+         SETUP (already done once):
+          1. console.cloud.google.com → project → APIs & Services →
+             Library → "Google Drive API" → Enable.
+          2. Credentials → Create credentials → API key.
+          3. Edit that key → Application restrictions → Websites →
+             https://shamimalrazi393.github.io/*
+             and API restrictions → restrict to Google Drive API only.
+          4. EVERY folder below must be shared in Drive:
+             right-click → Share → General access →
+             "Anyone with the link" → Viewer.
+             A folder that is not shared this way comes back empty.
 
-     (B) mode: 'perSection' ←  What the old site used. One separate script
-         deployment per folder, listed in `endpoints`. It works, but if a
-         section shows the wrong files the mistake is the FOLDER ID inside
-         that particular Apps Script, and it can only be fixed in the Apps
-         Script editor — not here.
+     (B) mode: 'unified'    ←  one Apps Script deployment for every folder.
+     (C) mode: 'perSection' ←  the old way: a separate Apps Script per
+         folder, listed in `endpoints` further down. Slow, and a wrong
+         folder ID could only be fixed inside that Apps Script, not here.
+         The URLs are kept so that changing `mode` back is enough to
+         return to the old setup if anything goes wrong.
 
-     Either way: log in on the site as author and press "Check data sources".
-     It calls every endpoint and shows you how many files each one returned
-     and the first few names, so you can see exactly which URL points where.
+     Whichever mode: log in as author and press "Check data sources". It
+     reads every folder and shows how many files each returned plus the
+     first few names, so you can see exactly what points where.
   ═════════════════════════════════════════════════════════════════════ */
 
   data: {
-    mode: 'perSection',        //  'perSection'  |  'unified'
+    mode: 'driveApi',          //  'driveApi'  |  'perSection'  |  'unified'
+
+    /* ---- used when mode === 'driveApi' ----
+       Paste the API key from Google Cloud Console here. It is readable by
+       every visitor, which is why the two restrictions in step 3 above
+       matter: they are what stop it being used from any other site. */
+    driveApiKey: 'AIzaSyAd4VOiaFVfjufL87TiSTAfDQTn8J3l1Z8',
+
+    /* ---- folder IDs: used by BOTH 'driveApi' and 'unified' ----
+       Open a folder in Drive and copy the part of the address after
+       /folders/ :
+           drive.google.com/drive/folders/1AbCdEfGhIjKlMnOpQrStUv
+                                           └────── this ──────┘
+       As you paste, check that NO TWO LINES carry the same ID — that one
+       mistake is what made a section list another section's files. */
+    folders: {
+      certificates: '1gbIaXxXD2zi5pmpLEklBFTB1s_-hbpa_',
+      honors:       '1DYr90k7n9zTmnqauclNDS7oki15sFDk9',
+
+      poster:       '1LlH9UcNQmFLhDLyIc8xnulJ0hzpOC6N3',
+      project:      '1TRWIh5tM4KOrzmVp_tsAgr6BKmq4oE3N',
+      presentation: '1EivgAuYSE8fpl-bmArDN1FGQN6h5GmSS',  
+      lab:          '1lrhX--CEYvvMBp-ZXd9IZL9rkEsL5qQB',
+
+      publications: '1M7gWGUYque_ZMjXKLQWyMqRJ2E1FJMLN',
+      research:     '1z690E2Tvh5hGVsAN2NzIFFQcvA0UNHIk',
+      work:         '1qtq02V-Znq84tKRPVyOD-tt3JO5OcZW3',
+
+      poem:         '1fUpToa744UZGhqlLfLhK3l5heS4jCcpB',
+      song:         '1B49e9dZDN92Gmo8NH-MkfkBXs-XIPbNn',
+      travel:       '1CwfkAd3vaRO4eswluiM1hU7SYlrN1x_3',
+      article:      '1bOBpTBi20SL_LspNVKwD4xtpAAd56Pw5',
+      story:        '1AF-q_VSgvONzOMhVwMQfC58pLPVrKEg7'
+    },
 
     /* ---- used when mode === 'unified' ---- */
     unifiedUrl: '',            // e.g. 'https://script.google.com/macros/s/AAAA.../exec'
-    folders: {                 // paste each Google Drive FOLDER ID
-      certificates: '',
-      honors:       '',
-      poster:       '',
-      project:      '',
-      presentation: '',
-      lab:          '',
-      publications: '',
-      research:     '',
-      work:         '',
-      poem:         '',
-      song:         '',
-      travel:       '',
-      article:      '',
-      story:        ''
-    },
 
-    /* ---- used when mode === 'perSection' ---- */
+    /* ---- used when mode === 'perSection' ----
+       Kept only as a fallback. Not read while mode is 'driveApi'. */
     endpoints: {
       certificates: 'https://script.google.com/macros/s/AKfycbxSCOGTaAThoJVZJVVrKjvSswX_VZxNY1ju-fkb9BCl3Pv-xI20w6ZiIBqi89PU2BAT/exec',
       honors:       'https://script.google.com/macros/s/AKfycbyQJGkZewrcNn9aCFypFcVY0bqflOtfBxoGyWremB8nHquF4W1VAO43d0MAqjlsee6S/exec',
 
       poster:       'https://script.google.com/macros/s/AKfycbwN-iHAVgOv1ET2ychLgfkKCuSL30Q_rybcDsUOET3PAI-Be0pJN403I3gxScaac9rQ/exec',
       project:      'https://script.google.com/macros/s/AKfycbz-Czs9Q6ky-rZFMy8BQr2flY_Z8v4DrNTDOCzMVaWw81k-rC28FYiZq0P2fggmgIXr/exec',
-
-      /* ⚠️  If this section still lists the PROJECT files, the mistake is
-         inside this script, not here: it is a different deployment from
-         `project` above, so it must be reading the Project folder in Drive.
-         Open it in the Apps Script editor, point its folder ID at the
-         Presentation folder, then Deploy → Manage deployments → New version.
-         Sign in on the site and press "Check data sources" to confirm. */
       presentation: 'https://script.google.com/macros/s/AKfycbyWjWY0Fz_KlGbo5dwMiGyazkRg7TKFd_L8ou9AxSFfwBFN0DvAY6dt1HSkh_iSyN0/exec',
-
       lab:          'https://script.google.com/macros/s/AKfycbwhRJNO9gJFt72D8Lnr6dNxbcizNBc0ITP9KsHZB7NRdWMNnETBv5ZnoFXeJNnNRUBM/exec',
 
-      /* These three were missing entirely in the old site, which is why the
-         publication folder never appeared. They are wired up now. */
       publications: 'https://script.google.com/macros/s/AKfycbwT-FR4FzTIZFM4T951TmEw73Uxyl7DV7g1u9fJD3AmU38Rm8-O39UGImnjPg824ooF/exec',
       research:     'https://script.google.com/macros/s/AKfycbw8f7c4JdZqIVoAZef0IwBD6ifzqWONr6eCH0zn7O82HNUvmT_Dv9OblzfYjLFPkoo/exec',
       work:         'https://script.google.com/macros/s/AKfycbzEyIWO5zCsDhoNFbfzaGVPLsF0ZeIL-chki1OKDwo1kszZ0StpNxIp9Nl5Cs7ud2HT/exec',
@@ -153,7 +170,9 @@ window.SITE = {
   },
 
 
-  /* ══════════ 3. OTHER SCRIPT URLS ══════════ */
+  /* ══════════ 3. OTHER SCRIPT URLS ══════════
+     These three are NOT folder listings — they send mail, manage
+     visibility and receive uploads — so they stay on Apps Script. */
   services: {
     email:  'https://script.google.com/macros/s/AKfycbyVveC2YVa4iq9xOs1l9WPaxwVK5KhgQ4axWAfTLmUAe6nrbi_M3dvgH6MgfaGCsx53/exec',
     manage: 'https://script.google.com/macros/s/AKfycbwDqNBfSnmaDEoNKBhGpI2GnFwj-Q4eYiajnShyngavBhq0rjbR5SpJTcMZS8lhrLbpig/exec',
@@ -234,8 +253,8 @@ window.SITE = {
 
 
   /* ══════════ 8. WRITTEN ENTRIES ══════════
-     These show up with or without a Drive folder. Any files found at the
-     matching endpoint in part 2 are listed underneath them.
+     These show up with or without a Drive folder. Any files found in the
+     matching folder from part 2 are listed underneath them.
      Delete the // in front of a line to switch an example on. */
 
   publications: [
