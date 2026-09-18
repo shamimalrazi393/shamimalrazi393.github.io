@@ -28,7 +28,7 @@ window.SITE = {
     /* Windows, Android and iOS all have a "reduce animations" setting, and
        when it is on the browser is told to stop looping animations — the
        image would sit still. Set this to true to keep it turning anyway. */
-    alwaysRotate: false,
+    alwaysRotate: true,
 
     /* Chips under the About text. */
     focus: [
@@ -133,7 +133,7 @@ window.SITE = {
          Open it in the Apps Script editor, point its folder ID at the
          Presentation folder, then Deploy → Manage deployments → New version.
          Sign in on the site and press "Check data sources" to confirm. */
-      presentation: 'https://script.google.com/macros/s/AKfycbzMBmhRBt3WVh-mJWi7v0cArUq6MghRJCvsuWp-C6Y95mf0bMAxevDc0kLsmHR8y3qc/exec',
+      presentation: 'https://script.google.com/macros/s/AKfycbyWjWY0Fz_KlGbo5dwMiGyazkRg7TKFd_L8ou9AxSFfwBFN0DvAY6dt1HSkh_iSyN0/exec',
 
       lab:          'https://script.google.com/macros/s/AKfycbwhRJNO9gJFt72D8Lnr6dNxbcizNBc0ITP9KsHZB7NRdWMNnETBv5ZnoFXeJNnNRUBM/exec',
 
