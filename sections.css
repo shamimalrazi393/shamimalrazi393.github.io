@@ -180,8 +180,7 @@
 }
 @keyframes spin-slow { to { transform: rotate(360deg); } }
 
-/* Pausing on hover lets a visitor actually look at it. */
-.spin-stage:hover #rotating-image { animation-play-state: paused; }
+
 
 /* ══════════ STATS ══════════ */
 .hero-stats {
