@@ -6,6 +6,7 @@
    file. Each part is numbered and explained.
    ============================================================ */
 
+
 window.SITE = {
 
   /* ══════════ 1. PERSONAL INFO ══════════ */
