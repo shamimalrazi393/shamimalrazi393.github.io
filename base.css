@@ -432,6 +432,16 @@ strong { font-weight: 600; color: var(--ink); }
     display: flex; align-items: center; gap: 12px;
     padding: 11px 20px;
   }
+  .topbar-photo {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 22%;
+    border: 2px solid var(--page);
+    box-shadow: var(--shadow-2);
+    background: var(--surface-2);
+    flex-shrink: 0;
+  }
   .topbar-name {
     font-family: var(--font-serif);
     font-size: 16px; font-weight: 600;
