@@ -152,9 +152,19 @@ function nodeAtPath(root, path) {
   return current;
 }
 
-/* ---------- Endpoint resolution ---------- */
+/* ---------- Endpoint resolution ----------
+   Returns either a plain URL (Apps Script modes) or a 'drive:<folderId>'
+   marker, which fetchTreeNetwork recognises and answers by talking to the
+   Google Drive API directly. */
 function endpointFor(key) {
   const d = window.SITE.data;
+
+  if (d.mode === 'driveApi') {
+    const folderId = (d.folders || {})[key];
+    if (!d.driveApiKey || !folderId) return '';
+    return `drive:${folderId}`;
+  }
+
   if (d.mode === 'unified') {
     const folderId = d.folders[key];
     if (!d.unifiedUrl || !folderId) return '';
@@ -163,22 +173,149 @@ function endpointFor(key) {
   return d.endpoints[key] || '';
 }
 
+/* ---------- Google Drive API ----------
+   One request lists one folder. Subfolders are then listed in parallel,
+   so a tree three levels deep still finishes in well under a second —
+   Apps Script did the same walk one folder at a time, on its own slow
+   runtime, which is why sections used to crawl.
+
+   Requires: Drive API enabled, an API key in config.driveApiKey, and each
+   folder shared as "Anyone with the link". */
+const DRIVE_FOLDER_MIME = 'application/vnd.google-apps.folder';
+const DRIVE_MAX_DEPTH   = 4;   // deep enough for real use, shallow enough to stay fast
+
+async function driveListFolder(folderId, apiKey) {
+  const out = [];
+  let pageToken = '';
+
+  do {
+    const params = new URLSearchParams({
+      q: `'${folderId}' in parents and trashed = false`,
+      key: apiKey,
+      fields: 'nextPageToken,files(id,name,mimeType,createdTime,modifiedTime,size)',
+      pageSize: '1000',
+      orderBy: 'folder,createdTime desc',
+      supportsAllDrives: 'true',
+      includeItemsFromAllDrives: 'true'
+    });
+    if (pageToken) params.set('pageToken', pageToken);
+
+    const res = await fetch(`https://www.googleapis.com/drive/v3/files?${params}`);
+    if (!res.ok) {
+      /* Drive explains refusals properly, so pass its wording through —
+         it is the difference between "something broke" and "this folder
+         is not shared" or "this key is restricted to another site". */
+      let detail = `HTTP ${res.status}`;
+      try {
+        const body = await res.json();
+        if (body && body.error && body.error.message) detail = body.error.message;
+      } catch { /* non-JSON error body — the status code will have to do */ }
+      throw new Error(detail);
+    }
+
+    const data = await res.json();
+    out.push(...(data.files || []));
+    pageToken = data.nextPageToken || '';
+  } while (pageToken);
+
+  return out;
+}
+
+async function driveTree(folderId, apiKey, depth = 0) {
+  const items = await driveListFolder(folderId, apiKey);
+
+  const children = await Promise.all(items.map(async item => {
+    if (item.mimeType === DRIVE_FOLDER_MIME) {
+      const node = { name: item.name, id: item.id, type: 'folder', children: [] };
+      if (depth < DRIVE_MAX_DEPTH) {
+        try {
+          node.children = (await driveTree(item.id, apiKey, depth + 1)).children;
+        } catch { /* one unreadable subfolder must not empty the whole section */ }
+      }
+      return node;
+    }
+    return {
+      name: item.name,
+      id: item.id,
+      type: 'file',
+      url: `https://drive.google.com/file/d/${item.id}/preview`,
+      mimeType: item.mimeType,
+      size: item.size,
+      dateCreated: item.createdTime
+    };
+  }));
+
+  return { name: '', id: folderId, type: 'folder', children };
+}
+
+/* The folder's own name, for the diagnostics table. Fetched alongside the
+   listing, and failure here is not worth breaking a section over. */
+async function driveFolderName(folderId, apiKey) {
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/drive/v3/files/${folderId}` +
+      `?fields=name&supportsAllDrives=true&key=${encodeURIComponent(apiKey)}`);
+    if (!res.ok) return '';
+    return (await res.json()).name || '';
+  } catch { return ''; }
+}
+
 /* ---------- Fetch + normalise ----------
    Accepts the folder-tree shape above, and also the flat shapes other
    Apps Scripts return ({files:[…]}, a bare array, …), so every section
    keeps working whichever script is behind it. Always hands back a
-   folder-shaped root node.                                            */
-const TREE_CACHE_MINUTES = 10;
+   folder-shaped root node.
+
+   Two-tier cache, in localStorage (survives closing the tab, unlike
+   sessionStorage — a repeat visit next week still benefits):
+     - under TREE_FRESH_MINUTES old  → used as-is, no request at all.
+     - under TREE_STALE_MINUTES old  → shown immediately (feels instant),
+       and a fresh copy is fetched quietly in the background so the
+       *next* visit is up to date. The page already on screen is not
+       rewritten by that background fetch, to avoid content jumping
+       under someone who is reading it.
+     - older, or missing            → a normal, awaited fetch.        */
+const TREE_FRESH_MINUTES = 30;
+const TREE_STALE_MINUTES = 24 * 60; // one day
+
+function readTreeCache(store) {
+  if (!store) return null;
+  try { return JSON.parse(localStorage.getItem(store) || 'null'); }
+  catch { return null; }
+}
+function writeTreeCache(store, tree) {
+  if (!store) return;
+  try { localStorage.setItem(store, JSON.stringify({ at: Date.now(), tree })); }
+  catch { /* quota or private mode — the page works without the cache */ }
+}
 
 async function fetchTree(url, cacheKey) {
-  /* Apps Script answers slowly, so a reply is kept for a few minutes.
-     Coming back to the page, or reloading it, then costs nothing. */
   const store = cacheKey ? `tree:${cacheKey}` : null;
-  if (store) {
-    try {
-      const hit = JSON.parse(sessionStorage.getItem(store) || 'null');
-      if (hit && Date.now() - hit.at < TREE_CACHE_MINUTES * 60000) return hit.tree;
-    } catch { /* a blocked or full store is not worth reporting */ }
+  const hit   = readTreeCache(store);
+  const ageMin = hit ? (Date.now() - hit.at) / 60000 : Infinity;
+
+  if (hit && ageMin < TREE_FRESH_MINUTES) return hit.tree;
+
+  if (hit && ageMin < TREE_STALE_MINUTES) {
+    fetchTreeNetwork(url, store).catch(() => { /* refreshed next time instead */ });
+    return hit.tree;
+  }
+
+  return fetchTreeNetwork(url, store);
+}
+
+async function fetchTreeNetwork(url, store) {
+  /* Drive API mode: 'drive:<folderId>' instead of a real URL. */
+  if (url.startsWith('drive:')) {
+    const folderId = url.slice(6);
+    const apiKey   = window.SITE.data.driveApiKey;
+    const [tree, name] = await Promise.all([
+      driveTree(folderId, apiKey),
+      driveFolderName(folderId, apiKey)
+    ]);
+    tree.name = name;
+    writeTreeCache(store, tree);
+    return tree;
   }
 
   const res = await fetch(url, { redirect: 'follow' });
@@ -198,13 +335,7 @@ async function fetchTree(url, cacheKey) {
     throw new Error(String(data.error));
   }
 
-  const keep = tree => {
-    if (store) {
-      try { sessionStorage.setItem(store, JSON.stringify({ at: Date.now(), tree })); }
-      catch { /* quota or private mode — the page works without the cache */ }
-    }
-    return tree;
-  };
+  const keep = tree => { writeTreeCache(store, tree); return tree; };
 
   if (Array.isArray(data)) return keep({ name: '', type: 'folder', children: data });
   if (Array.isArray(data.children)) return keep(data);
