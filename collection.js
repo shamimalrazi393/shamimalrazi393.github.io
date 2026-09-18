@@ -75,9 +75,14 @@ class Collection {
       this.root = await fetchTree(url, this.key);
       this.loaded = true;
     } catch (err) {
+      const driveMode = window.SITE.data.mode === 'driveApi';
       this.mount.innerHTML = stateError(
         `Couldn't load <strong>${esc(this.label)}</strong>. ` +
-        `Check that its Apps Script is deployed with access set to “Anyone”.`);
+        (driveMode
+          ? `Check that this folder is shared as “Anyone with the link”, and ` +
+            `that the API key in config.js is valid for this site. ` +
+            `<span style="opacity:.75">(${esc(err.message)})</span>`
+          : `Check that its Apps Script is deployed with access set to “Anyone”.`));
       console.warn(`[${this.key}]`, err.message);
       return;
     } finally {
@@ -373,9 +378,9 @@ async function runDiagnostics() {
   const btn   = $('#diag-btn');
   if (!panel) return;
 
-  const keys = Object.keys(window.SITE.data.mode === 'unified'
-    ? window.SITE.data.folders
-    : window.SITE.data.endpoints);
+  const d = window.SITE.data;
+  const keys = Object.keys(
+    d.mode === 'perSection' ? d.endpoints : d.folders);
 
   panel.classList.add('open');
   panel.innerHTML = '<div class="diag-row head"><span>Section</span><span>Files</span><span>Drive folder it is actually reading</span></div>';
@@ -416,8 +421,9 @@ async function runDiagnostics() {
   if (clashes.length) {
     rows.push(`<div class="diag-note">
       <strong>Two sections are reading the same Drive folder:</strong> ${esc(clashes.join('; '))}.
-      Open the Apps Script behind the wrong one, point its folder ID at the right
-      folder, then Deploy → Manage deployments → New version.</div>`);
+      ${d.mode === 'driveApi'
+        ? 'Fix the duplicated folder ID in <strong>config.js → data.folders</strong> and reload — nothing to deploy.'
+        : 'Open the Apps Script behind the wrong one, point its folder ID at the right folder, then Deploy → Manage deployments → New version.'}</div>`);
   }
 
   panel.innerHTML = rows.join('');
